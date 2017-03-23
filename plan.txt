@@ -19,12 +19,12 @@ Instructions:
     move_parent()                   # ------------------ parent 
     
 Macro:
-   swap() # swaps with parent
-   rotate() # left / right
-   splay() # four cases
-   parent()
-   grandparent()
-   ...
+    swap()                          # swaps with parent
+    rotate()                        # left / right
+    splay()                         # four cases
+    parent()
+    grandparent()
+    ...
 
 
 FILES:
