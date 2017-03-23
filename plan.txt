@@ -4,20 +4,24 @@ Generic Binary Search Tree API
 
 The API will include the following functionallity:
 
-    new_operation()
-        - Begins an operation:
-          - sets the current node to the root
-          - records the begining of a new operation
-    remove_subtrees()
-        - Returns a 2 new BSTs that contains the right and left subtrees
-    add()
-        - Creates a node in the tree if the current node is "empty"
-        - It is an error to call when the current node is non-empty
-    remove()
-        - removes the current node iff the node has 0 or 1 children
-        - It is an error to call remove on a node which has two children
-        - Note: Decided against preforming a full typical BST remove as
-          diffrent algorithms modify the tree in significanly differing ways.
-          Splay Tree deletion for instance splays the node to delete to the
-          top and deletes the root and joins the two sub trees
-       
+Instructions:
+    add(value)                      # add a node with the value, value iff cur node in null (if you break the BST properties it's on you)
+    std_remove()                    # preforms a standard BST remove and remains on the last node traversed too (NULL?)
+    read_closure()                  # returns the closure for the node you are currently on
+    write_closure(cl)               # sets the closure for the current node 
+    read_gclosure()                 # reads the global closure
+    write_gclosure(cl)              # writes the closure
+    is_null()                       # is the current node null?
+    read_value()                    # returns the value of the cuurent node
+    write_value(val)                # sets the value of cur node
+    move_right()                    # sets cur node to right child
+    move_left()                     # ---------------- left ----- 
+    move_parent()                   # ------------------ parent 
+    
+Macro:
+   swap() # swaps with parent
+   rotate() # left / right
+   splay() # four cases
+   parent()
+   grandparent()
+   ...
