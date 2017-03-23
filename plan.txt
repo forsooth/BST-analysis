@@ -1,8 +1,8 @@
-Geometric Representation of a Binary Seach Tree
+Geometric Representation of a Binary Search Tree
 
 Generic Binary Search Tree API
 
-The API will include the following functionallity:
+The API will include the following functionality:
 
 Instructions:
     add(value)                      # add a node with the value, value iff cur node in null (if you break the BST properties it's on you)
@@ -12,7 +12,7 @@ Instructions:
     read_gclosure()                 # reads the global closure
     write_gclosure(cl)              # writes the closure
     is_null()                       # is the current node null?
-    read_value()                    # returns the value of the cuurent node
+    read_value()                    # returns the value of the current node
     write_value(val)                # sets the value of cur node
     move_right()                    # sets cur node to right child
     move_left()                     # ---------------- left ----- 
@@ -30,15 +30,15 @@ Macro:
 FILES:
         # Basic:
                 AbstractBST.py      # insert, remove, search
-                api.py              # basic operatation for use with user's implementation's
+                api.py              # basic operation for use with user's implementation's
                 run_opts.py         # reads a dataset, a set of operations and uses a implementation of AbstractBST to run the operations
                                     #       to produce a log of basic instructions 
-                BSTDataModel.py     # Basic BST with a curr node 
-                main.py             # Proccesses command line args and runs run_opts
+                BSTDataModel.py     # Basic BST with a current node 
+                main.py             # Processes command line args and runs run_opts
         # Generates Graphics:
                 ...                 # Uses the log of basic instructions to produce a visual output
         # User's Files
-                rb.py               # Defines the concreate versions of the BST model
+                rb.py               # Defines the concrete versions of the BST model
                 bst.py
                 splay.py
                 avl.py
