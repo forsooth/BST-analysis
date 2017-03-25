@@ -12,10 +12,13 @@ class API():
                 self.__bst.root = root
                 self.__bst.cur = root
 
+        def __str__(self):
+                return self.__bst.__str__()
+
         # Adds a node with value 'value' to the tree at the current location,
         # if and only if the value of the current node is 'None'.
         def add(self, value):
-                if value is None or self.__bst.current is None:
+                if value is None or self.__bst.cur is None:
                         return False
                 self.__bst.cur.v = value
                 lc = BSTDataModel.Node(None, self.__bst.cur)
@@ -104,7 +107,9 @@ class API():
                 pass # writes the closure
 
         def is_null(self):
-                return self.__bst.cur is None
+                # Returns True if the current node is None or its value is
+                # i.e. if the current node can be added (self.__bst.cur should never be None)
+                return self.__bst.cur is None or self.__bst.cur.v is None
 
         def read_value(self):
                 return self.__bst.cur.v
