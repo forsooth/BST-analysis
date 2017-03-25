@@ -1,0 +1,25 @@
+# This is a comment
+ins 3
+ins 5
+ins 1
+sea 1
+sea 2
+ins 2
+ins 4
+ins 4
+sea 2
+sea 3
+sea 3
+sea 1
+# Oooh we're deleting things
+del 5
+del 1
+# A blank line:
+
+del 3
+del 2
+del 4
+del 4
+# This should fail
+sea 5
+

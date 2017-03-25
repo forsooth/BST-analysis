@@ -2,7 +2,7 @@ import AbstractBST
 
 
 class ExampleBST(AbstractBST.AbstractBST):
-        # ExampleBST - example of concrete implementation of AbstractBST
+        # ExampleBST — example of a concrete implementation of AbstractBST
         def __init__(self):
                 super(ExampleBST, self).__init__()
 

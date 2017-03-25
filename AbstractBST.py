@@ -1,15 +1,16 @@
 from abc import ABC, abstractmethod
 
+
+# AbstactBST defines the required methods for a particular BST
 class AbstractBST(ABC):
-        """
-        AbstactBST defines the required methods for a particular BST
-        """
-        @abstractmethod 
+        @abstractmethod
         def insert(self, value):
                 pass
-        @abstractmethod 
+
+        @abstractmethod
         def delete(self, value):
                 pass
-        @abstractmethod 
+
+        @abstractmethod
         def search(self, value):
                 pass

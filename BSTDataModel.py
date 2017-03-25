@@ -1,33 +1,37 @@
+
+
+#Node — typical node of a BST
+# The node is a recursive data type for a BST, where the parameters left,
+# right, and parent are all of type Node. A node has the following data
+# members:
+#        v  - (any type) the value stored in the node
+#        l  - the left child
+#        r  - the right child
+#        cl - closure for the particular Node (for RB tree, WAVL tree...)
 class Node:
-        """
-        Node - typical node of a BST
-                v  - (any type) the value stored in the node
-                l  - the left child
-                r  - the right child
-                cl - closure for the particular Node (for RB tree, WAVL tree...)
-        """
-        def __init__(self, val, parent, left = None, right = None, cl = None):
-                self.v = val
+        def __init__(self, value, parent, left=None, right=None, closure=None):
+                self.v = value
+                self.count = 1
+                self.p = parent
                 self.l = left
                 self.r = right
-                self.cl = cl
+                self.cl = closure
+
         def __str__(self):
                 return self.v.__str__()
-        
 
+
+# BSTDataModel - class that represents a binary tree
+#         current      - the class provides access to a current node
+#                        for tree traversal
+#         root         - root of the tree
 class BSTDataModel:
-        """
-        BSTDataModel - class that represents a binary tree
-                current      - the class provides access to a current node 
-                               for tree traversal
-                root         - root of the tree
-        """
         def __init__(self):
                 self.root = None
-                self.current = self.root
+                self.cur = self.root
         def __str__(self):
-                levels = []                     # list of levels
-                this_level = [self.root]        
+                levels = []
+                this_level = [self.root]
                 next_level = []
                 empty_level = False
                 while not empty_level:
@@ -44,9 +48,9 @@ class BSTDataModel:
                         if not empty_level:
                                 levels.append(this_level)
                         this_level = next_level
-                return levels.__str__()         # can be prettified up later
+                return levels.__str__()
 
-# Example: 
+# Example:
 # bst = BSTDataModel()
 # bst.root = Node(4, None, Node(2, None), Node(5, None))
 # print(bst)
