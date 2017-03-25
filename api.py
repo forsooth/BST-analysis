@@ -133,3 +133,6 @@ class API():
 
         def move_parent(self):
                 self.__bst.cur = self.__bst.cur.p
+
+        def reset(self):
+                self.__bst.cur = self.__bst.root
