@@ -20,6 +20,9 @@ class Node:
         def __str__(self):
                 return self.v.__str__()
 
+        def __repr__(self):
+                return self.v.__str__() 
+
 
 # BSTDataModel - class that represents a binary tree
 #         current      - the class provides access to a current node
@@ -29,6 +32,7 @@ class BSTDataModel:
         def __init__(self):
                 self.root = None
                 self.cur = self.root
+                self.gcl = None
         def __str__(self):
                 levels = []
                 this_level = [self.root]
