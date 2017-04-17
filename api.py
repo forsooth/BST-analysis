@@ -17,9 +17,14 @@ class API():
         def add(self, value):
                 if value is None or self.__bst.cur is None:
                         return False
-                if self.__bst.cur.v is None:
+
+                if self.__bst.cur.v is value:
                         self.inc_count()
-                self.__bst.cur.v = value
+                else:
+                        self.__bst.count = 1
+
+                write_value(value)
+
                 lc = BSTDataModel.Node(None, self.__bst.cur)
                 rc = BSTDataModel.Node(None, self.__bst.cur)
                 self.__bst.cur.l = lc
@@ -101,16 +106,17 @@ class API():
                 return True
 
         def read_closure(self):
-                pass # returns the closure for the node you are currently on
+                # returns the closure for the node you are currently on
+                return self.__bst.cur.cl
 
         def write_closure(self, cl):
-                pass # sets the closure for the current node
+                self.__bst.cur.cl = cl # sets the closure for the current node
 
         def read_gclosure(self):
-                pass # reads the global closure
+                return self.__bst.gcl # reads the global closure
 
-        def write_gclosure(self, cl):
-                pass # writes the closure
+        def write_gclosure(self, gcl):
+                self.__bst.gcl = gcl # writes the closure
 
         def read_value(self):
                 return self.__bst.cur.v
@@ -148,3 +154,28 @@ class API():
                 # Returns True if the current node is None or its value is
                 # i.e. if the current node can be added (self.__bst.cur should never be None)
                 return self.__bst.cur is None or self.__bst.cur.v is None
+
+        def rotate_left(self):
+                if self.is_null(self):
+                        return False
+                # Save each node and sub-trees
+                p = self.__bst.cur
+                q = p.r
+                b = q.l
+                # Re-assign to preform a rotation
+                self.__bst.cur = q
+                q.l = p
+                p.r = b
+
+        def rotate_right(self):
+                if self.is_null(self):
+                        return False
+                # Save each node and sub-trees
+                q = self.__bst.cur
+                p = q.l
+                b = p.r
+                # Re-assign to preform a rotation
+                self.__bst.cur = p
+                p.r = q
+                q.l = b
+
