@@ -1,9 +1,5 @@
 import BSTDataModel
 
-
-# TODO: re-implement things like 'move' and 'add' in terms of other operations,
-# or keep track of the operations occuring and write them to the log
-# separately.
 class API():
         def __init__(self):
                 self.__bst = BSTDataModel.BSTDataModel()
@@ -11,6 +7,7 @@ class API():
                 root.p = root
                 self.__bst.root = root
                 self.__bst.cur = root
+                self.__bst.count = 0
 
         def __str__(self):
                 return self.__bst.__str__()
@@ -20,6 +17,8 @@ class API():
         def add(self, value):
                 if value is None or self.__bst.cur is None:
                         return False
+                if self.__bst.cur.v is None:
+                        self.inc_count()
                 self.__bst.cur.v = value
                 lc = BSTDataModel.Node(None, self.__bst.cur)
                 rc = BSTDataModel.Node(None, self.__bst.cur)
@@ -31,68 +30,75 @@ class API():
         # its positive successor. If the node to be removed is 'None',
         # the function returns 'False'.
         def std_remove(self):
-                if self.__bst.cur is None:
+                if self.null(self.__bst.cur):
                         return False
-                elif self.__bst.cur.l.v is not None and self.__bst.cur.r.v is not None:
-                        # Identify a successor
-                        s = self.__bst.cur.r
-                        while s.l is not None:
-                                s = s.l
-                        s = s.p
-                        # Grab current node's children and parent
-                        lc = self.__bst.cur.l
+                elif not self.null(self.__bst.cur.l) and not self.null(self.__bst.cur.r):
+
+                        # Grab current node's right child
                         rc = self.__bst.cur.r
-                        p = self.__bst.cur.p
-                        # Deal with any children of the successor
-                        # TODO: fix this, as it wont work until std_remove is
-                        # implemented in terms of other operations
-                        std_remove(s)
-                        # Set the successor's parent and children
-                        s.p = p
-                        s.l = lc
-                        s.r = rc
-                        lc.p = s
-                        rc.p = s
-                        # Set the parent's child to be 's' instead of 'bst.cur'
-                        if p.l == self.__bst.cur:
-                                p.l = s
+
+                        self.move_right()
+
+                        while not self.null(self.__bst.cur.l):
+                                self.move_left()
+
+                        s = self.__bst.cur.v
+
+                        if self.__bst.cur is rc:
+                                self.std_remove()
                         else:
-                                p.r = s
+                                self.std_remove()
+                                while self.__bst.cur.p is not rc:
+                                        self.move_parent()
+                                self.move_parent()
+
+                        self.move_parent()
+                        self.__bst.cur.v = s
+
                         return True
                 # If there is only a left successor, then go to the parent;
                 # if the node to be removed is the parent's left child, link
                 # the parents left child to the successor. Otherwise, link
-                # the parent's right child to the successor. In either case,
+                # 1the parent's right child to the successor. In either case,
                 # tell the successor about its new parent.
-                elif self.__bst.cur.l is not None:
-                        p = self.__bst.cur.p
-                        if p.l == self.__bst.cur:
-                                p.l = self.__bst.cur.l
-                        else:
-                                p.r = self.__bst.cur.l
-                        self.__bst.cur.l.p = p
-                        return True
-                # Same but if only a right successor exists.
-                # TODO: Merge these two conditions, e.g.
-                #(successor = bst.cur.l == None ? bst.cur.l : bst.cur.r)
-                # ...
-                elif self.__bst.cur.r is not None:
+                elif self.null(self.__bst.cur.l):
                         p = self.__bst.cur.p
                         if p.l == self.__bst.cur:
                                 p.l = self.__bst.cur.r
                         else:
                                 p.r = self.__bst.cur.r
-                        self.__bst.cur.r.p = p
+                        self.__bst.cur.l.p = self.__bst.cur.p
+                        return True
+                # Same but if only a right successor exists.
+                # TODO: Merge these two conditions, e.g.
+                #(successor = bst.cur.l == None ? bst.cur.l : bst.cur.r)
+                # ...
+                elif self.null(self.__bst.cur.r):
+                        p = self.__bst.cur.p
+                        if p.l == self.__bst.cur:
+                                p.l = self.__bst.cur.l
+                        else:
+                                p.r = self.__bst.cur.l
+                        self.__bst.cur.r.p = self.__bst.cur.p
                         return True
                 # Find out which side of the parent the node-to-delete is on,
                 # and set it to 'None'
                 else:
-                        p = self.__bst.cur.p
-                        if p.l == self.__bst.cur:
-                                p.l = None
-                        else:
-                                p.r = None
+                        self.remove()
                         return True
+
+        def remove(self):
+                if self.__bst.cur is None:
+                        return False
+                if self.__bst.cur.v is None:
+                        self.__bst.cur = None
+                        return True
+                self.__bst.cur.v = None
+                self.__bst.cur.l.p = None
+                self.__bst.cur.r.p = None
+                self.__bst.cur.l = None
+                self.__bst.cur.r = None
+                return True
 
         def read_closure(self):
                 pass # returns the closure for the node you are currently on
@@ -105,11 +111,6 @@ class API():
 
         def write_gclosure(self, cl):
                 pass # writes the closure
-
-        def is_null(self):
-                # Returns True if the current node is None or its value is
-                # i.e. if the current node can be added (self.__bst.cur should never be None)
-                return self.__bst.cur is None or self.__bst.cur.v is None
 
         def read_value(self):
                 return self.__bst.cur.v
@@ -136,3 +137,14 @@ class API():
 
         def reset(self):
                 self.__bst.cur = self.__bst.root
+
+        @staticmethod
+        def null(node):
+                # Returns True if the current node is None or its value is
+                # i.e. if the current node can be added (self.__bst.cur should never be None)
+                return node is None or node.v is None
+
+        def is_null(self):
+                # Returns True if the current node is None or its value is
+                # i.e. if the current node can be added (self.__bst.cur should never be None)
+                return self.__bst.cur is None or self.__bst.cur.v is None

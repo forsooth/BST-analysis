@@ -1,10 +1,11 @@
 import AbstractBST
 from api import API
 
-class ExampleBST(AbstractBST.AbstractBST):
-        # ExampleBST - example of concrete implementation of AbstractBST
+
+class SimpleBST(AbstractBST.AbstractBST):
+        # SimpleBST - example of concrete implementation of AbstractBST
         def __init__(self):
-                super(ExampleBST, self).__init__()
+                super(SimpleBST, self).__init__()
                 self.__api = API()
 
         def __str__(self):
@@ -57,7 +58,7 @@ class ExampleBST(AbstractBST.AbstractBST):
                         self.__api.move_right()
                 return self.search_help(value)
 
-x = ExampleBST()
+x = SimpleBST()
 
 for i in [5, 3, 7, 4, 8, 6, 2]:
         print("insert: " + str(i))
@@ -71,6 +72,13 @@ print("search 10: " + str(x.search(10)))
 print("search  1: " + str(x.search(1)))
 
 
+print("delete: " + str(x.delete(2)))
+print(x)
+
 # Delete (using std_remove --  Not Implemented) 
-# print("delete: " + str(x.delete(2)))
-# print(x)
+print("delete: " + str(x.delete(5)))
+print(x)
+print("delete: " + str(x.delete(6)))
+print(x)
+print("delete: " + str(x.delete(7)))
+print(x)

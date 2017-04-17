@@ -8,7 +8,8 @@ class Operation():
                 self.arg = arg
 
         def __str__(self):
-                return self.op + ": " + self.arg
+                return self.op + ' 3' + self.arg
+
 
 class Operations():
         def __init__(self):

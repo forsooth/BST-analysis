@@ -48,7 +48,17 @@ class BSTDataModel:
                         if not empty_level:
                                 levels.append(this_level)
                         this_level = next_level
-                return levels.__str__()
+
+                for level in levels:
+                        for i, elem in enumerate(level):
+                                level[i] = str(elem)
+
+                output = ""
+                for level in levels:
+                        for elem in level:
+                                output += elem + "   "
+                        output += '\n'
+                return output
 
 # Example:
 # bst = BSTDataModel()
