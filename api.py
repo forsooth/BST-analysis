@@ -23,7 +23,7 @@ class API():
                 else:
                         self.__bst.count = 1
 
-                write_value(value)
+                self.write_value(value)
 
                 lc = BSTDataModel.Node(None, self.__bst.cur)
                 rc = BSTDataModel.Node(None, self.__bst.cur)

@@ -33,4 +33,33 @@ ops = Operations()
 for file in args.operations:
         ops.read_ops(file)
 
-ops.exec_ops()
+algs = ['simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static']
+
+algo = ""
+algarg = args.algorithm.lower().replace(' ', '')
+
+if algarg in {'simple', 'bst', 'simplebst'}:
+        algo = algs[0]
+
+elif algarg in {'rb', 'redblack', 'redblacktree'}:
+        algo = algs[1]
+
+elif algarg in {'splay', 'splaytree'}:
+        algo = algs[2]
+
+elif algarg in {'avl', 'avltree'}:
+        algo = algs[3]
+
+elif algarg in {'wavl', 'wavltree', 'weakavl', 'weakavltree'}:
+        algo = algs[4]
+
+elif algarg in {'tango', 'tangotree'}:
+        algo = algs[5]
+
+elif algarg in {'static', 'osbst', 'optimalstatic', 'opt', 'optbst', 'optimalstaticbst'}:
+        algo = algs[6]
+
+else:
+    err.err("Algorithm not recognized.")
+
+ops.exec_ops(algo)

@@ -1,5 +1,14 @@
 import shlex
 import err
+from api import API
+from SimpleBST import SimpleBST
+
+
+def is_float(string):
+        try:
+                return float(string) and '.' in string
+        except ValueError:
+                return False
 
 
 class Operation():
@@ -8,7 +17,7 @@ class Operation():
                 self.arg = arg
 
         def __str__(self):
-                return self.op + ' 3' + self.arg
+                return self.op + "   " + self.arg
 
 
 class Operations():
@@ -34,7 +43,12 @@ class Operations():
                                         + "'. No argument to operation.")
                         for op in self.allowed:
                                 if op == elems[0]:
-                                        new_op = Operation(op, elems[1])
+                                        if elems[1].isnumeric():
+                                                new_op = Operation(op, int(elems[1]))
+                                        elif is_float(elems[1]):
+                                                new_op = Operation(op, float(elems[1]))
+                                        else:
+                                                new_op = Operation(op, elems[1])
                                         self.ops.append(new_op)
                                         break
                         else:
@@ -43,6 +57,30 @@ class Operations():
                                         + elems[0] + "'.")
                 f.close()
 
-        def exec_ops(self):
+        def exec_ops(self, algo):
+                api = API()
+                if algo == 'simple':
+                        tree = SimpleBST(api)
+                elif algo == 'rb':
+                        err.err("Algorithm not yet implemented")
+                elif algo == 'splay':
+                        err.err("Algorithm not yet implemented")
+                elif algo == 'avl':
+                        err.err("Algorithm not yet implemented")
+                elif algo == 'wavl':
+                        err.err("Algorithm not yet implemented")
+                elif algo == 'tango':
+                        err.err("Algorithm not yet implemented")
+                elif algo == 'static':
+                        err.err("Algorithm not yet implemented")
+
                 for op in self.ops:
-                        print(op)
+                        api.reset()
+                        if op.op == 'ins':
+                                tree.insert(op.arg)
+                        elif op.op == 'sea':
+                                tree.search(op.arg)
+                        elif op.op == 'del':
+                                tree.delete(op.arg)
+
+                print(tree)

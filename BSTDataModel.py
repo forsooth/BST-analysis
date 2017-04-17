@@ -33,6 +33,7 @@ class BSTDataModel:
                 self.root = None
                 self.cur = self.root
                 self.gcl = None
+
         def __str__(self):
                 levels = []
                 this_level = [self.root]
@@ -55,6 +56,9 @@ class BSTDataModel:
 
                 for level in levels:
                         for i, elem in enumerate(level):
+                                if elem is None:
+                                        level[i] = " "
+                                        continue
                                 level[i] = str(elem)
 
                 output = ""
