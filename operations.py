@@ -3,6 +3,7 @@ import err
 from api import API
 from SimpleBST import SimpleBST
 import plot
+import sys
 
 def is_float(string):
         try:
@@ -17,7 +18,7 @@ class Operation():
                 self.arg = arg
 
         def __str__(self):
-                return self.op + "   " + str(self.arg)
+                return self.op + " " + str(self.arg)
 
 
 class Operations():
@@ -28,7 +29,10 @@ class Operations():
 
         def read_ops(self, filename):
                 self.files.append(filename)
-                f = open(filename, 'r')
+                if filename == '-':
+                        f = sys.stdin
+                else:
+                        f = open(filename, 'r')
                 for line in f:
                         if line.isspace() or line[0] == '#':
                                 continue
@@ -55,7 +59,8 @@ class Operations():
                                 err.err("Badly formatted line: '" + line
                                         + "'. Unrecognized operation '"
                                         + elems[0] + "'.")
-                f.close()
+                if f is not sys.stdin:
+                        f.close()
 
         def exec_ops(self, algo):
                 logt = []
@@ -80,7 +85,7 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
-                        print(str(time) + ": " + str(op))
+                        err.log("step " + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
                                 opst.append(time)
