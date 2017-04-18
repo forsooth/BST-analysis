@@ -129,18 +129,18 @@ class API():
                 self.__bst.cur.r = None
                 return True
 
-        def read_closure(self):
+        def read_closure(self, key):
                 # returns the closure for the node you are currently on
-                return self.__bst.cur.cl
+                return self.__bst.cur.cl[key]
 
-        def write_closure(self, cl):
-                self.__bst.cur.cl = cl # sets the closure for the current node
+        def write_closure(self, key, val):
+                self.__bst.cur.cl[key] = val # sets the closure for the current node
 
-        def read_gclosure(self):
-                return self.__bst.gcl # reads the global closure
+        def read_gclosure(self, key):
+                return self.__bst.gcl[key] # reads the global closure
 
-        def write_gclosure(self, gcl):
-                self.__bst.gcl = gcl # writes the closure
+        def write_gclosure(self, key, val):
+                self.__bst.gcl[key] = val # writes the closure
 
         def read_value(self):
                 return self.__bst.cur.v

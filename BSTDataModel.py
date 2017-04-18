@@ -9,13 +9,13 @@
 #        r  - the right child
 #        cl - closure for the particular Node (for RB tree, WAVL tree...)
 class Node:
-        def __init__(self, value, parent, left=None, right=None, closure=None):
+        def __init__(self, value, parent, left=None, right=None, closure=[]):
                 self.v = value
                 self.count = 1
                 self.p = parent
                 self.l = left
                 self.r = right
-                self.cl = closure
+                self.cl = []
 
         def __str__(self):
                 return self.v.__str__()
@@ -32,7 +32,7 @@ class BSTDataModel:
         def __init__(self):
                 self.root = None
                 self.cur = self.root
-                self.gcl = None
+                self.gcl = []
 
         def __str__(self):
                 levels = []
