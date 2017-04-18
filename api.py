@@ -1,16 +1,40 @@
 import BSTDataModel
+import err
 
 class API():
-        def __init__(self):
+        def __init__(self, logn, logt):
                 self.__bst = BSTDataModel.BSTDataModel()
                 root = BSTDataModel.Node(None, None)
                 root.p = root
                 self.__bst.root = root
                 self.__bst.cur = root
                 self.__bst.count = 0
+                self.__log = False
+                self.__t = 0
+                self.__logn = logn
+                self.__logt = logt
 
         def __str__(self):
                 return self.__bst.__str__()
+
+        def set_log_on(self):
+                self.__log = True
+
+        def set_log_off(self):
+                self.__log = False
+
+        def set_time(self, t):
+                self.__t = t
+
+        def log_on(self):
+                return self.__log
+
+        def log(self, n, t):
+                self.__logn.append(n)
+                self.__logt.append(t)
+
+        def t(self):
+                return self.__t
 
         # Adds a node with value 'value' to the tree at the current location,
         # if and only if the value of the current node is 'None'.
@@ -131,11 +155,17 @@ class API():
                 self.__bst.cur.count += 1
 
         def move_right(self):
+                err.log(str(self.t()) + " Moving right on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
+                        if self.log_on():
+                                self.log(self.__bst.cur.v, self.t())
                         self.__bst.cur = self.__bst.cur.r
 
         def move_left(self):
+                err.log(str(self.t()) + " Moving left on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
+                        if self.log_on():
+                                self.log(self.__bst.cur.v, self.t())
                         self.__bst.cur = self.__bst.cur.l
 
         def move_parent(self):

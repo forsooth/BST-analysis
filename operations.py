@@ -2,7 +2,7 @@ import shlex
 import err
 from api import API
 from SimpleBST import SimpleBST
-
+import plot
 
 def is_float(string):
         try:
@@ -17,7 +17,7 @@ class Operation():
                 self.arg = arg
 
         def __str__(self):
-                return self.op + "   " + self.arg
+                return self.op + "   " + str(self.arg)
 
 
 class Operations():
@@ -58,7 +58,11 @@ class Operations():
                 f.close()
 
         def exec_ops(self, algo):
-                api = API()
+                logt = []
+                logn = []
+                opst = []
+                opsn = []
+                api = API(logn, logt)
                 if algo == 'simple':
                         tree = SimpleBST(api)
                 elif algo == 'rb':
@@ -74,13 +78,22 @@ class Operations():
                 elif algo == 'static':
                         err.err("Algorithm not yet implemented")
 
+                time = 1
                 for op in self.ops:
+                        print(str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
+                                opst.append(time)
+                                opsn.append(op.arg)
+                                api.set_time(time)
+                                api.set_log_on()
                                 tree.insert(op.arg)
+                                api.set_log_off()
+                                time += 1
                         elif op.op == 'sea':
                                 tree.search(op.arg)
                         elif op.op == 'del':
                                 tree.delete(op.arg)
 
                 print(tree)
+                plot.plot(logn, logt, opsn, opst)
