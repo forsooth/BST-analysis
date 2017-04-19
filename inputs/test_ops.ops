@@ -3,7 +3,6 @@ ins 4
 ins 13
 ins 7
 ins 2
-del 9
 ins 11
 ins 15
 ins 16
@@ -19,4 +18,4 @@ del 6
 del 9
 sea 3
 sea 15
-sea 129
+sea 12

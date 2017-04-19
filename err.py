@@ -9,13 +9,13 @@ nl = '\n'
 
 
 def err(msg=""):
-        sys.stderr.write(red + msg + nc + nl)
+        sys.stderr.write(red + str(msg) + nc + nl)
         sys.exit(1)
 
 
 def warn(msg=""):
-        sys.stderr.write(yellow + msg + nc + nl)
+        sys.stderr.write(yellow + str(msg) + nc + nl)
 
 
 def log(msg=""):
-        sys.stderr.write(blue + msg + nc + nl)
+        sys.stderr.write(blue + str(msg) + nc + nl)

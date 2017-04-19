@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description='Generates 2D geometric represen'
                                  + 'tations of BSTs given input op'
                                  + 'erations and a BST variant.')
 
-parser.add_argument('operations', type=str, nargs='+',
+parser.add_argument('operations', type=str, nargs='+', 
                     help="Path to file which list the the operations which "
                     + "the BST will perform. Default is standard input.")
 
@@ -61,6 +61,6 @@ elif algarg in {'static', 'osbst', 'optimalstatic', 'opt', 'optbst', 'optimalsta
         algo = algs[6]
 
 else:
-    err.err("Algorithm not recognized.")
+        err.err("Algorithm not recognized.")
 
 ops.exec_ops(algo)
