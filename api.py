@@ -52,6 +52,21 @@ class API():
         def reset(self):
                 self.__bst.cur = self.__bst.root
 
+        def set_value(self, v):
+                self.__bst.cur.v = v
+
+        def set_left(self, l):
+                self.__bst.cur.l = l
+
+        def set_right(self, r):
+                self.__bst.cur.r = r
+
+        def set_parent(self, p):
+                self.__bst.cur.p = p
+
+        def reset(self):
+                self.__bst.cur = self.__bst.root
+
         @staticmethod
         def null(node):
                 # Returns True if the current node is None or its value is
