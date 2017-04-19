@@ -9,7 +9,7 @@ OPERATION_TYPE='int'
 
 # The number of operations to perform for each character in the pattern.
 # Allowed values: Any integer greater than 0
-NUM_OPERATIONS=30
+NUM_OPERATIONS=127
 
 # The lowest value which will appear in the tree. Option will be ignored if
 # the data type is string.
@@ -51,7 +51,7 @@ RUN_OPERATIONS='True'
 
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
-BST_ALGORITHM='simple'
+BST_ALGORITHM='rb'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'

@@ -1,6 +1,7 @@
 import BSTDataModel
 import err
 
+
 class API():
         def __init__(self, logn, logt):
                 self.__bst = BSTDataModel.BSTDataModel()
@@ -35,6 +36,50 @@ class API():
 
         def t(self):
                 return self.__t
+
+        def value(self):
+                return self.__bst.cur.v
+
+        def left(self):
+                return self.__bst.cur.l
+
+        def right(self):
+                return self.__bst.cur.r
+
+        def parent(self):
+                return self.__bst.cur.p
+
+        def reset(self):
+                self.__bst.cur = self.__bst.root
+
+        def set_value(self, v):
+                self.__bst.cur.v = v
+
+        def set_left(self, l):
+                self.__bst.cur.l = l
+
+        def set_right(self, r):
+                self.__bst.cur.r = r
+
+        def set_parent(self, p):
+                self.__bst.cur.p = p
+
+        def reset(self):
+                self.__bst.cur = self.__bst.root
+
+        @staticmethod
+        def null(node):
+                # Returns True if the current node is None or its value is
+                # i.e. if the current node can be added (self.__bst.cur should never be None)
+                return node is None or node.v is None
+
+        def is_null(self):
+                # Returns True if the current node is None or its value is
+                # i.e. if the current node can be added (self.__bst.cur should never be None)
+                return self.__bst.cur is None or self.__bst.cur.v is None
+
+        def is_root(self):
+                return self.__bst.cur is self.__bst.root
 
         # Adds a node with value 'value' to the tree at the current location,
         # if and only if the value of the current node is 'None'.
@@ -211,24 +256,6 @@ class API():
                         else:
                                 continue
 
-        def reset(self):
-                self.__bst.cur = self.__bst.root
-
-
-        @staticmethod
-        def null(node):
-                # Returns True if the current node is None or its value is
-                # i.e. if the current node can be added (self.__bst.cur should never be None)
-                return node is None or node.v is None
-
-        def is_null(self):
-                # Returns True if the current node is None or its value is
-                # i.e. if the current node can be added (self.__bst.cur should never be None)
-                return self.__bst.cur is None or self.__bst.cur.v is None
-
-        def is_root(self):
-                return self.__bst.cur is self.__bst.root
-                
         def rotate_left(self):
                 if self.is_null():
                         return False
@@ -258,7 +285,6 @@ class API():
 
                 self.__bst.cur = q
                 print(self.__bst.cur)
-
 
         def rotate_right(self):
                 if self.is_null():
