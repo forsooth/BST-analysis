@@ -86,9 +86,9 @@ class BSTDataModel:
 
                         indent = colors.blue
                         if cur.v == None:
-                                nodev = colors.gray + str(cur.v) + colors.nc
+                                nodev = colors.gray + str(cur) + colors.nc
                         else:
-                                nodev = colors.yellow + str(cur.v) + colors.gray + ' (' + str(cur.count) + ')' + colors.nc
+                                nodev = colors.yellow + str(cur) + colors.gray + ' (' + str(cur.count) + ')' + colors.nc
 
                         for i in range(1, level):
                                 if i in levels:
