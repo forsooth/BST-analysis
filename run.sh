@@ -9,7 +9,7 @@ OPERATION_TYPE='int'
 
 # The number of operations to perform for each character in the pattern.
 # Allowed values: Any integer greater than 0
-NUM_OPERATIONS=15
+NUM_OPERATIONS=127
 
 # The lowest value which will appear in the tree. Option will be ignored if
 # the data type is string.
@@ -17,7 +17,7 @@ LOWEST_DATA_VALUE=1
 
 # The highest value which will appear in the tree. Option will be ignored if
 # the data type is string.
-HIGHEST_DATA_VALUE=10
+HIGHEST_DATA_VALUE=127
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
