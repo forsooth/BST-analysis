@@ -58,9 +58,12 @@ class API():
         # Performs a standard BST removal, replacing the current node with
         # its positive successor. If the node to be removed is 'None',
         # the function returns 'False'.
-        def std_remove(self):
+        def std_remove(self, ignore_count=False):
                 if self.null(self.__bst.cur):
                         return False
+                elif self.__bst.cur.count > 1 and not ignore_count:
+                        self.__bst.cur.count -= 1
+                        return True
                 elif not self.null(self.__bst.cur.l) and not self.null(self.__bst.cur.r):
 
                         # Grab current node's right child
@@ -72,17 +75,21 @@ class API():
                                 self.move_left()
 
                         s = self.__bst.cur.v
+                        sc = self.__bst.cur.count
+                        scl = self.__bst.cur.cl
 
                         if self.__bst.cur is rc:
-                                self.std_remove()
+                                self.std_remove(True)
                         else:
-                                self.std_remove()
+                                self.std_remove(True)
                                 while self.__bst.cur.p is not rc:
                                         self.move_parent()
                                 self.move_parent()
 
                         self.move_parent()
                         self.__bst.cur.v = s
+                        self.__bst.cur.count = sc
+                        self.__bst.cur.scl = scl
 
                         return True
                 # If there is only a left successor, then go to the parent;
@@ -96,7 +103,7 @@ class API():
                                 p.l = self.__bst.cur.r
                         else:
                                 p.r = self.__bst.cur.r
-                        self.__bst.cur.l.p = self.__bst.cur.p
+                        self.__bst.cur.r.p = self.__bst.cur.p
                         return True
                 # Same but if only a right successor exists.
                 # TODO: Merge these two conditions, e.g.
@@ -108,7 +115,7 @@ class API():
                                 p.l = self.__bst.cur.l
                         else:
                                 p.r = self.__bst.cur.l
-                        self.__bst.cur.r.p = self.__bst.cur.p
+                        self.__bst.cur.l.p = self.__bst.cur.p
                         return True
                 # Find out which side of the parent the node-to-delete is on,
                 # and set it to 'None'

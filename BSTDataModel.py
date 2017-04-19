@@ -1,4 +1,4 @@
-
+import colors
 
 #Node — typical node of a BST
 # The node is a recursive data type for a BST, where the parameters left,
@@ -84,7 +84,12 @@ class BSTDataModel:
                                 nodes.append(cur.l)
                                 levels.append(level + 1)
 
-                        indent = ""
+                        indent = colors.blue
+                        if cur.v == None:
+                                nodev = colors.gray + str(cur.v) + colors.nc
+                        else:
+                                nodev = colors.yellow + str(cur.v) + colors.gray + ' (' + str(cur.count) + ')' + colors.nc
+
                         for i in range(1, level):
                                 if i in levels:
                                         indent += '│  '
@@ -95,13 +100,13 @@ class BSTDataModel:
                         else:
                                 first_child = (level in levels)
                         if level == 0:
-                                output += str(cur.v) + '\n'
+                                output += nodev + '\n'
                         elif not first_child:
                                 output += indent + '└' + '─'
-                                output += ' ' + str(cur.v) + '\n'
+                                output += ' ' + nodev + '\n'
                         else:
                                 output += indent + '├' + '─'
-                                output += ' ' + str(cur.v) + '\n'
+                                output += ' ' + nodev + '\n'
 
                 return output
 
