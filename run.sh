@@ -9,7 +9,7 @@ OPERATION_TYPE='int'
 
 # The number of operations to perform for each character in the pattern.
 # Allowed values: Any integer greater than 0
-NUM_OPERATIONS=10
+NUM_OPERATIONS=127
 
 # The lowest value which will appear in the tree. Option will be ignored if
 # the data type is string.
@@ -17,11 +17,11 @@ LOWEST_DATA_VALUE=1
 
 # The highest value which will appear in the tree. Option will be ignored if
 # the data type is string.
-HIGHEST_DATA_VALUE=10
+HIGHEST_DATA_VALUE=127
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-INSERT_OPERATION_DISTRIBUTION='balanced'
+INSERT_OPERATION_DISTRIBUTION='increasing'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
@@ -39,7 +39,7 @@ DELETE_OPERATION_DISTRIBUTION='random'
 # should be treated as one field, such that 'isi' generates
 # 3 * NUM_OPERATIONS operations with a ratio of two inserts to one search
 # but with no guarantees on the exact number of either.
-OPERATION_PATTERN='Idsiids'
+OPERATION_PATTERN='I'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'
@@ -51,7 +51,7 @@ RUN_OPERATIONS='True'
 
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
-BST_ALGORITHM='simple'
+BST_ALGORITHM='rb'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'

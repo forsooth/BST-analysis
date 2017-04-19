@@ -23,7 +23,7 @@ class Node:
                 return self.v.__str__()
 
         def __repr__(self):
-                return self.v.__str__() 
+                return self.v.__str__()
 
 
 # BSTDataModel - class that represents a binary tree
