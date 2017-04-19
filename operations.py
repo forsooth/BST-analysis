@@ -2,6 +2,7 @@ import shlex
 import err
 from api import API
 from SimpleBST import SimpleBST
+from RedBlackBST import RedBlackBST
 import plot
 import sys
 
@@ -72,7 +73,7 @@ class Operations():
                 if algo == 'simple':
                         tree = SimpleBST(api)
                 elif algo == 'rb':
-                        err.err("Algorithm not yet implemented")
+                        tree = RedBlackBST(api)
                 elif algo == 'splay':
                         err.err("Algorithm not yet implemented")
                 elif algo == 'avl':
