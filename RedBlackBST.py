@@ -102,11 +102,13 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         self.__api.write_closure("color", "BLACK")
                 while self.parent_color() is "RED":
                         if self.uncle_color() is "RED":
+                                break
                                 self.color_parent("BLACK")
                                 self.color_uncle("BLACK")
                                 self.color_grand_parent("RED")
                                 self.__api.move_grand_parent()
                                 self.insert_fix()
+                                break
                         else: # uncle_color is BLACK
                                 case = self.__api.move_grand_parent()
                                 self.__api.move(case)
@@ -121,7 +123,6 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         self.__api.move_parent()
                                         color = self.__api.read_closure("color")
                                         self.__api.rotate_right()
-                                        self.__api.move_right()
                                         color2 = self.__api.read_closure("color")
                                         self.__api.write_closure("color", color)
                                         self.__api.move_parent()
@@ -133,7 +134,6 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                 elif case[0] == "r" and case[1] == "l":
                                         self.__api.move_parent()
                                         self.__api.rotate_right()
-                                        self.__api.move_parent()
                                         color = self.__api.read_closure("color")
                                         self.__api.rotate_left()
                                         self.__api.move_left()
