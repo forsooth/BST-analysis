@@ -36,40 +36,6 @@ class BSTDataModel:
                 self.cur = self.root
                 self.gcl = {}
 
-        def __str__2(self):
-                levels = []
-                this_level = [self.root]
-                next_level = []
-                empty_level = False
-                while not empty_level:
-                        empty_level = True
-                        next_level = []
-                        for node in this_level:
-                                if node:
-                                        empty_level = False
-                                        next_level.append(node.l)
-                                        next_level.append(node.r)
-                                else:
-                                        next_level.append(None)
-                                        next_level.append(None)
-                        if not empty_level:
-                                levels.append(this_level)
-                        this_level = next_level
-
-                for level in levels:
-                        for i, elem in enumerate(level):
-                                if elem is None:
-                                        level[i] = " "
-                                        continue
-                                level[i] = str(elem)
-
-                output = ""
-                for level in levels:
-                        for elem in level:
-                                output += elem + "   "
-                        output += '\n'
-                return output
-
         def __str__(self):
                 output = ""
                 nodes = [self.root]
@@ -86,9 +52,9 @@ class BSTDataModel:
 
                         indent = colors.blue
                         if cur.v == None:
-                                nodev = colors.gray + str(cur) + colors.nc
+                                nodev = colors.gray + str(cur) + ("!" if cur is self.cur else "") + colors.nc
                         else:
-                                nodev = colors.yellow + str(cur) + colors.gray + ' (' + str(cur.count) + ')' + colors.nc
+                                nodev = colors.yellow + str(cur)  + ("!" if cur is self.cur else "") + colors.gray + ' (' + str(cur.count) + ')' + colors.nc
 
                         for i in range(1, level):
                                 if i in levels:

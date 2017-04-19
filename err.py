@@ -10,8 +10,10 @@ def err(msg=""):
 
 
 def warn(msg=""):
-        sys.stderr.write(colors.yellow + str(msg) + colors.nc + nl)
+        pass
+        #sys.stderr.write(colors.yellow + str(msg) + colors.nc + nl)
 
 
 def log(msg=""):
-        sys.stderr.write(colors.blue + str(msg) + colors.nc + nl)
+        pass
+        #sys.stderr.write(colors.blue + str(msg) + colors.nc + nl)

@@ -104,6 +104,8 @@ class API():
                         else:
                                 p.r = self.__bst.cur.r
                         self.__bst.cur.r.p = self.__bst.cur.p
+                        # Explicitly Ensure we end up on the parent
+                        self.__bst.cur = p
                         return True
                 # Same but if only a right successor exists.
                 # TODO: Merge these two conditions, e.g.
@@ -116,6 +118,8 @@ class API():
                         else:
                                 p.r = self.__bst.cur.l
                         self.__bst.cur.l.p = self.__bst.cur.p
+                        # Explicitly Ensure we end up on the parent
+                        self.__bst.cur = p
                         return True
                 # Find out which side of the parent the node-to-delete is on,
                 # and set it to 'None'
@@ -161,6 +165,15 @@ class API():
         def inc_count(self):
                 self.__bst.cur.count += 1
 
+        def get_count(self):
+                return self.__bst.cur.count
+
+        def dec_count(self):
+                self.__bst.cur.count -= 1
+
+        def set_count(self, v):
+                self.__bst.cur.count = v
+                
         def move_right(self):
                 err.log(str(self.t()) + " Moving right on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
@@ -234,7 +247,7 @@ class API():
                 else:
                         self.__bst.cur.p.r = q
 
-                p.p = self.__bst.cur.p
+                q.p = self.__bst.cur.p
                 
                 q.l = p
                 p.p = q
@@ -270,8 +283,7 @@ class API():
                 q.p = p
 
                 q.l = b
-                if b is not None:
-                        b.p = q
+                b.p = q
 
                 self.__bst.cur = p
                 print(self.__bst.cur)
