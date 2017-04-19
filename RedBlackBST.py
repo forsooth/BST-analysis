@@ -80,6 +80,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 self.__api.move(m)
 
         def repeat_case(self, c):
+                print("repeat case -- " + c + " "+ str(self.__api.read_value()) + "\n" + str(self))
                 self.__api.move_grand_parent()
                 if c is "l":
                         self.__api.rotate_right()
@@ -94,6 +95,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 self.__api.write_closure("color", color)
                 self.__api.move_parent()
                 self.__api.write_closure("color", color2)
+                print(c + " "+ str(self.__api.read_value()) + "\n" + str(self) + "-- repeat case -- ")
                 
         def insert_fix(self):
                 if self.__api.is_root():
@@ -109,17 +111,38 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                 case = self.__api.move_grand_parent()
                                 self.__api.move(case)
                                 if case[0] == "l" and case[1] == "l":
+                                        print("Left-left " + str(self.__api.read_value()))
+                                        print(self)
                                         self.repeat_case("l")
+                                        break
                                 elif case[0] == "l" and case[1] == "r":
                                         self.__api.move_parent()
                                         self.__api.rotate_left()
-                                        self.repeat_case("l")
+                                        self.__api.move_parent()
+                                        color = self.__api.read_closure("color")
+                                        self.__api.rotate_right()
+                                        self.__api.move_right()
+                                        color2 = self.__api.read_closure("color")
+                                        self.__api.write_closure("color", color)
+                                        self.__api.move_parent()
+                                        self.__api.write_closure("color", color2)
+                                        break
                                 elif case[0] == "r" and case[1] == "r":
                                         self.repeat_case("r")
+                                        break
                                 elif case[0] == "r" and case[1] == "l":
                                         self.__api.move_parent()
                                         self.__api.rotate_right()
-                                        self.repeat_case("r")
+                                        self.__api.move_parent()
+                                        color = self.__api.read_closure("color")
+                                        self.__api.rotate_left()
+                                        self.__api.move_left()
+                                        color2 = self.__api.read_closure("color")
+                                        self.__api.write_closure("color", color)
+                                        self.__api.move_parent()
+                                        self.__api.write_closure("color", color2)
+                                        break
+                
 
         def delete(self, value):
                 self.__api.reset()

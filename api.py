@@ -233,10 +233,11 @@ class API():
                 p.p = q
 
                 p.r = b
-                b.p = p
+                if b is not None:
+                        b.p = p
 
                 self.__bst.cur = q
-                
+                print(self.__bst.cur)
 
 
         def rotate_right(self):
@@ -262,8 +263,8 @@ class API():
                 q.p = p
 
                 q.l = b
-                b.p = q
+                if b is not None:
+                        b.p = q
 
                 self.__bst.cur = p
-
-        
+                print(self.__bst.cur)
