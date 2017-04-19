@@ -47,7 +47,8 @@ class Operations():
                                         + "'. No argument to operation.")
                         for op in self.allowed:
                                 if op == elems[0]:
-                                        if elems[1].isnumeric():
+                                        hyphen = (elems[1][0] == '-')
+                                        if elems[1].isnumeric() or (hyphen and elems[1][1:].isnumeric()):
                                                 new_op = Operation(op, int(elems[1]))
                                         elif is_float(elems[1]):
                                                 new_op = Operation(op, float(elems[1]))
@@ -85,6 +86,7 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
+                        err.warn(tree)
                         err.log("step " + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
@@ -100,5 +102,4 @@ class Operations():
                         elif op.op == 'del':
                                 tree.delete(op.arg)
 
-                print(tree)
                 plot.plot(logn, logt, opsn, opst)

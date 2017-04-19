@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(description='Generates 2D geometric represen'
                                  + 'erations and a BST variant.')
 
 parser.add_argument('operations', type=str, nargs='+', 
-                    help="Path to file which list the the operations which "
+                    help="Paths to files which list the the operations which "
                     + "the BST will perform. Default is standard input.")
 
 parser.add_argument('-o', '--output', type=str, default='-',

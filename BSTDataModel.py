@@ -34,7 +34,7 @@ class BSTDataModel:
                 self.cur = self.root
                 self.gcl = []
 
-        def __str__(self):
+        def __str__2(self):
                 levels = []
                 this_level = [self.root]
                 next_level = []
@@ -68,7 +68,64 @@ class BSTDataModel:
                         output += '\n'
                 return output
 
+        def __str__(self):
+                output = ""
+                nodes = [self.root]
+                levels = [0]
+                while len(nodes) > 0:
+                        cur = nodes.pop()
+                        level = levels.pop()
+                        if cur.r != None:
+                                nodes.append(cur.r)
+                                levels.append(level + 1)
+                        if cur.l != None:
+                                nodes.append(cur.l)
+                                levels.append(level + 1)
+
+                        indent = ""
+                        for i in range(1, level):
+                                if i in levels:
+                                        indent += '│  '
+                                else:
+                                        indent += '   '
+                        if len(levels) == 0:
+                                first_child = False
+                        else:
+                                first_child = (level in levels)
+                        if level == 0:
+                                output += str(cur.v) + '\n'
+                        elif not first_child:
+                                output += indent + '└' + '─'
+                                output += ' ' + str(cur.v) + '\n'
+                        else:
+                                output += indent + '├' + '─'
+                                output += ' ' + str(cur.v) + '\n'
+
+                return output
+
+
 # Example:
 # bst = BSTDataModel()
 # bst.root = Node(4, None, Node(2, None), Node(5, None))
 # print(bst)
+
+#            a
+#        b       c
+#     d    e   f    g
+# 
+# 
+# 1 a
+# 2 bc
+# 3 dec
+# 4 nnec
+# 4 nec
+# 3 ec
+# 4 nnc
+# 4 nc
+# 2 c
+# 3 fg
+# 4 nng
+# 4 ng
+# 3 g
+# 4 nn
+# 4 n
