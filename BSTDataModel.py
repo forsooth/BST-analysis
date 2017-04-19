@@ -105,29 +105,3 @@ class BSTDataModel:
 
                 return output
 
-
-# Example:
-# bst = BSTDataModel()
-# bst.root = Node(4, None, Node(2, None), Node(5, None))
-# print(bst)
-
-#            a
-#        b       c
-#     d    e   f    g
-# 
-# 
-# 1 a
-# 2 bc
-# 3 dec
-# 4 nnec
-# 4 nec
-# 3 ec
-# 4 nnc
-# 4 nc
-# 2 c
-# 3 fg
-# 4 nng
-# 4 ng
-# 3 g
-# 4 nn
-# 4 n
