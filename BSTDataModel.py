@@ -15,9 +15,11 @@ class Node:
                 self.p = parent
                 self.l = left
                 self.r = right
-                self.cl = []
+                self.cl = {}
 
         def __str__(self):
+                if "color" in self.cl.keys() and self.cl["color"] is "RED":
+                        return '\033[38;5;203m' + self.v.__str__() + '\033[00m'
                 return self.v.__str__()
 
         def __repr__(self):
@@ -32,7 +34,7 @@ class BSTDataModel:
         def __init__(self):
                 self.root = None
                 self.cur = self.root
-                self.gcl = []
+                self.gcl = {}
 
         def __str__(self):
                 levels = []

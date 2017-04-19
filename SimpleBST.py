@@ -28,6 +28,7 @@ class SimpleBST(AbstractBST.AbstractBST):
                         
 
         def delete(self, value):
+                self.__api.reset()
                 return self.delete_help(value)
                 
         def delete_help(self, value):
@@ -42,6 +43,7 @@ class SimpleBST(AbstractBST.AbstractBST):
                 return self.delete_help(value)
 
         def search(self, value):
+                self.__api.reset()
                 return self.search_help(value)
                 
         def search_help(self, value):
@@ -55,14 +57,32 @@ class SimpleBST(AbstractBST.AbstractBST):
                         self.__api.move_right()
                 return self.search_help(value)
 
+        def rot(self, value):
+                self.__api.reset()
+                self.rot_help(value)
+        
+        def rot_help(self, value):
+                if self.__api.is_null():
+                        return False
+                elif value == self.__api.read_value():
+                        return self.__api.rotate_right()
+                elif value < self.__api.read_value():
+                        self.__api.move_left()
+                elif value > self.__api.read_value():
+                        self.__api.move_right()
+                return self.rot_help(value)
+        
+a = API({},{})
+x = SimpleBST(a)
+#
+for i in [5, 3, 7]:
+         print("insert: " + str(i))
+         x.insert(i)
+#
+print(x)
+print(x.rot(3))
+print(x)
 
-# x = SimpleBST()
-# 
-# for i in [5, 3, 7, 4, 8, 6, 2]:
-#         print("insert: " + str(i))
-#         x.insert(i)
-# 
-# print(x)
 # print("search  5: " + str(x.search(5)))
 # print("search  2: " + str(x.search(2)))
 # print("search  4: " + str(x.search(4)))

@@ -169,10 +169,31 @@ class API():
                         self.__bst.cur = self.__bst.cur.l
 
         def move_parent(self):
+                moved = ""
+                if self.__bst.cur is self.__bst.root:
+                        return moved
+                if self.__bst.cur.p is not None and self.__bst.cur.p.l == self.__bst.cur:
+                        moved = "l"
+                elif self.__bst.cur.p is not None:
+                        moved = "r"
                 self.__bst.cur = self.__bst.cur.p
+                return moved
+
+        def move_grand_parent(self):
+                return str(self.move_parent() + self.move_parent())[::-1]
+        
+        def move(self, moves):
+                for c in moves:
+                        if c is "l":
+                                self.move_left()
+                        elif c is "r":
+                                self.move_right()
+                        else:
+                                continue
 
         def reset(self):
                 self.__bst.cur = self.__bst.root
+
 
         @staticmethod
         def null(node):
@@ -185,27 +206,64 @@ class API():
                 # i.e. if the current node can be added (self.__bst.cur should never be None)
                 return self.__bst.cur is None or self.__bst.cur.v is None
 
+        def is_root(self):
+                return self.__bst.cur is self.__bst.root
+                
         def rotate_left(self):
-                if self.is_null(self):
+                if self.is_null():
                         return False
                 # Save each node and sub-trees
+                parent = self.__bst.cur.p
+                
                 p = self.__bst.cur
                 q = p.r
                 b = q.l
                 # Re-assign to preform a rotation
-                self.__bst.cur = q
+                if self.__bst.cur is self.__bst.root:
+                        self.__bst.root = q
+                        self.__bst.root.p = self.__bst.root
+                elif self.__bst.cur is self.__bst.cur.p.l:
+                        self.__bst.cur.p.l = q
+                else:
+                        self.__bst.cur.p.r = q
+
+                p.p = self.__bst.cur.p
+                
                 q.l = p
+                p.p = q
+
                 p.r = b
+                b.p = p
+
+                self.__bst.cur = q
+                
+
 
         def rotate_right(self):
-                if self.is_null(self):
+                if self.is_null():
                         return False
                 # Save each node and sub-trees
                 q = self.__bst.cur
                 p = q.l
                 b = p.r
+                
                 # Re-assign to preform a rotation
-                self.__bst.cur = p
-                p.r = q
-                q.l = b
+                if self.__bst.cur is self.__bst.root:
+                        self.__bst.root = p
+                        self.__bst.root.p = self.__bst.root
+                elif self.__bst.cur is self.__bst.cur.p.l:
+                        self.__bst.cur.p.l = p
+                else:
+                        self.__bst.cur.p.r = p
 
+                p.p = self.__bst.cur.p
+
+                p.r = q
+                q.p = p
+
+                q.l = b
+                b.p = q
+
+                self.__bst.cur = p
+
+        
