@@ -19,7 +19,7 @@ class Node:
 
         def __str__(self):
                 if "color" in self.cl.keys() and self.cl["color"] is "RED":
-                        return '\033[38;5;203m' + self.v.__str__() + '\033[00m'
+                        return colors.red + self.v.__str__() + colors.nc
                 return self.v.__str__()
 
         def __repr__(self):
