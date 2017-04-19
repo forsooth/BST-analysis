@@ -137,7 +137,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 return self.delete_help(value)
 
         def delete_cases(self):
-                
+                pass
 
         def search(self, value):
                 self.__api.reset()
@@ -154,16 +154,16 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         self.__api.move_right()
                 return self.search_help(value)
 
-l1 = []
-l2 = []
-a = API(l1, l2)
-x = RedBlackBST(a)
+#l1 = []
+#l2 = []
+#a = API(l1, l2)
+#x = RedBlackBST(a)
 # 
 #for i in [5, 3, 7, 4, 8, 6, 2]:
-for i in [1, 2, 3, 4, 5, 6, 7, 8]:
-        print("insert: " + str(i))
-        x.insert(i)
-        print(x)
+#for i in [1, 2, 3, 4, 5, 6, 7, 8]:
+#        print("insert: " + str(i))
+#        x.insert(i)
+#        print(x)
 # print("search  5: " + str(x.search(5)))
 # print("search  2: " + str(x.search(2)))
 # print("search  4: " + str(x.search(4)))
