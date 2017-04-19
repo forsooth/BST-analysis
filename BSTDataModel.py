@@ -85,6 +85,7 @@ class BSTDataModel:
                                 levels.append(level + 1)
 
                         indent = ""
+                        nodev = str(cur.v) + ' (' + str(cur.count) + ')'
                         for i in range(1, level):
                                 if i in levels:
                                         indent += '│  '
@@ -95,13 +96,13 @@ class BSTDataModel:
                         else:
                                 first_child = (level in levels)
                         if level == 0:
-                                output += str(cur.v) + '\n'
+                                output += nodev + '\n'
                         elif not first_child:
                                 output += indent + '└' + '─'
-                                output += ' ' + str(cur.v) + '\n'
+                                output += ' ' + nodev + '\n'
                         else:
                                 output += indent + '├' + '─'
-                                output += ' ' + str(cur.v) + '\n'
+                                output += ' ' + nodev + '\n'
 
                 return output
 

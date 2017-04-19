@@ -87,7 +87,6 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
-                        err.warn(tree)
                         err.log("step " + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
@@ -102,5 +101,6 @@ class Operations():
                                 tree.search(op.arg)
                         elif op.op == 'del':
                                 tree.delete(op.arg)
+                        err.warn(tree)
 
                 plot.plot(logn, logt, opsn, opst)

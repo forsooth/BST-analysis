@@ -61,6 +61,9 @@ class API():
         def std_remove(self):
                 if self.null(self.__bst.cur):
                         return False
+                elif self.__bst.cur.count > 1:
+                        self.__bst.cur.count -= 1
+                        return True
                 elif not self.null(self.__bst.cur.l) and not self.null(self.__bst.cur.r):
 
                         # Grab current node's right child
