@@ -72,16 +72,16 @@ class SimpleBST(AbstractBST.AbstractBST):
                         self.__api.move_right()
                 return self.rot_help(value)
         
-a = API({},{})
-x = SimpleBST(a)
+#a = API({},{})
+#x = SimpleBST(a)
 #
-for i in [5, 3, 7]:
-         print("insert: " + str(i))
-         x.insert(i)
+#for i in [5, 3, 7]:
+#         print("insert: " + str(i))
+#         x.insert(i)
 #
-print(x)
-print(x.rot(3))
-print(x)
+#print(x)
+#print(x.rot(3))
+#print(x)
 
 # print("search  5: " + str(x.search(5)))
 # print("search  2: " + str(x.search(2)))
