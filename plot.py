@@ -15,7 +15,9 @@ import matplotlib.ticker as ticker
 def plot(logn, logt, opsn, opst):
 
         plt.rcParams["font.family"] = "Input Mono"
-        loc = ticker.MultipleLocator(base=1.0)
+        yloc = ticker.MultipleLocator(base=1.0)
+        xloc = ticker.MultipleLocator(base=1.0)
+
         fontP = FontProperties()
         fontP.set_size('small')
 
@@ -41,6 +43,8 @@ def plot(logn, logt, opsn, opst):
         pad_xlim = [xmin - 0.05 * xrng, xmax + 0.05 * xrng]
         pad_ylim = [ymin - 0.05 * yrng, ymax + 0.05 * yrng]
         ylim = [0, ymax]
+        yloc.view_limits(ymin, ymax)
+        xloc.view_limits(xmin, xmax)
         
         #ax_main.set_title('Elements Accessed Over Time')
         ax_main.set_xlabel('Element in BST')
@@ -52,9 +56,10 @@ def plot(logn, logt, opsn, opst):
         ax_main.set_xlim(pad_xlim)
         ax_main.set_ylim(pad_ylim)
 
-        ax_main.yaxis.set_minor_locator(loc)
+        ax_main.yaxis.set_minor_locator(yloc)
         ax_main.yaxis.grid(True, which='minor', color=colors.h_light_gray)
-        ax_main.xaxis.set_minor_locator(loc)
+        
+        ax_main.xaxis.set_minor_locator(xloc)
         ax_main.xaxis.grid(True, which='minor', color=colors.h_light_gray)
 
         roots = []
@@ -64,7 +69,7 @@ def plot(logn, logt, opsn, opst):
                         root_ts.append(t)
                         roots.append(i)
 
-        log = ax_main.scatter(logn, logt, s=500 / max(xrng, yrng), 
+        log = ax_main.scatter(logn, logt, s=1000 / 2 / max(xrng, yrng), 
                               c=[colors.h_light_blue if i not in roots else colors.h_dark_blue for i, x in enumerate(logn)],
                               marker="x", 
                               label='Intermediate accesses')
@@ -92,7 +97,7 @@ def plot(logn, logt, opsn, opst):
         ax_count.spines['right'].set_visible(False)
         ax_count.set_axisbelow(True)
         ax_count.set_aspect('auto', adjustable="box-forced")
-        ax_count.yaxis.set_minor_locator(loc)
+        ax_count.yaxis.set_minor_locator(yloc)
         ax_count.yaxis.grid(True, which='minor', color=colors.h_light_gray)
         ax_count.set_xlim(xlim)
         ax_count.set_ylim(pad_ylim)
@@ -119,7 +124,7 @@ def plot(logn, logt, opsn, opst):
         ax_vcount.spines['top'].set_visible(False)
         ax_vcount.set_axisbelow(True)
         ax_vcount.set_aspect('auto', adjustable="box-forced")
-        ax_vcount.xaxis.set_minor_locator(loc)
+        ax_vcount.xaxis.set_minor_locator(xloc)
         ax_vcount.xaxis.grid(True, which='minor', color=colors.h_light_gray)
         ax_vcount.set_xlim(pad_xlim)
         ax_vcount.set_ylim(ylim)

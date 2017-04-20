@@ -19,7 +19,7 @@ LOWEST_DATA_VALUE=0
 
 # The highest value which will appear in the tree. Option will be ignored if
 # the data type is string.
-HIGHEST_DATA_VALUE=$numops
+HIGHEST_DATA_VALUE=25
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
