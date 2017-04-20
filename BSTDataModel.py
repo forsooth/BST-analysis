@@ -19,7 +19,7 @@ class Node:
 
         def __str__(self):
                 if "color" in self.cl.keys() and self.cl["color"] is "RED":
-                        return colors.red + self.v.__str__() + colors.nc
+                        return colors.t_red + self.v.__str__() + colors.t_nc
                 return self.v.__str__()
 
         def __repr__(self):
@@ -50,11 +50,11 @@ class BSTDataModel:
                                 nodes.append(cur.l)
                                 levels.append(level + 1)
 
-                        indent = colors.blue
+                        indent = colors.t_blue
                         if cur.v == None:
-                                nodev = colors.gray + str(cur) + ("!" if cur is self.cur else "") + colors.nc
+                                nodev = colors.t_gray + (colors.t_green + '║' + colors.t_nc if cur is self.cur else '') + str(cur) + (colors.t_green + '║' + colors.t_nc if cur is self.cur else '') + colors.t_nc
                         else:
-                                nodev = colors.yellow + str(cur)  + ("!" if cur is self.cur else "") + colors.gray + ' (' + str(cur.count) + ')' + colors.nc
+                                nodev = colors.t_yellow + (colors.t_green + '║' + colors.t_nc if cur is self.cur else '') + str(cur)  + (colors.t_green + '║' + colors.t_nc if cur is self.cur else '') + colors.t_gray + ' (' + str(cur.count) + ')' + colors.t_nc
 
                         for i in range(1, level):
                                 if i in levels:

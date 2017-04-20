@@ -24,11 +24,6 @@ parser.add_argument('-d', '--debug', action='store_true',
 
 args = parser.parse_args()
 
-err.log(str(args.operations))
-err.log(args.output)
-err.log(args.algorithm)
-err.log(str(args.debug))
-
 ops = Operations()
 
 for file in args.operations:
@@ -63,4 +58,4 @@ elif algarg in {'static', 'osbst', 'optimalstatic', 'opt', 'optbst', 'optimalsta
 else:
         err.err("Algorithm not recognized.")
 
-ops.exec_ops(algo)
+ops.exec_ops(algo, args.debug)

@@ -218,7 +218,6 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                                         
                                                         self.__api.move_parent()
                                                         self.__api.rotate_right()
-                                                        #self.__api.
                                                         
 
         def search(self, value):

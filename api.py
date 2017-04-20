@@ -3,10 +3,11 @@ import err
 
 
 class API():
-        def __init__(self, logn, logt):
+        def __init__(self, logn, logt, debug):
                 self.__bst = BSTDataModel.BSTDataModel()
                 root = BSTDataModel.Node(None, None)
                 root.p = root
+                self.debug = debug
                 self.__bst.root = root
                 self.__bst.cur = root
                 self.__bst.count = 0
@@ -220,14 +221,16 @@ class API():
                 self.__bst.cur.count = v
                 
         def move_right(self):
-                err.log(str(self.t()) + " Moving right on " + str(self.__bst.cur))
+                if self.debug:
+                        err.log(str(self.t()) + " Moving right on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
                         if self.log_on():
                                 self.log(self.__bst.cur.v, self.t())
                         self.__bst.cur = self.__bst.cur.r
 
         def move_left(self):
-                err.log(str(self.t()) + " Moving left on " + str(self.__bst.cur))
+                if self.debug:
+                        err.log(str(self.t()) + " Moving left on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
                         if self.log_on():
                                 self.log(self.__bst.cur.v, self.t())
@@ -284,7 +287,6 @@ class API():
                         b.p = p
 
                 self.__bst.cur = q
-                print(self.__bst.cur)
 
         def rotate_right(self):
                 if self.is_null():
@@ -312,4 +314,3 @@ class API():
                 b.p = q
 
                 self.__bst.cur = p
-                print(self.__bst.cur)
