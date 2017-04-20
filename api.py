@@ -17,8 +17,10 @@ class API():
                 self.__logt = logt
 
         def __str__(self):
-                self.__bst.viz_tree()
                 return self.__bst.__str__()
+
+        def viz(self):
+                self.__bst.viz_tree()
 
         def set_log_on(self):
                 self.__log = True

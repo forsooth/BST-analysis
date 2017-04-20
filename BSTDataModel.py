@@ -79,18 +79,18 @@ class BSTDataModel:
                 return output
 
         def viz_tree(self):
-                graph = pydot.Dot(graph_type='digraph', nodesep=.5, pad=.3, size="20, 10")
+                graph = pydot.Dot(graph_type='digraph', nodesep=.5, pad=.3, size="10, 10", dpi=300, fontpath='/home/M/.fonts/')
                 graph.set_node_defaults(style="filled", fillcolor="grey")
                 graph.set_edge_defaults(color="black", arrowhead="vee")
                 stack = [self.root]
                 nodes = dict()
                 while len(stack) > 0:
                         self.sketchTree(stack.pop(), stack, graph, nodes)
-                graph.write('test.dot')
-                graph.write_pdf('test.pdf')
+                graph.write('outputs/last_run.dot')
+                graph.write_pdf('outputs/last_run.pdf')
 
         def sketchTree(self, node, stack, graph, nodes, find=None, draw=None):
-                fillcolor = "white"
+                fillcolor = "black"
                 if node != None:
                         if "color" in node.cl.keys() and node.cl["color"] is "RED":
                                 fillcolor = colors.h_red
@@ -111,7 +111,7 @@ class BSTDataModel:
                         # draw any missing right branches as invisible nodes/edges with dummy unique labels 
                         self.draw(graph, nodes, repr(node), ";"+repr(node), fill_color=fillcolor, style_type="invisible")
         
-        def draw(self, graph, nodes, parent_name, child_name, fill_color, style_type='filled'):                  
+        def draw(self, graph, nodes, parent_name, child_name, fill_color, style_type='filled', font_color='white'):                  
                     if style_type == "invisible":
                             # save original edge defaults
                             weight_ = "100"
@@ -125,11 +125,11 @@ class BSTDataModel:
                             graph.set_edge_defaults(**saveEdgeDefaults)
 
                     if not nodes:
-                            nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type)
+                            nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
                             graph.add_node(nodes[parent_name]) 
                     if (parent_name not in nodes):    
-                            nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type)
+                            nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
                             graph.add_node(nodes[parent_name])
                     if child_name not in nodes:
-                            nodes[child_name] = pydot.Node(child_name, label=child_name, fillcolor=fill_color, style=style_type)
+                            nodes[child_name] = pydot.Node(child_name, label=child_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
                             graph.add_node(nodes[child_name])  

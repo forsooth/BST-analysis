@@ -19,11 +19,11 @@ LOWEST_DATA_VALUE=0
 
 # The highest value which will appear in the tree. Option will be ignored if
 # the data type is string.
-HIGHEST_DATA_VALUE=25
+HIGHEST_DATA_VALUE=$numops
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-INSERT_OPERATION_DISTRIBUTION='balanced'
+INSERT_OPERATION_DISTRIBUTION='random'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
@@ -54,7 +54,7 @@ RUN_OPERATIONS='True'
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
 # BST_ALGORITHM='rb'
-BST_ALGORITHM='rb'
+BST_ALGORITHM='simple'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'
