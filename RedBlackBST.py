@@ -19,8 +19,12 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 while not self.__api.is_null():
                         if value < self.__api.read_value():
                                 self.__api.move_left()
-                        else:
+                        elif value > self.__api.read_value():
                                 self.__api.move_right()
+                        else:
+                                self.__api.inc_count()
+                                return
+
                 self.__api.add(value)
                 self.__api.write_closure("color", "RED")
                 # Color the children "dummy nodes" black
