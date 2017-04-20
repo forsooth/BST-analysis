@@ -17,6 +17,7 @@ class API():
                 self.__logt = logt
 
         def __str__(self):
+                self.__bst.viz_tree()
                 return self.__bst.__str__()
 
         def set_log_on(self):
@@ -99,6 +100,10 @@ class API():
                 rc = BSTDataModel.Node(None, self.__bst.cur)
                 self.__bst.cur.l = lc
                 self.__bst.cur.r = rc
+
+                if self.log_on():
+                        self.log(self.__bst.cur.v, self.t())
+
                 return True
 
         # Performs a standard BST removal, replacing the current node with

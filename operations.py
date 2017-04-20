@@ -105,4 +105,6 @@ class Operations():
                         if debug:
                                 err.warn(tree)
 
+                print(tree)
+
                 plot.plot(logn, logt, opsn, opst)
