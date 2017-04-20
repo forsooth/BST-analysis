@@ -64,12 +64,12 @@ class Operations():
                 if f is not sys.stdin:
                         f.close()
 
-        def exec_ops(self, algo):
+        def exec_ops(self, algo, debug):
                 logt = []
                 logn = []
                 opst = []
                 opsn = []
-                api = API(logn, logt)
+                api = API(logn, logt, debug)
                 if algo == 'simple':
                         tree = SimpleBST(api)
                 elif algo == 'rb':
@@ -87,7 +87,8 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
-                        err.log("step " + str(time) + ": " + str(op))
+                        if debug:
+                                err.log("step " + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
                                 opst.append(time)
@@ -101,6 +102,7 @@ class Operations():
                                 tree.search(op.arg)
                         elif op.op == 'del':
                                 tree.delete(op.arg)
-                        err.warn(tree)
+                        if debug:
+                                err.warn(tree)
 
                 plot.plot(logn, logt, opsn, opst)
