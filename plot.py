@@ -75,11 +75,14 @@ def plot(logn, logt, opsn, opst):
                          label='Operation arguments')
 
         t_counts = {}
-        for t in range(min(logt), max(logt) + 1):
+        pairs = set()
+        for t in range(0, max(logt) + 1):
                 t_counts[t] = 0
 
         for i, t in enumerate(logt):
-                t_counts[t] += 1
+                if (t, logn[i]) not in pairs:
+                        pairs.add((t, logn[i]))
+                        t_counts[t] += 1
 
         xlim = [0, max(t_counts.values()) + 1]
 
