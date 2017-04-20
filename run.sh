@@ -23,7 +23,7 @@ HIGHEST_DATA_VALUE=$numops
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-INSERT_OPERATION_DISTRIBUTION='balanced'
+INSERT_OPERATION_DISTRIBUTION='increasing'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'

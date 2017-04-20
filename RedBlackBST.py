@@ -223,14 +223,23 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         while self.__api.read_closure("color") is "DBLACK" and not self.__api.is_root():
                                 # (a) is the sibling is black
                                 if sibling_color()[0] is "BLACK":
+                                        sib = sibling_color()
                                         # Left Left Case
                                         # Left Right Case
                                         # Right Right Case
                                         # Right Left Case
-                                        if "RED" is sibling_color()[1]:
-                                                self.__api.write_closure("color", "BLACK")
-                                                self.__api.move_parent()
-                                                self.__api.rotate_right()
+                                        case1 = self.__api.move_parent()
+                                        if case1 = "r": # implies s is left child
+                                                self.__api.move_left()
+                                                if sib[2] is "Red":
+                                                        self.__api.rotate_right()
+                                                elif sib[1] is "Red":
+                                                        self.__api.rotate_left()
+                                                
+                                                # Left Right Case
+                                        else:
+                                                # Right Right Case
+                                                # Right Left Case
                                 # (b) sibling and both children are black
                                 elif True:
                                         pass
