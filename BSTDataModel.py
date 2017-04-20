@@ -1,4 +1,6 @@
 import colors
+import pydot
+import graphviz
 
 #Node — typical node of a BST
 # The node is a recursive data type for a BST, where the parameters left,
@@ -76,3 +78,58 @@ class BSTDataModel:
 
                 return output
 
+        def viz_tree(self):
+                graph = pydot.Dot(graph_type='digraph', nodesep=.5, pad=.3, size="20, 10")
+                graph.set_node_defaults(style="filled", fillcolor="grey")
+                graph.set_edge_defaults(color="black", arrowhead="vee")
+                stack = [self.root]
+                nodes = dict()
+                while len(stack) > 0:
+                        self.sketchTree(stack.pop(), stack, graph, nodes)
+                graph.write('test.dot')
+                graph.write_pdf('test.pdf')
+
+        def sketchTree(self, node, stack, graph, nodes, find=None, draw=None):
+                fillcolor = "white"
+                if node != None:
+                        if "color" in node.cl.keys() and node.cl["color"] is "RED":
+                                fillcolor = colors.h_red
+
+                if node.l != None and node.l.v != None:
+                        self.draw(graph, nodes, repr(node), repr(node.l), fill_color=fillcolor)
+                        stack.append(node.l)
+                        if node.r != None and node.r.v != None:
+                                # insert invisible third node in-between left and right nodes
+                                self.draw(graph, nodes, repr(node), ":"+repr(node), fill_color=fillcolor, style_type="invisible")
+                elif node.r != None and node.r.v != None:
+                        # draw any missing left branches as invisible nodes/edges with dummy unique labels 
+                        self.draw(graph, nodes, repr(node), ":"+repr(node), fill_color=fillcolor, style_type="invisible")
+                if node.r != None and node.r.v != None:
+                        self.draw(graph, nodes, repr(node), repr(node.r), fill_color=fillcolor)
+                        stack.append(node.r)
+                elif node.l != None and node.l.v != None:
+                        # draw any missing right branches as invisible nodes/edges with dummy unique labels 
+                        self.draw(graph, nodes, repr(node), ";"+repr(node), fill_color=fillcolor, style_type="invisible")
+        
+        def draw(self, graph, nodes, parent_name, child_name, fill_color, style_type='filled'):                  
+                    if style_type == "invisible":
+                            # save original edge defaults
+                            weight_ = "100"
+                            saveEdgeDefaults = graph.get_edge_defaults()[0]
+                            graph.set_edge_defaults(style=style_type, color="white", arrowhead="none") 
+                    else:
+                            weight_ = "3"
+                    edge = pydot.Edge(parent_name, child_name, style=style_type, weight=weight_)
+                    graph.add_edge(edge)  
+                    if style_type == "invisible":
+                            graph.set_edge_defaults(**saveEdgeDefaults)
+
+                    if not nodes:
+                            nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type)
+                            graph.add_node(nodes[parent_name]) 
+                    if (parent_name not in nodes):    
+                            nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type)
+                            graph.add_node(nodes[parent_name])
+                    if child_name not in nodes:
+                            nodes[child_name] = pydot.Node(child_name, label=child_name, fillcolor=fill_color, style=style_type)
+                            graph.add_node(nodes[child_name])  
