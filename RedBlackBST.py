@@ -222,9 +222,10 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         # Case 2 -- one child; only of child or self is red
                         print("Case 2 -- Delete: " + str(delete))
                         print(self)
-                        if delete: self.__api.std_remove()
-                        print(self)
-                        self.__api.write_closure("color", "BLACK")
+                        if delete:
+                                self.__api.std_remove()
+                                print(self)
+                                self.__api.write_closure("color", "BLACK")
                 else:
                         # Case 3.3
                         if self.__api.is_root() and self.__api.read_closure("color") is "DBLACK":
