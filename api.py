@@ -3,11 +3,12 @@ import err
 
 
 class API():
-        def __init__(self, logn, logt, debug):
+        def __init__(self, logn, logt, graphs, debug):
                 self.__bst = BSTDataModel.BSTDataModel()
                 root = BSTDataModel.Node(None, None)
                 root.p = root
                 self.debug = debug
+                self.graphs = graphs
                 self.__bst.root = root
                 self.__bst.cur = root
                 self.__bst.count = 0
@@ -20,7 +21,7 @@ class API():
                 return self.__bst.__str__()
 
         def viz(self):
-                self.__bst.viz_tree()
+                self.graphs.append(self.__bst.viz_tree())
 
         def set_log_on(self):
                 self.__log = True

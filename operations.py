@@ -69,7 +69,10 @@ class Operations():
                 logn = []
                 opst = []
                 opsn = []
-                api = API(logn, logt, debug)
+
+                graphs = []
+
+                api = API(logn, logt, graphs, debug)
                 if algo == 'simple':
                         tree = SimpleBST(api)
                 elif algo == 'rb':
@@ -104,7 +107,6 @@ class Operations():
                                 tree.delete(op.arg)
                         if debug:
                                 err.warn(tree)
+                        api.viz()
 
-                #api.viz()
-
-                plot.plot(logn, logt, opsn, opst, pages)
+                plot.plot(logn, logt, opsn, opst, pages, graphs)

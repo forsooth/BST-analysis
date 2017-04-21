@@ -12,9 +12,13 @@ from matplotlib.font_manager import FontProperties
 import err
 import colors
 import matplotlib.ticker as ticker
+from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
+                                  AnnotationBbox)
+from matplotlib.cbook import get_sample_data
 
 
-def plot(logn, logt, opsn, opst, pages):
+
+def plot(logn, logt, opsn, opst, pages, graphs):
         with pdfbackend('outputs/' + str(datetime.now()) + '.pdf') as pdf:
 
                 plt.rcParams["font.family"] = "Input Mono"
@@ -28,8 +32,6 @@ def plot(logn, logt, opsn, opst, pages):
                 roots = {}
 
                 if pages:
-
-        
                         partial_logn = []
                         partial_logt = []
                         partial_opst = []
@@ -54,7 +56,7 @@ def plot(logn, logt, opsn, opst, pages):
                                 add_plot(pdf, partial_logn, partial_logt,
                                          partial_opsn, partial_opst,
                                          xmax, xmin, ymax, ymin, xrng,
-                                         yrng, roots)
+                                         yrng, roots, graphs, i)
                 else:
                         roots = {}
                         for i, t in enumerate(logt):
@@ -64,14 +66,15 @@ def plot(logn, logt, opsn, opst, pages):
                         add_plot(pdf, logn, logt,
                                  opsn, opst,
                                  xmax, xmin, ymax, ymin, xrng,
-                                 yrng, roots)
+                                 yrng, roots, graphs, len(graphs) - 1)
 
 
 def add_plot(pdf, 
              logn, logt, opsn, opst,
              xmax, xmin, ymax, ymin,
              xrng, yrng,
-             roots):
+             roots,
+             graphs, graph_i):
 
                 yloc = ticker.MultipleLocator(base=1.0)
                 xloc = ticker.MultipleLocator(base=1.0)
@@ -190,11 +193,18 @@ def add_plot(pdf,
                 ax_none.spines['bottom'].set_visible(False)
                 ax_none.spines['right'].set_visible(False)
                 ax_none.spines['left'].set_visible(False)
-                ax_none.set_visible(False)
+                ax_none.set_xticklabels([])
+                ax_none.set_yticklabels([])
+                ax_none.axis('off')
+                # ax_none.set_visible(False)
+                
+                graph = graphs[graph_i]
+                graph.write_png('/home/M/Documents/School/JS17/COMP150-08/outputs/tmp_tree.png')
 
-                #plt.legend(handles=[ops, log], prop = fontP, loc='upper center', 
-                #           bbox_to_anchor=(0.5, -0.12),
-                #           fancybox=True, shadow=False, ncol=2)
+                tree_img = get_sample_data("/home/M/Documents/School/JS17/COMP150-08/outputs/tmp_tree.png", asfileobj=False)
+                arr_img = plt.imread(tree_img, format='png')
+
+                plt.imshow(arr_img)
 
                 pdf.savefig(bbox_inches='tight', dpi=300, pad_inches=0.5)
 
