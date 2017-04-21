@@ -53,7 +53,7 @@ RUN_OPERATIONS='True'
 
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
-BST_ALGORITHM='rb'
+BST_ALGORITHM='splay'
 # BST_ALGORITHM='simple'
 
 # Whether to display the output graph.
