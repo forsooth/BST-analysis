@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+inputs/last_run.ops
 # C extensions
 *.so
 

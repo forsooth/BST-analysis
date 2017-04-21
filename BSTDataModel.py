@@ -2,7 +2,7 @@ import colors
 import pydot
 import graphviz
 
-#Node — typical node of a BST
+# Node — typical node of a BST
 # The node is a recursive data type for a BST, where the parameters left,
 # right, and parent are all of type Node. A node has the following data
 # members:
