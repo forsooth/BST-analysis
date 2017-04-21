@@ -53,8 +53,9 @@ RUN_OPERATIONS='True'
 
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
-BST_ALGORITHM='splay'
+# BST_ALGORITHM='splay'
 # BST_ALGORITHM='simple'
+BST_ALGORITHM='rb'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'
@@ -67,7 +68,7 @@ DEBUG='False'
 # Whether to create a multi-page PDF aninmating the results, or just a
 # one page pdf of the final output.
 # Allowed values: 'True', 'False'
-ANIMATE='True'
+ANIMATE='False'
 
 cmd="python3 $d/input_gen.py -n $NUM_OPERATIONS -t $OPERATION_TYPE -l $LOWEST_DATA_VALUE -u $HIGHEST_DATA_VALUE -id $INSERT_OPERATION_DISTRIBUTION -sd $SEARCH_OPERATION_DISTRIBUTION -dd $DELETE_OPERATION_DISTRIBUTION -p $OPERATION_PATTERN"
 
