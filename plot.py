@@ -15,13 +15,14 @@ import matplotlib.ticker as ticker
 from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
                                   AnnotationBbox)
 from matplotlib.cbook import get_sample_data
+import os
 
-
-
-def plot(logn, logt, opsn, opst, pages, graphs):
+def plot(logn, logt, opsn, opst, pages, graphs, debug):
         with pdfbackend('outputs/' + str(datetime.now()) + '.pdf') as pdf:
 
                 plt.rcParams["font.family"] = "Input Mono"
+
+                cwd = os.getcwd()
 
                 xmax = max(logn)
                 xmin = min(logn)
@@ -40,6 +41,9 @@ def plot(logn, logt, opsn, opst, pages, graphs):
                         logt_i = 0
         
                         for i in range(0, len(opst)):
+                                if debug == 1:
+                                        if debug == 2:
+                                                err.log("Generating data plot number " + str(i))
                                 partial_opst.append(opst[i])
                                 partial_opsn.append(opsn[i])
                                 op_t = opst[i]
@@ -52,29 +56,33 @@ def plot(logn, logt, opsn, opst, pages, graphs):
                                 for j in range(last_logt_i, logt_i + 1):
                                         partial_logt.append(logt[j])
                                         partial_logn.append(logn[j])
+
+                                if debug == 2:
+                                        err.log("Starting plot generation")
         
-                                add_plot(pdf, partial_logn, partial_logt,
+                                add_plot(pdf, cwd, partial_logn, partial_logt,
                                          partial_opsn, partial_opst,
                                          xmax, xmin, ymax, ymin, xrng,
-                                         yrng, roots, graphs, i)
+                                         yrng, roots, graphs, i, debug)
                 else:
                         roots = {}
                         for i, t in enumerate(logt):
                                 if t not in roots.keys():
                                         roots[t] = logn[i]
 
-                        add_plot(pdf, logn, logt,
+                        add_plot(pdf, cwd, logn, logt,
                                  opsn, opst,
                                  xmax, xmin, ymax, ymin, xrng,
-                                 yrng, roots, graphs, len(graphs) - 1)
+                                 yrng, roots, graphs, len(graphs) - 1, debug)
 
 
-def add_plot(pdf, 
+def add_plot(pdf, cwd, 
              logn, logt, opsn, opst,
              xmax, xmin, ymax, ymin,
              xrng, yrng,
              roots,
-             graphs, graph_i):
+             graphs, graph_i,
+             debug):
 
                 yloc = ticker.MultipleLocator(base=1.0)
                 xloc = ticker.MultipleLocator(base=1.0)
@@ -101,6 +109,9 @@ def add_plot(pdf,
                 ylim = [0, ymax]
                 yloc.view_limits(ymin, ymax)
                 xloc.view_limits(xmin, xmax)
+
+                if debug == 2:
+                        err.log("Created axes")
                 
                 ax_main.set_xlabel('Element in BST')
                 ax_main.set_ylabel('Time')
@@ -117,15 +128,24 @@ def add_plot(pdf,
                 ax_main.xaxis.set_minor_locator(xloc)
                 ax_main.xaxis.grid(True, which='minor', color=colors.h_light_gray)
 
+                if debug == 2:
+                        err.log("Set up main plot")
+
                 log = ax_main.scatter(logn, logt, s=1000 / 2 / max(xrng, yrng), 
                                       c=[colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))],
                                       marker="x", 
                                       label='Intermediate accesses')
 
+                if debug == 2:
+                        err.log("Plotted Xs")
+
                 ops = ax_main.scatter(opsn, opst, s=1000 / max(xrng, yrng), 
                                  c=colors.h_red, 
                                  marker="o", 
                                  label='Operation arguments')
+
+                if debug == 2:
+                        err.log("Plotted Os")
 
                 t_counts = {}
                 pairs = set()
@@ -136,6 +156,9 @@ def add_plot(pdf,
                         if (t, logn[i]) not in pairs:
                                 pairs.add((t, logn[i]))
                                 t_counts[t] += 1
+
+                if debug == 2:
+                        err.log("Generated y-axis histogram data")
 
                 xlim = [0, xmax]
 
@@ -151,11 +174,17 @@ def add_plot(pdf,
                 ax_count.tick_params(axis='y', which='both', left='off')
                 ax_count.set_yticklabels([])
 
+                if debug == 2:
+                        err.log("Set up y-axis histogram axis")
+
                 ax_count.barh(list(t_counts.keys()), 
                               t_counts.values(), 
                               min(yrng, 128) / 128,
                               align='center',
                               color=colors.h_dark_blue)
+
+                if debug == 2:
+                        err.log("Created y-axis histogram bar chart")
 
                 n_counts = {}
                 pairs = set()
@@ -166,6 +195,9 @@ def add_plot(pdf,
                         if (n, logt[i]) not in pairs:
                                 pairs.add((n, logt[i]))
                                 n_counts[n] += 1
+
+                if debug == 2:
+                        err.log("Generated x-axis histogram data")
 
                 ax_vcount.set_ylabel('# Accesses of This Element')
                 #ax_vcount.spines['bottom'].set_visible(False)
@@ -181,13 +213,18 @@ def add_plot(pdf,
                 ax_vcount.yaxis.tick_left()
                 ax_vcount.tick_params(axis='x', which='both', bottom='off')
                 ax_vcount.set_xticklabels([])
-                #ax_vcount.xaxis.set_visible(False)
+
+                if debug == 2:
+                        err.log("Set up x-axis histogram axis")
 
                 ax_vcount.bar(list(n_counts.keys()), 
                               n_counts.values(), 
                               min(xrng, 128) / 128,
                               align='center',
                               color=colors.h_dark_blue)
+
+                if debug == 2:
+                        err.log("Generated y-axis histogram data")
 
                 ax_none.spines['top'].set_visible(False)
                 ax_none.spines['bottom'].set_visible(False)
@@ -196,15 +233,22 @@ def add_plot(pdf,
                 ax_none.set_xticklabels([])
                 ax_none.set_yticklabels([])
                 ax_none.axis('off')
-                # ax_none.set_visible(False)
-                
-                graph = graphs[graph_i]
-                graph.write_png('/home/M/Documents/School/JS17/COMP150-08/outputs/tmp_tree.png')
 
-                tree_img = get_sample_data("/home/M/Documents/School/JS17/COMP150-08/outputs/tmp_tree.png", asfileobj=False)
-                arr_img = plt.imread(tree_img, format='png')
+                if debug == 2:
+                        err.log("Set up tree image axis")
 
-                plt.imshow(arr_img)
+                if len(graphs) != 0:
+                        graph = graphs[graph_i]
+                        graph.write_png(cwd + "/outputs/tmp_tree.png")
+        
+                        tree_img = get_sample_data(cwd + "/outputs/tmp_tree.png")
+                        img_obj = plt.imread(tree_img, format='png')
+                        plt.imshow(img_obj)
+        
+                        if debug == 2:
+                                err.log("Added tree image")
 
-                pdf.savefig(bbox_inches='tight', dpi=300, pad_inches=0.5)
+                if debug == 1:
+                        err.log("Saving new PDF page...")
+                pdf.savefig(bbox_inches='tight', dpi=600, pad_inches=0.5)
 

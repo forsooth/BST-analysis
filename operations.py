@@ -65,7 +65,7 @@ class Operations():
                 if f is not sys.stdin:
                         f.close()
 
-        def exec_ops(self, algo, pages, debug):
+        def exec_ops(self, algo, pages, gen_graphs, debug):
                 logt = []
                 logn = []
                 opst = []
@@ -73,7 +73,7 @@ class Operations():
 
                 graphs = []
 
-                api = API(logn, logt, graphs, debug)
+                api = API(logn, logt, gen_graphs, graphs, debug)
                 if algo == 'simple':
                         tree = SimpleBST(api)
                 elif algo == 'rb':
@@ -91,8 +91,8 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
-                        if debug:
-                                err.log("step " + str(time) + ": " + str(op))
+                        if debug == 2:
+                                err.log("operation #" + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
                                 opst.append(time)
@@ -103,11 +103,30 @@ class Operations():
                                 api.set_log_off()
                                 time += 1
                         elif op.op == 'sea':
+                                opst.append(time)
+                                opsn.append(op.arg)
+                                api.set_time(time)
+                                api.set_log_on()
                                 tree.search(op.arg)
+                                api.set_log_off()
+                                time += 1
                         elif op.op == 'del':
+                                opst.append(time)
+                                opsn.append(op.arg)
+                                api.set_time(time)
+                                api.set_log_on()
                                 tree.delete(op.arg)
-                        if debug:
+                                api.set_log_off()
+                                time += 1
+                        if debug == 2:
                                 err.warn(tree)
-                        api.viz()
+                        if gen_graphs and pages:
+                                api.viz()
 
-                plot.plot(logn, logt, opsn, opst, pages, graphs)
+                if gen_graphs and not pages:
+                        api.viz()
+                        
+                if debug == 1 and len(self.ops) < 50:
+                        err.warn(tree)
+
+                plot.plot(logn, logt, opsn, opst, pages, graphs, debug)

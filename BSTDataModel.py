@@ -1,4 +1,5 @@
 import colors
+import err
 from pydotplus import graphviz as pydot
 
 # Node — typical node of a BST
@@ -32,10 +33,12 @@ class Node:
 #                        for tree traversal
 #         root         - root of the tree
 class BSTDataModel:
-        def __init__(self):
+        def __init__(self, debug):
                 self.root = None
                 self.cur = self.root
                 self.gcl = {}
+                self.debug = debug
+                self.graph_num = 0
 
         def __str__(self):
                 output = ""
@@ -78,7 +81,10 @@ class BSTDataModel:
                 return output
 
         def viz_tree(self):
-                graph = pydot.Dot(graph_type='digraph', nodesep=.5, pad=.3, size="10, 10", dpi=720, fontpath='/home/M/.fonts/')
+                self.graph_num += 1
+                if self.debug == 1:
+                        err.log("Generating DOT for tree diagram number " + str(self.graph_num))
+                graph = pydot.Dot(graph_type='digraph', nodesep=.5, pad=.3, size="10, 10", dpi=600, fontpath='/home/M/.fonts/')
                 graph.set_node_defaults(style="filled", fillcolor="grey")
                 graph.set_edge_defaults(color="black", arrowhead="vee")
                 stack = [self.root]

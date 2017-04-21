@@ -149,6 +149,14 @@ ins_spider_i1 = num_ins // 5
 ins_spider_i2 = 4 * num_ins // 5
 ins_spider_count = 0
 
+sea_spider_i1 = num_sea // 5
+sea_spider_i2 = 4 * num_sea // 5
+sea_spider_count = 0
+
+del_spider_i1 = num_del // 5
+del_spider_i2 = 4 * num_del // 5
+del_spider_count = 0
+
 for i, (op_type, op) in enumerate(ops):
         if op_type == 'r':
                 cur_ops.append(op)
@@ -191,7 +199,6 @@ for i, (op_type, op) in enumerate(ops):
                                                 ins_num = 1
                                         else:
                                                 ins_num += 2
-
                                 elif idist == 'spider':
                                         if ins_spider_count < ins_spider_i1:
                                                 a = random.randint(lower, lower + ins_spider_i1 * upper // num_ins)
@@ -212,6 +219,8 @@ for i, (op_type, op) in enumerate(ops):
                         elif op == 'sea':
                                 if sdist == 'random':
                                         a = random.randint(lower, upper)
+                                elif sdist == 'gaussian':
+                                        a = int(random.gauss((lower + upper) // 2, (lower + upper) // 6))
                                 elif sdist == 'increasing' or sdist == 'decreasing':
                                         a = sea_cur
                                         sea_i += sea_slope
@@ -236,9 +245,27 @@ for i, (op_type, op) in enumerate(ops):
                                                 sea_num = 1
                                         else:
                                                 sea_num += 2
+                                elif sdist == 'spider':
+                                        if sea_spider_count < sea_spider_i1:
+                                                a = random.randint(lower, lower + sea_spider_i1 * upper // num_sea)
+                                        elif sea_spider_count == sea_spider_i1:
+                                                sea_cur = lower + sea_spider_i1 * upper // num_sea
+                                                a = sea_cur
+                                        elif sea_spider_count > sea_spider_i1 and sea_spider_count < sea_spider_i2:
+                                                a = sea_cur
+                                                sea_i += sea_slope
+                                                while sea_i >= 1:
+                                                        sea_cur += sea_inc
+                                                        sea_i -= 1
+                                        elif sea_spider_count >= sea_spider_i2:
+                                                a = random.randint(sea_spider_i2 * upper // num_sea, upper)
+                                        sea_spider_count += 1
+
                         elif op == 'del':
                                 if ddist == 'random':
                                         a = random.randint(lower, upper)
+                                elif ddist == 'gaussian':
+                                        a = int(random.gauss((lower + upper) // 2, (lower + upper) // 6))
                                 elif ddist == 'increasing' or ddist == 'decreasing':
                                         a = del_cur
                                         jitter = random.randint(-3, 3)
@@ -264,6 +291,21 @@ for i, (op_type, op) in enumerate(ops):
                                                 del_num = 1
                                         else:
                                                 del_num += 2
+                                elif ddist == 'spider':
+                                        if del_spider_count < del_spider_i1:
+                                                a = random.randint(lower, lower + del_spider_i1 * upper // num_del)
+                                        elif del_spider_count == del_spider_i1:
+                                                del_cur = lower + del_spider_i1 * upper // num_del
+                                                a = del_cur
+                                        elif del_spider_count > del_spider_i1 and del_spider_count < del_spider_i2:
+                                                a = del_cur
+                                                del_i += del_slope
+                                                while del_i >= 1:
+                                                        del_cur += del_inc
+                                                        del_i -= 1
+                                        elif del_spider_count >= del_spider_i2:
+                                                a = random.randint(del_spider_i2 * upper // num_del, upper)
+                                        del_spider_count += 1
 
 
                                 

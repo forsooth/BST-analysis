@@ -22,8 +22,15 @@ parser.add_argument('-a', '--algorithm', type=str, default='simple',
 parser.add_argument('-d', '--debug', action='store_true',
                     help="Enables debug mode.")
 
+parser.add_argument('-l', '--debug_level', type=int, default='0',
+                    help="Enables a certain level of debugging.")
+
 parser.add_argument('-p', '--pages', action='store_true',
                     help="Enable full multi-page animated PDF.")
+
+parser.add_argument('-g', '--graphs', action='store_true',
+                    help="Enable addition of tree image to data output.")
+
 
 args = parser.parse_args()
 
@@ -61,4 +68,14 @@ elif algarg in {'static', 'osbst', 'optimalstatic', 'opt', 'optbst', 'optimalsta
 else:
         err.err("Algorithm not recognized.")
 
-ops.exec_ops(algo, args.pages, args.debug)
+debug = args.debug_level
+
+if args.debug and debug == 0:
+        debug = 1
+
+if debug == 1:
+        err.warn("Debug mode is set to: SIMPLE")
+elif debug == 2:
+        err.warn("Debug mode is set to: VERBOSE")
+
+ops.exec_ops(algo, args.pages, args.graphs, debug)
