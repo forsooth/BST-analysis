@@ -207,12 +207,16 @@ class API():
                 self.__bst.gcl[key] = val # writes the closure
 
         def read_value(self):
+                if self.log_on():
+                        self.log(self.__bst.cur.v, self.t())
                 return self.__bst.cur.v
 
         def write_value(self, value):
                 if value is None:
                         return False
                 self.__bst.cur.v = value
+                if self.log_on():
+                        self.log(self.__bst.cur.v, self.t())
                 return True
 
         def inc_count(self):

@@ -23,7 +23,7 @@ HIGHEST_DATA_VALUE=$numops
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-INSERT_OPERATION_DISTRIBUTION='random'
+INSERT_OPERATION_DISTRIBUTION='increasing'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
@@ -54,7 +54,7 @@ RUN_OPERATIONS='True'
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
 # BST_ALGORITHM='rb'
-BST_ALGORITHM='simple'
+BST_ALGORITHM='rb'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'
