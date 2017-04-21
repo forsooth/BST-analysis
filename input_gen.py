@@ -198,7 +198,7 @@ for i, (op_type, op) in enumerate(ops):
                                                         ins_cur += ins_inc
                                                         ins_i -= 1
                                         elif j >= spider_i2:
-                                                a = random.randint(lower + spider_i2 * upper // n, upper)
+                                                a = random.randint(spider_i2 * upper // n, upper)
 
 
                         elif op == 'sea':

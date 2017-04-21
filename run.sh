@@ -41,7 +41,7 @@ DELETE_OPERATION_DISTRIBUTION='random'
 # should be treated as one field, such that 'isi' generates
 # 3 * NUM_OPERATIONS operations with a ratio of two inserts to one search
 # but with no guarantees on the exact number of either.
-OPERATION_PATTERN='Id'
+OPERATION_PATTERN='Idsids'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'
@@ -64,6 +64,11 @@ DISPLAY_OUTPUT_GRAPH='True'
 # DEBUG='True'
 DEBUG='False'
 
+# Whether to create a multi-page PDF aninmating the results, or just a
+# one page pdf of the final output.
+# Allowed values: 'True', 'False'
+ANIMATE='True'
+
 cmd="python3 $d/input_gen.py -n $NUM_OPERATIONS -t $OPERATION_TYPE -l $LOWEST_DATA_VALUE -u $HIGHEST_DATA_VALUE -id $INSERT_OPERATION_DISTRIBUTION -sd $SEARCH_OPERATION_DISTRIBUTION -dd $DELETE_OPERATION_DISTRIBUTION -p $OPERATION_PATTERN"
 
 write_cmd=" -w"
@@ -71,6 +76,8 @@ write_cmd=" -w"
 run_cmd=" | python3 $d/main.py - -a $BST_ALGORITHM"
 
 debug_cmd=" -d"
+
+animate_cmd=" -p"
 
 display_cmd=" && $d/display.sh"
 
@@ -84,6 +91,10 @@ fi
 
 if [[ "$DEBUG" == "True" ]]; then
         cmd="$cmd$debug_cmd"
+fi
+
+if [[ "$ANIMATE" == "True" ]]; then
+	cmd="$cmd$animate_cmd"
 fi
 
 if [[ "$DISPLAY_OUTPUT_GRAPH" == "True" ]]; then
