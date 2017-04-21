@@ -67,7 +67,7 @@ idist = args.ins_distribution
 sdist = args.sea_distribution
 ddist = args.del_distribution
 
-dists = ['random', 'increasing', 'decreasing', 'balanced']
+dists = ['random', 'increasing', 'decreasing', 'balanced', 'nearly_increasing', 'nearly_decreasing', 'spider_left', 'spider_right', 'gaussian']
 if idist not in dists:
         err.err("Insert distribution type must be one of " + str(dists) + ".")
 if sdist not in dists:
@@ -113,11 +113,11 @@ except ZeroDivisionError:
 ins_cur = lower
 sea_cur = lower
 del_cur = lower
-if idist == 'decreasing':
+if idist == 'decreasing' or idist == 'nearly_decreasing':
         ins_cur = upper
-if sdist == 'decreasing':
+if sdist == 'decreasing' or sdist == 'nearly_decreasing':
         sea_cur = upper
-if ddist == 'decreasing':
+if ddist == 'decreasing' or ddist == 'nearly_decreasing':
         del_cur = upper
 
 ins_i = 0.0
@@ -127,15 +127,19 @@ del_i = 0.0
 ins_inc = 1
 sea_inc = 1
 del_inc = 1
-if idist == 'decreasing':
+if idist == 'decreasing' or idist == 'nearly_decreasing':
         ins_inc = -1
-if sdist == 'decreasing':
+if sdist == 'decreasing' or sdist == 'nearly_decreasing':
         sea_inc = -1
-if ddist == 'decreasing':
+if ddist == 'decreasing' or ddist == 'nearly_decreasing':
         del_inc = -1
 
-num = 1
-denom = 2
+ins_num = 1
+ins_denom = 2
+sea_num = 1
+sea_denom = 2
+del_num = 1
+del_denom = 2
 
 for i, (op_type, op) in enumerate(ops):
         if op_type == 'r':
@@ -159,13 +163,20 @@ for i, (op_type, op) in enumerate(ops):
                                         while ins_i >= 1:
                                                 ins_cur += ins_inc
                                                 ins_i -= 1
+                                elif idist == 'nearly_increasing' or idist == 'nearly_decreasing':
+                                        a = ins_cur
+                                        jitter = random.randint(-3, 3)
+                                        ins_i += ins_slope
+                                        while ins_i >= 1:
+                                                ins_cur += ins_inc + jitter
+                                                ins_i -= 1
                                 elif idist == 'balanced':
-                                        a = lower + num * (upper - lower) // denom
-                                        if num == denom - 1:
-                                                denom *= 2
-                                                num = 1
+                                        a = lower + ins_num * (upper - lower) // ins_denom
+                                        if ins_num == ins_denom - 1:
+                                                ins_denom *= 2
+                                                ins_num = 1
                                         else:
-                                                num += 2
+                                                ins_num += 2
 
                         elif op == 'sea':
                                 if sdist == 'random':
@@ -176,15 +187,44 @@ for i, (op_type, op) in enumerate(ops):
                                         while sea_i >= 1:
                                                 sea_cur += sea_inc
                                                 sea_i -= 1
+                                elif sdist == 'nearly_increasing' or sdist == 'nearly_decreasing':
+                                        a = sea_cur
+                                        jitter = random.randint(-3, 3)
+                                        sea_i += sea_slope
+                                        while sea_i >= 1:
+                                                sea_cur += sea_inc + jitter
+                                                sea_i -= 1
+                                elif sdist == 'balanced':
+                                        a = lower + sea_num * (upper - lower) // sea_denom
+                                        if sea_num == sea_denom - 1:
+                                                sea_denom *= 2
+                                                sea_num = 1
+                                        else:
+                                                sea_num += 2
                         elif op == 'del':
                                 if ddist == 'random':
                                         a = random.randint(lower, upper)
                                 elif ddist == 'increasing' or ddist == 'decreasing':
                                         a = del_cur
+                                        jitter = random.randint(-3, 3)
                                         del_i += del_slope
                                         while del_i >= 1:
                                                 del_cur += del_inc
                                                 del_i -= 1
+                                elif ddist == 'nearly_increasing' or ddist == 'nearly_decreasing':
+                                        a = ins_cur
+                                        jitter = random.randint(-3, 3)
+                                        del_i += del_slope
+                                        while del_i >= 1:
+                                                del_cur += del_inc + jitter
+                                                del_i -= 1
+                                elif ddist == 'balanced':
+                                        a = lower + del_num * (upper - lower) // del_denom
+                                        if del_num == del_denom - 1:
+                                                del_denom *= 2
+                                                del_num = 1
+                                        else:
+                                                del_num += 2
 
 
                                 

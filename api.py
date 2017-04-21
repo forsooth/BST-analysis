@@ -151,6 +151,9 @@ class API():
                 # 1the parent's right child to the successor. In either case,
                 # tell the successor about its new parent.
                 elif self.null(self.__bst.cur.l):
+                        if self.is_root():
+                                self.__bst.root = self.__bst.cur.r
+                                return True
                         p = self.__bst.cur.p
                         if p.l == self.__bst.cur:
                                 p.l = self.__bst.cur.r
@@ -165,6 +168,9 @@ class API():
                 #(successor = bst.cur.l == None ? bst.cur.l : bst.cur.r)
                 # ...
                 elif self.null(self.__bst.cur.r):
+                        if self.is_root():
+                                self.__bst.root = self.__bst.cur.l
+                                return True
                         p = self.__bst.cur.p
                         if p.l == self.__bst.cur:
                                 p.l = self.__bst.cur.l

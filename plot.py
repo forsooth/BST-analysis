@@ -14,7 +14,7 @@ import colors
 import matplotlib.ticker as ticker
 
 
-def plot(logn, logt, opsn, opst):
+def plot(logn, logt, opsn, opst, pages):
         with pdfbackend('outputs/' + str(datetime.now()) + '.pdf') as pdf:
 
                 plt.rcParams["font.family"] = "Input Mono"
@@ -25,34 +25,47 @@ def plot(logn, logt, opsn, opst):
                 ymin = min(logt)
                 xrng = max(xmax - xmin, 1)
                 yrng = max(ymax - ymin, 1)
-
                 roots = {}
 
-                partial_logn = []
-                partial_logt = []
-                partial_opst = []
-                partial_opsn = []
-                last_logt_i = 0
-                logt_i = 0
+                if pages:
 
-                for i in range(0, len(opst)):
-                        partial_opst.append(opst[i])
-                        partial_opsn.append(opsn[i])
-                        op_t = opst[i]
-                        last_logt_i = logt_i + 1
-                        while logt_i + 1 < len(logt) and logt[logt_i + 1] <= op_t:
-                                logt_i += 1
+        
+                        partial_logn = []
+                        partial_logt = []
+                        partial_opst = []
+                        partial_opsn = []
+                        last_logt_i = 0
+                        logt_i = 0
+        
+                        for i in range(0, len(opst)):
+                                partial_opst.append(opst[i])
+                                partial_opsn.append(opsn[i])
+                                op_t = opst[i]
+                                last_logt_i = logt_i + 1
+                                while logt_i + 1 < len(logt) and logt[logt_i + 1] <= op_t:
+                                        logt_i += 1
+        
+                                roots[logt[last_logt_i]] = logn[last_logt_i]
+        
+                                for j in range(last_logt_i, logt_i + 1):
+                                        partial_logt.append(logt[j])
+                                        partial_logn.append(logn[j])
+        
+                                add_plot(pdf, partial_logn, partial_logt,
+                                         partial_opsn, partial_opst,
+                                         xmax, xmin, ymax, ymin, xrng,
+                                         yrng, roots)
+                else:
+                        roots = {}
+                        for i, t in enumerate(logt):
+                                if t not in roots.keys():
+                                        roots[t] = logn[i]
 
-                        roots[logt[last_logt_i]] = logn[last_logt_i]
-
-                        for j in range(last_logt_i, logt_i + 1):
-                                partial_logt.append(logt[j])
-                                partial_logn.append(logn[j])
-
-                        add_plot(pdf, partial_logn, partial_logt,
-                                 partial_opsn, partial_opst,
+                        add_plot(pdf, logn, logt,
+                                 opsn, opst,
                                  xmax, xmin, ymax, ymin, xrng,
                                  yrng, roots)
+
 
 def add_plot(pdf, 
              logn, logt, opsn, opst,
@@ -122,7 +135,7 @@ def add_plot(pdf,
                                 pairs.add((t, logn[i]))
                                 t_counts[t] += 1
 
-                xlim = [0, max(t_counts.values()) + 1]
+                xlim = [0, xmax]
 
                 ax_count.set_xlabel('# Accesses At This Time')
                 ax_count.spines['top'].set_visible(False)

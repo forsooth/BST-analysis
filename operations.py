@@ -64,7 +64,7 @@ class Operations():
                 if f is not sys.stdin:
                         f.close()
 
-        def exec_ops(self, algo, debug):
+        def exec_ops(self, algo, pages, debug):
                 logt = []
                 logn = []
                 opst = []
@@ -107,4 +107,4 @@ class Operations():
 
                 #api.viz()
 
-                plot.plot(logn, logt, opsn, opst)
+                plot.plot(logn, logt, opsn, opst, pages)

@@ -22,6 +22,9 @@ parser.add_argument('-a', '--algorithm', type=str, default='simple',
 parser.add_argument('-d', '--debug', action='store_true',
                     help="Enables debug mode.")
 
+parser.add_argument('-p', '--pages', action='store_true',
+                    help="Enable full multi-page animated PDF.")
+
 args = parser.parse_args()
 
 ops = Operations()
@@ -58,4 +61,4 @@ elif algarg in {'static', 'osbst', 'optimalstatic', 'opt', 'optbst', 'optimalsta
 else:
         err.err("Algorithm not recognized.")
 
-ops.exec_ops(algo, args.debug)
+ops.exec_ops(algo, args.pages, args.debug)
