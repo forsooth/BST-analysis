@@ -67,7 +67,7 @@ idist = args.ins_distribution
 sdist = args.sea_distribution
 ddist = args.del_distribution
 
-dists = ['random', 'increasing', 'decreasing', 'balanced', 'nearly_increasing', 'nearly_decreasing', 'spider_left', 'spider_right', 'gaussian']
+dists = ['random', 'increasing', 'decreasing', 'balanced', 'nearly_increasing', 'nearly_decreasing', 'spider', 'gaussian']
 if idist not in dists:
         err.err("Insert distribution type must be one of " + str(dists) + ".")
 if sdist not in dists:
@@ -96,17 +96,21 @@ for c in op_types:
 data = []
 cur_ops = []
 
+num_ins = n * len(args.pattern.lower().replace('s', '').replace('d', ''))
+num_sea = n * len(args.pattern.lower().replace('i', '').replace('d', ''))
+num_del = n * len(args.pattern.lower().replace('i', '').replace('s', ''))
+
 # for 'increasing' distribution
 try:
-        ins_slope = (upper - lower + 1) / (n * len(args.pattern.lower().replace('s', '').replace('d', '')))
+        ins_slope = (upper - lower + 1) / (num_ins)
 except ZeroDivisionError:
         ins_slope = 0
 try:
-        sea_slope = (upper - lower + 1) / (n * len(args.pattern.lower().replace('i', '').replace('d', '')))
+        sea_slope = (upper - lower + 1) / (num_sea)
 except ZeroDivisionError:
         sea_slope = 0
 try:
-        del_slope = (upper - lower + 1) / (n * len(args.pattern.lower().replace('i', '').replace('s', '')))
+        del_slope = (upper - lower + 1) / (num_del)
 except ZeroDivisionError:
         del_slope = 0
 
@@ -141,8 +145,9 @@ sea_denom = 2
 del_num = 1
 del_denom = 2
 
-spider_i1 = n // 5
-spider_i2 = 4 * n // 5
+ins_spider_i1 = num_ins // 5
+ins_spider_i2 = 4 * num_ins // 5
+ins_spider_count = 0
 
 for i, (op_type, op) in enumerate(ops):
         if op_type == 'r':
@@ -160,6 +165,8 @@ for i, (op_type, op) in enumerate(ops):
                         if op == 'ins':
                                 if idist == 'random':
                                         a = random.randint(lower, upper)
+                                elif idist == 'gaussian':
+                                        a = int(random.gauss((lower + upper) // 2, (lower + upper) // 6))
                                 elif idist == 'increasing' or idist == 'decreasing':
                                         a = ins_cur
                                         ins_i += ins_slope
@@ -185,20 +192,21 @@ for i, (op_type, op) in enumerate(ops):
                                         else:
                                                 ins_num += 2
 
-                                elif idist == 'spider_left':
-                                        if j < spider_i1:
-                                                a = random.randint(lower, lower + spider_i1 * upper // n)
-                                        elif j == spider_i1:
-                                                ins_cur = lower + spider_i1 * upper // n
+                                elif idist == 'spider':
+                                        if ins_spider_count < ins_spider_i1:
+                                                a = random.randint(lower, lower + ins_spider_i1 * upper // num_ins)
+                                        elif ins_spider_count == ins_spider_i1:
+                                                ins_cur = lower + ins_spider_i1 * upper // num_ins
                                                 a = ins_cur
-                                        elif j > spider_i1 and j < spider_i2:
+                                        elif ins_spider_count > ins_spider_i1 and ins_spider_count < ins_spider_i2:
                                                 a = ins_cur
                                                 ins_i += ins_slope
                                                 while ins_i >= 1:
                                                         ins_cur += ins_inc
                                                         ins_i -= 1
-                                        elif j >= spider_i2:
-                                                a = random.randint(spider_i2 * upper // n, upper)
+                                        elif ins_spider_count >= ins_spider_i2:
+                                                a = random.randint(ins_spider_i2 * upper // num_ins, upper)
+                                        ins_spider_count += 1
 
 
                         elif op == 'sea':

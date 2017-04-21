@@ -99,7 +99,6 @@ def add_plot(pdf,
                 yloc.view_limits(ymin, ymax)
                 xloc.view_limits(xmin, xmax)
                 
-                #ax_main.set_title('Elements Accessed Over Time')
                 ax_main.set_xlabel('Element in BST')
                 ax_main.set_ylabel('Time')
                 ax_main.spines['top'].set_visible(False)
@@ -139,7 +138,6 @@ def add_plot(pdf,
 
                 ax_count.set_xlabel('# Accesses At This Time')
                 ax_count.spines['top'].set_visible(False)
-                #ax_count.spines['left'].set_visible(False)
                 ax_count.spines['right'].set_visible(False)
                 ax_count.set_axisbelow(True)
                 ax_count.set_aspect('auto', adjustable="box-forced")
@@ -149,7 +147,6 @@ def add_plot(pdf,
                 ax_count.set_ylim(pad_ylim)
                 ax_count.tick_params(axis='y', which='both', left='off')
                 ax_count.set_yticklabels([])
-                #ax_count.yaxis.set_visible(False)
 
                 ax_count.barh(list(t_counts.keys()), 
                               t_counts.values(), 
@@ -158,11 +155,14 @@ def add_plot(pdf,
                               color=colors.h_dark_blue)
 
                 n_counts = {}
+                pairs = set()
                 for n in range(min(logn), max(logn) + 1):
                         n_counts[n] = 0
 
                 for i, n in enumerate(logn):
-                        n_counts[n] += 1
+                        if (n, logt[i]) not in pairs:
+                                pairs.add((n, logt[i]))
+                                n_counts[n] += 1
 
                 ax_vcount.set_ylabel('# Accesses of This Element')
                 #ax_vcount.spines['bottom'].set_visible(False)
