@@ -23,7 +23,7 @@ HIGHEST_DATA_VALUE=$numops
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-INSERT_OPERATION_DISTRIBUTION='nearly_increasing'
+INSERT_OPERATION_DISTRIBUTION='spider_left'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
@@ -45,7 +45,7 @@ OPERATION_PATTERN='Id'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'
-WRITE_TO_FILE='False'
+WRITE_TO_FILE='True'
 
 # Whether to run the operations generated through a BST.
 # Allowed values: 'True', 'False'
