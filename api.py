@@ -110,7 +110,9 @@ class API():
 
         # Performs a standard BST removal, replacing the current node with
         # its positive successor. If the node to be removed is 'None',
-        # the function returns 'False'.
+        # the function returns 'False'. The current node at the end of the
+        # operation is at the location of node removed from the tree. If the
+        # node removed was a leaf, the None node which replaced it is current.
         def std_remove(self, ignore_count=False):
                 if self.null(self.__bst.cur):
                         return False
@@ -200,6 +202,36 @@ class API():
                 self.__bst.cur.l = None
                 self.__bst.cur.r = None
                 return True
+        
+        # Preforms a standard insert on a BST. Traverses the tree to an empty 
+        # leaf node or to the value and adds to the BST.
+        def std_insert(self, value):
+                while not self.is_null():
+                        node_value = self.read_value()
+                        if value < node_value:
+                                self.move_left()
+                        elif value > node_value:
+                                self.move_right()
+                        elif value == node_value:
+                                self.inc_count()
+                                break
+                if self.is_null():
+                        self.add(value)
+
+        # Preforms a standard search on the tree. 
+        # Traverses the tree to the value if the value is in the tree or
+        # to a None leaf node found in the standard traversal.
+        # Returns False if not found and True if found.
+        def std_search(self, value):
+                if self.is_null():
+                        return False
+                elif value == self.read_value():
+                        return True
+                elif value < self.read_value():
+                        self.move_left()
+                elif value > self.read_value():
+                        self.move_right()
+                return self.std_search(value)
 
         def read_closure(self, key):
                 # returns the closure for the node you are currently on

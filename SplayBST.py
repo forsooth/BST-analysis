@@ -16,14 +16,14 @@ class SplayBST(AbstractBST.AbstractBST):
                 self.splay()        
 
         def delete(self, value):
-                s = self.__api.std_remove():
+                s = self.__api.std_remove()
                 if self.__api.is_null():
                         self.__api.move_parent()
                 self.splay()
                 return s
                 
         def search(self, value):
-                s = self.__api.std_search():
+                s = self.__api.std_search()
                 if self.__api.is_null():
                         self.__api.move_parent()
                 self.splay()
