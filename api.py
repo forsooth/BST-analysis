@@ -155,8 +155,8 @@ class API():
                         else:
                                 p.r = self.__bst.cur.r
                         self.__bst.cur.r.p = self.__bst.cur.p
-                        # Explicitly Ensure we end up on the parent
-                        self.__bst.cur = p
+                        # Explicitly Ensure we end up on the None where node was
+                        self.__bst.cur = self.__bst.cur.r 
                         return True
                 # Same but if only a right successor exists.
                 # TODO: Merge these two conditions, e.g.
@@ -170,7 +170,7 @@ class API():
                                 p.r = self.__bst.cur.l
                         self.__bst.cur.l.p = self.__bst.cur.p
                         # Explicitly Ensure we end up on the parent
-                        self.__bst.cur = p
+                        self.__bst.cur = p.l
                         return True
                 # Find out which side of the parent the node-to-delete is on,
                 # and set it to 'None'
