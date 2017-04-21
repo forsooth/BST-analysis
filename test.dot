@@ -1,0 +1,14 @@
+digraph G {
+size="20, 10";
+pad=0.3;
+nodesep=0.5;
+node [fillcolor=grey, style=filled];
+edge [arrowhead=vee, color=black];
+edge [arrowhead=none, style=invisible, color=white];
+4 -> ":4"  [style=invisible, weight=100];
+edge [arrowhead=vee, color=black];
+4 [fillcolor=white, style=invisible, label=4];
+":4" [fillcolor=white, style=invisible, label=":4"];
+4 -> 8  [style=filled, weight=3];
+8 [fillcolor=white, style=filled, label=8];
+}

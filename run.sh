@@ -41,7 +41,7 @@ DELETE_OPERATION_DISTRIBUTION='random'
 # should be treated as one field, such that 'isi' generates
 # 3 * NUM_OPERATIONS operations with a ratio of two inserts to one search
 # but with no guarantees on the exact number of either.
-OPERATION_PATTERN='I'
+OPERATION_PATTERN='Id'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'

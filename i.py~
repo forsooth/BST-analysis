@@ -1,0 +1,8 @@
+import api
+import RedBlackBST
+
+
+a = api.API([],[],True)
+x = RedBlackBST.RedBlackBST(a)
+
+print(x)
