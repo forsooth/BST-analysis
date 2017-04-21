@@ -153,6 +153,7 @@ class API():
                 elif self.null(self.__bst.cur.l):
                         if self.is_root():
                                 self.__bst.root = self.__bst.cur.r
+                                self.__bst.cur = self.__bst.root
                                 return True
                         p = self.__bst.cur.p
                         if p.l == self.__bst.cur:
@@ -170,6 +171,7 @@ class API():
                 elif self.null(self.__bst.cur.r):
                         if self.is_root():
                                 self.__bst.root = self.__bst.cur.l
+                                self.__bst.cur = self.__bst.root
                                 return True
                         p = self.__bst.cur.p
                         if p.l == self.__bst.cur:
