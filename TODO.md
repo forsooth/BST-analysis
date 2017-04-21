@@ -1,15 +1,17 @@
 # TODO:
 
 ### Matt
-* Animate steps through ("animated") in multipage pdf
-* Embed image of tree in output pdf
-* Add absolute scaling to data on count plot? Maybe cli flag
-* Add random + increasing/decreasing + random input options
-* Add gaussian input options
 * Write full README and man pages
 * Go through and comment code
 * Fix formatting to pass PyLint
 * Mess with plot datapoint sizing
+* Get font right on tree diagram
+* Fix different sized nodes on tree diagram
+* Fix histogram bubble sizes
+* Embed small non-absolute count graph on bottom right
+* Profile
+* Add percent completion output
+* Stamp generated operation output with commented CLI flags & dates
 
 ### Harrison
 * Fix RB tree remove

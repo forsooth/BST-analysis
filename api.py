@@ -3,11 +3,13 @@ import err
 
 
 class API():
-        def __init__(self, logn, logt, debug):
-                self.__bst = BSTDataModel.BSTDataModel()
+        def __init__(self, logn, logt, gen_graphs, graphs, debug):
+                self.__bst = BSTDataModel.BSTDataModel(debug)
                 root = BSTDataModel.Node(None, None)
                 root.p = root
                 self.debug = debug
+                self.graphs = graphs
+                self.gen_graphs = gen_graphs
                 self.__bst.root = root
                 self.__bst.cur = root
                 self.__bst.count = 0
@@ -20,7 +22,8 @@ class API():
                 return self.__bst.__str__()
 
         def viz(self):
-                self.__bst.viz_tree()
+                if self.gen_graphs:
+                        self.graphs.append(self.__bst.viz_tree())
 
         def set_log_on(self):
                 self.__log = True
@@ -272,7 +275,7 @@ class API():
                 self.__bst.cur.count = v
                 
         def move_right(self):
-                if self.debug:
+                if self.debug == 2:
                         err.log(str(self.t()) + " Moving right on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
                         if self.log_on():
@@ -280,7 +283,7 @@ class API():
                         self.__bst.cur = self.__bst.cur.r
 
         def move_left(self):
-                if self.debug:
+                if self.debug == 2:
                         err.log(str(self.t()) + " Moving left on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
                         if self.log_on():
@@ -288,6 +291,8 @@ class API():
                         self.__bst.cur = self.__bst.cur.l
 
         def move_parent(self):
+                if self.debug == 2:
+                        err.log(str(self.t()) + " Moving to parent on " + str(self.__bst.cur))
                 moved = ""
                 if self.__bst.cur is self.__bst.root:
                         return moved
@@ -307,10 +312,14 @@ class API():
                                 self.move_left()
                         elif c is "r":
                                 self.move_right()
+                        elif c is 'p':
+                                self.move_parent()
                         else:
                                 continue
 
         def rotate_left(self):
+                if self.debug == 2:
+                        err.log(str(self.t()) + " Left rotate on " + str(self.__bst.cur))
                 if self.is_null():
                         return False
                 # Save each node and sub-trees
@@ -340,6 +349,9 @@ class API():
                 self.__bst.cur = q
 
         def rotate_right(self):
+                if self.debug == 2:
+                        err.log(str(self.t()) + " Right rotate on " + str(self.__bst.cur))
+
                 if self.is_null():
                         return False
                 # Save each node and sub-trees

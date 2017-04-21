@@ -24,6 +24,7 @@ HIGHEST_DATA_VALUE=$numops
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
 INSERT_OPERATION_DISTRIBUTION='balanced'
+# INSERT_OPERATION_DISTRIBUTION='random'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
@@ -53,8 +54,9 @@ RUN_OPERATIONS='True'
 
 # BST algorithm to run the operations on.
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
-BST_ALGORITHM='splay'
+# BST_ALGORITHM='splay'
 # BST_ALGORITHM='simple'
+BST_ALGORITHM='rb'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'
@@ -62,12 +64,16 @@ DISPLAY_OUTPUT_GRAPH='True'
 
 # Whether to print debug information
 # DEBUG='True'
-DEBUG='False'
+DEBUG='True'
 
 # Whether to create a multi-page PDF aninmating the results, or just a
 # one page pdf of the final output.
 # Allowed values: 'True', 'False'
 ANIMATE='False'
+
+# Whether to include pictures of the tree in the output data. 
+# Allowed values: 'True', 'False'
+TREE_PICTURE='True'
 
 cmd="python3 $d/input_gen.py -n $NUM_OPERATIONS -t $OPERATION_TYPE -l $LOWEST_DATA_VALUE -u $HIGHEST_DATA_VALUE -id $INSERT_OPERATION_DISTRIBUTION -sd $SEARCH_OPERATION_DISTRIBUTION -dd $DELETE_OPERATION_DISTRIBUTION -p $OPERATION_PATTERN"
 
@@ -78,6 +84,8 @@ run_cmd=" | python3 $d/main.py - -a $BST_ALGORITHM"
 debug_cmd=" -d"
 
 animate_cmd=" -p"
+
+treepic_cmd=" -g"
 
 display_cmd=" && $d/display.sh"
 
@@ -95,6 +103,10 @@ fi
 
 if [[ "$ANIMATE" == "True" ]]; then
 	cmd="$cmd$animate_cmd"
+fi
+
+if [[ "$TREE_PICTURE" == "True" ]]; then
+        cmd="$cmd$treepic_cmd"
 fi
 
 if [[ "$DISPLAY_OUTPUT_GRAPH" == "True" ]]; then
