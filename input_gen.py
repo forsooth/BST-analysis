@@ -141,6 +141,9 @@ sea_denom = 2
 del_num = 1
 del_denom = 2
 
+spider_i1 = n // 5
+spider_i2 = 4 * n // 5
+
 for i, (op_type, op) in enumerate(ops):
         if op_type == 'r':
                 cur_ops.append(op)
@@ -169,6 +172,10 @@ for i, (op_type, op) in enumerate(ops):
                                         ins_i += ins_slope
                                         while ins_i >= 1:
                                                 ins_cur += ins_inc + jitter
+                                                if ins_cur < lower:
+                                                        ins_cur = lower
+                                                elif ins_cur > upper:
+                                                        ins_cur = upper
                                                 ins_i -= 1
                                 elif idist == 'balanced':
                                         a = lower + ins_num * (upper - lower) // ins_denom
@@ -177,6 +184,22 @@ for i, (op_type, op) in enumerate(ops):
                                                 ins_num = 1
                                         else:
                                                 ins_num += 2
+
+                                elif idist == 'spider_left':
+                                        if j < spider_i1:
+                                                a = random.randint(lower, lower + spider_i1 * upper // n)
+                                        elif j == spider_i1:
+                                                ins_cur = lower + spider_i1 * upper // n
+                                                a = ins_cur
+                                        elif j > spider_i1 and j < spider_i2:
+                                                a = ins_cur
+                                                ins_i += ins_slope
+                                                while ins_i >= 1:
+                                                        ins_cur += ins_inc
+                                                        ins_i -= 1
+                                        elif j >= spider_i2:
+                                                a = random.randint(lower + spider_i2 * upper // n, upper)
+
 
                         elif op == 'sea':
                                 if sdist == 'random':
@@ -193,6 +216,10 @@ for i, (op_type, op) in enumerate(ops):
                                         sea_i += sea_slope
                                         while sea_i >= 1:
                                                 sea_cur += sea_inc + jitter
+                                                if sea_cur < lower:
+                                                        sea_cur = lower
+                                                elif sea_cur > upper:
+                                                        sea_cur = upper
                                                 sea_i -= 1
                                 elif sdist == 'balanced':
                                         a = lower + sea_num * (upper - lower) // sea_denom
@@ -217,6 +244,10 @@ for i, (op_type, op) in enumerate(ops):
                                         del_i += del_slope
                                         while del_i >= 1:
                                                 del_cur += del_inc + jitter
+                                                if del_cur < lower:
+                                                        del_cur = lower
+                                                elif del_cur > upper:
+                                                        del_cur = upper
                                                 del_i -= 1
                                 elif ddist == 'balanced':
                                         a = lower + del_num * (upper - lower) // del_denom
