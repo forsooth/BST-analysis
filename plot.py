@@ -88,8 +88,16 @@ def add_plot(pdf, fname, cwd,
              graphs, graph_i,
              debug):
 
-                yloc = ticker.MultipleLocator(base=1.0)
-                xloc = ticker.MultipleLocator(base=1.0)
+                xticker_base = 1.0
+                if xrng > ticker.MultipleLocator.MAXTICKS - 50:
+                        xticker_base = xrng / (xrng - ticker.MultipleLocator.MAXTICKS) + 1
+
+                yticker_base = 1.0
+                if yrng > ticker.MultipleLocator.MAXTICKS - 50:
+                        yticker_base = yrng / (yrng - ticker.MultipleLocator.MAXTICKS) + 1
+
+                yloc = ticker.MultipleLocator(base=yticker_base)
+                xloc = ticker.MultipleLocator(base=xticker_base)
 
                 fontP = FontProperties()
                 fontP.set_size('small')
