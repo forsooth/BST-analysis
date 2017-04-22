@@ -68,6 +68,7 @@ DEBUG='True'
 # Whether to create a multi-page PDF aninmating the results, or just a
 # one page pdf of the final output.
 # Allowed values: 'True', 'False'
+# ANIMATE='True'
 ANIMATE='False'
 
 # Whether to include pictures of the tree in the output data. 

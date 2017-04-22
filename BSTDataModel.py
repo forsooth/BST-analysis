@@ -1,6 +1,6 @@
 import colors
 import err
-from pydotplus import graphviz as pydot
+from graphviz import Digraph
 
 # Node — typical node of a BST
 # The node is a recursive data type for a BST, where the parameters left,
@@ -80,70 +80,98 @@ class BSTDataModel:
 
                 return output
 
+        @staticmethod
+        def null(node):
+                return node == None or node.v == None
+
         def viz_tree(self):
                 self.graph_num += 1
                 if self.debug == 1:
                         err.log("Generating DOT for tree diagram number " + str(self.graph_num))
-                graph = pydot.Dot(graph_type='digraph', nodesep=.5, pad=.3, size="10, 10", dpi=600, fontpath='/home/M/.fonts/')
-                graph.set_node_defaults(style="filled", fillcolor="grey")
-                graph.set_edge_defaults(color="black", arrowhead="vee")
+
+                graph = Digraph()
+                graph.format = 'png'
+                graph.body.extend(['size="10,10"', 'dpi="600"'])
+                graph.attr('node', shape='circle')
+                graph.attr('node', style='filled')
+                graph.attr('node', color='black')
+                graph.attr('node', fixedsize='true')
+                graph.attr('node', height='0.75')
+                graph.attr('node', width='0.75')
+                graph.attr('node', fontcolor='white')
+                graph.attr('node', fontname='InputMono')
+                graph.attr('edge', arrowhead='none')
+                graph.attr('edge', style='filled')
+
                 stack = [self.root]
-                nodes = dict()
+                nodes = set()
                 while len(stack) > 0:
-                        self.sketchTree(stack.pop(), stack, graph, nodes)
+                        self.add_node(stack.pop(), stack, graph, nodes)
                 return graph
 
-        def sketchTree(self, node, stack, graph, nodes, find=None, draw=None):
-                fillcolor = "black"
-                if node != None:
-                        if "color" in node.cl.keys() and node.cl["color"] is "RED":
-                                fillcolor = colors.h_red
+        def add_node(self, node, stack, graph, nodes, find=None, draw=None):
+                
+                nodec = 'black'
+                if not self.null(node) and "color" in node.cl and node.cl["color"] is "RED":
+                        nodec = colors.h_red
 
-                self.draw(graph, nodes, None, repr(node), fill_color=fillcolor)
-
-                if node.l != None and node.l.v != None:
-                        self.draw(graph, nodes, repr(node), repr(node.l), fill_color=fillcolor)
-                        stack.append(node.l)
-                        if node.r != None and node.r.v != None:
-                                # insert invisible third node in-between left and right nodes
-                                self.draw(graph, nodes, repr(node), ":"+repr(node), fill_color=fillcolor, style_type="invisible")
-                elif node.r != None and node.r.v != None:
-                        # draw any missing left branches as invisible nodes/edges with dummy unique labels 
-                        self.draw(graph, nodes, repr(node), ":"+repr(node), fill_color=fillcolor, style_type="invisible")
-               
-                if node.r != None and node.r.v != None:
-                        self.draw(graph, nodes, repr(node), repr(node.r), fill_color=fillcolor)
-                        stack.append(node.r)
-                elif node.l != None and node.l.v != None:
-                        # draw any missing right branches as invisible nodes/edges with dummy unique labels 
-                        self.draw(graph, nodes, repr(node), ";"+repr(node), fill_color=fillcolor, style_type="invisible")
-
-
-        def draw(self, graph, nodes, parent_name, child_name, fill_color, style_type='filled', font_color='white'):
-                if style_type == "invisible":
-                        # save original edge defaults
-                        weight_ = "100"
-                        saveEdgeDefaults = graph.get_edge_defaults()[0]
-                        graph.set_edge_defaults(style=style_type, color="white", arrowhead="none") 
+                if node == self.root:
+                        parent = None
                 else:
-                        weight_ = "3"
+                        parent = repr(node.p)
+
+                nodev = repr(node)
+
+                # Draw this node (if we haven't seen it before)
+                if nodev not in nodes:
+                        self.draw_node(graph, nodes, parent, nodev, nodecolor=nodec)
+
+                # To make the diagram look balanced we insert invisible nodes (debug = 2 to see them)
+                # Regardless of invisible nodes, we draw the left child if it exists
+                if not self.null(node.l):
+                        nodec = 'black'
+                        if "color" in node.l.cl and node.l.cl["color"] is "RED":
+                                nodec = colors.h_red
+                        stack.append(node.l)
+                        self.draw_node(graph, nodes, nodev, repr(node.l), nodecolor=nodec)
+                        if not self.null(node.r):
+                                # if the node has two children, insert an invisible node between them
+                                self.draw_node(graph, nodes, nodev, "[" + nodev, style_type="invisible")
+
+                # if there's no left child but there is a right one, add an invisible left child
+                elif not self.null(node.r):
+                                self.draw_node(graph, nodes, nodev, "|" + nodev, style_type="invisible")
+
+                # Regardless of invisible nodes, we draw the right child if it exists
+                if not self.null(node.r):
+                        nodec = 'black'
+                        if "color" in node.r.cl and node.r.cl["color"] is "RED":
+                                nodec = colors.h_red
+                        stack.append(node.r)
+                        self.draw_node(graph, nodes, nodev, repr(node.r), nodecolor=nodec)
+                # if there's no right child but there is a left one, draw an invisible right child
+                elif not self.null(node.l):
+                                self.draw_node(graph, nodes, nodev, "]" + nodev, style_type="invisible")
+
+
+
+        def draw_node(self, graph, nodes, parent_name, child_name, nodecolor='white', style_type='filled'):
+
+
+                if style_type == "invisible":
+                        graph.attr('edge', weight='100')
+                        graph.attr('edge', color='white')
+                        if self.debug == 2:
+                                nodecolor = 'blue'
+                else:
+                        nodes.add(child_name)
+                        graph.attr('edge', weight='10')
+                        graph.attr('edge', color='black')
+
+                graph.attr('node', color=nodecolor)
+
+                graph.node(child_name)
 
                 if parent_name is not None:
-                        edge = pydot.Edge(parent_name, child_name, style=style_type, weight=weight_)
-                        graph.add_edge(edge)  
-                        if style_type == "invisible":
-                                graph.set_edge_defaults(**saveEdgeDefaults)
-        
-                        if not nodes:
-                                nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
-                                graph.add_node(nodes[parent_name]) 
-                        if (parent_name not in nodes):    
-                                nodes[parent_name] = pydot.Node(parent_name, label=parent_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
-                                graph.add_node(nodes[parent_name])
-                        if child_name not in nodes:
-                                nodes[child_name] = pydot.Node(child_name, label=child_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
-                                graph.add_node(nodes[child_name])
-                else:
-                        nodes[child_name] = pydot.Node(child_name, label=child_name, fillcolor=fill_color, style=style_type, fontcolor=font_color, shape='circle', fontname='InputMono-Regular.ttf')
-                        graph.add_node(nodes[child_name])
+                        graph.edge(parent_name, child_name)
 

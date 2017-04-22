@@ -16,9 +16,12 @@ from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
                                   AnnotationBbox)
 from matplotlib.cbook import get_sample_data
 import os
+import pyx
 
 def plot(logn, logt, opsn, opst, pages, graphs, debug):
-        with pdfbackend('outputs/' + str(datetime.now()) + '.pdf') as pdf:
+
+        fname = 'outputs/' + str(datetime.now()) + '.pdf'
+        with pdfbackend(fname) as pdf:
 
                 plt.rcParams["font.family"] = "Input Mono"
 
@@ -60,23 +63,24 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                                 if debug == 2:
                                         err.log("Starting plot generation")
         
-                                add_plot(pdf, cwd, partial_logn, partial_logt,
+                                add_plot(pdf, fname, cwd, partial_logn, partial_logt,
                                          partial_opsn, partial_opst,
                                          xmax, xmin, ymax, ymin, xrng,
-                                         yrng, roots, graphs, i, debug)
+                                         yrng, roots, graphs, 0, debug)
+                                del graphs[0]
                 else:
                         roots = {}
                         for i, t in enumerate(logt):
                                 if t not in roots.keys():
                                         roots[t] = logn[i]
 
-                        add_plot(pdf, cwd, logn, logt,
+                        add_plot(pdf, fname, cwd, logn, logt,
                                  opsn, opst,
                                  xmax, xmin, ymax, ymin, xrng,
                                  yrng, roots, graphs, len(graphs) - 1, debug)
 
 
-def add_plot(pdf, cwd, 
+def add_plot(pdf, fname, cwd, 
              logn, logt, opsn, opst,
              xmax, xmin, ymax, ymin,
              xrng, yrng,
@@ -173,6 +177,8 @@ def add_plot(pdf, cwd,
                 ax_count.set_ylim(pad_ylim)
                 ax_count.tick_params(axis='y', which='both', left='off')
                 ax_count.set_yticklabels([])
+                ax_count.xaxis.get_major_ticks()[0].label1.set_visible(False)
+
 
                 if debug == 2:
                         err.log("Set up y-axis histogram axis")
@@ -200,7 +206,6 @@ def add_plot(pdf, cwd,
                         err.log("Generated x-axis histogram data")
 
                 ax_vcount.set_ylabel('# Accesses of This Element')
-                #ax_vcount.spines['bottom'].set_visible(False)
                 ax_vcount.spines['right'].set_visible(False)
                 ax_vcount.spines['top'].set_visible(False)
                 ax_vcount.set_axisbelow(True)
@@ -213,6 +218,7 @@ def add_plot(pdf, cwd,
                 ax_vcount.yaxis.tick_left()
                 ax_vcount.tick_params(axis='x', which='both', bottom='off')
                 ax_vcount.set_xticklabels([])
+                ax_vcount.yaxis.get_major_ticks()[0].label1.set_visible(False)
 
                 if debug == 2:
                         err.log("Set up x-axis histogram axis")
@@ -239,8 +245,8 @@ def add_plot(pdf, cwd,
 
                 if len(graphs) != 0:
                         graph = graphs[graph_i]
-                        graph.write_png(cwd + "/outputs/tmp_tree.png")
-        
+                        graph.render(cwd + '/outputs/tmp_tree')
+
                         tree_img = get_sample_data(cwd + "/outputs/tmp_tree.png")
                         img_obj = plt.imread(tree_img, format='png')
                         plt.imshow(img_obj)
@@ -250,5 +256,5 @@ def add_plot(pdf, cwd,
 
                 if debug == 1:
                         err.log("Saving new PDF page...")
-                pdf.savefig(bbox_inches='tight', dpi=600, pad_inches=0.5)
 
+                pdf.savefig(bbox_inches='tight', dpi=600, pad_inches=0.5)
