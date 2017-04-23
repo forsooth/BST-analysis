@@ -106,7 +106,7 @@ class API():
                 self.__bst.cur.l = lc
                 self.__bst.cur.r = rc
 
-                if self.log_on():
+                if self.log_on() and self.__bst.cur.v is not None:
                         self.log(self.__bst.cur.v, self.t())
 
                 return True
@@ -134,7 +134,7 @@ class API():
 
                         s = self.__bst.cur.v
                         sc = self.__bst.cur.count
-                        scl = self.__bst.cur.cl
+                        # scl = self.__bst.cur.cl
 
                         if self.__bst.cur is rc:
                                 self.std_remove(True)
@@ -147,7 +147,7 @@ class API():
                         self.move_parent()
                         self.__bst.cur.v = s
                         self.__bst.cur.count = sc
-                        self.__bst.cur.scl = scl
+                        # self.__bst.cur.scl = scl
 
                         return True
                 # If there is only a left successor, then go to the parent;
@@ -185,7 +185,7 @@ class API():
                                 p.r = self.__bst.cur.l
                         self.__bst.cur.l.p = self.__bst.cur.p
                         # Explicitly Ensure we end up on the parent
-                        self.__bst.cur = p.l
+                        self.__bst.cur = self.__bst.cur.l
                         return True
                 # Find out which side of the parent the node-to-delete is on,
                 # and set it to 'None'
@@ -250,7 +250,7 @@ class API():
                 self.__bst.gcl[key] = val # writes the closure
 
         def read_value(self):
-                if self.log_on():
+                if self.log_on() and self.__bst.cur.v is not None:
                         self.log(self.__bst.cur.v, self.t())
                 return self.__bst.cur.v
 
@@ -318,62 +318,157 @@ class API():
                                 continue
 
         def rotate_left(self):
+                # print("------------ROTATE LEFT---------------")
+                # print("Valid Tree: " + str( self.verify_tree()))
                 if self.debug == 2:
                         err.log(str(self.t()) + " Left rotate on " + str(self.__bst.cur))
                 if self.is_null():
                         return False
+                # print("Left ROTATE on " + str(self.__bst.cur) + ": ")
+                # print(self.__bst)
+
                 # Save each node and sub-trees
-                parent = self.__bst.cur.p
+                # parent = self.__bst.cur.p
                 
                 p = self.__bst.cur
                 q = p.r
                 b = q.l
+
+                # print("Q: " + str(q))
+                # print("P: " + str(p))
+                # print("B: " + str(b))
+
+                # print("Q.p: " + str(q.p))
+                # print("P.p: " + str(p.p))
+                # print("B.p: " + str(b.p))
+
                 # Re-assign to preform a rotation
                 if self.__bst.cur is self.__bst.root:
                         self.__bst.root = q
                         self.__bst.root.p = self.__bst.root
                 elif self.__bst.cur is self.__bst.cur.p.l:
-                        self.__bst.cur.p.l = q
+                        parent = self.__bst.cur.p
+                        parent.l = q
+                        q.p = parent
                 else:
-                        self.__bst.cur.p.r = q
+                        parent = self.__bst.cur.p
+                        parent.r = q
+                        q.p = parent
 
-                q.p = self.__bst.cur.p
-                
+                ## print("Q: " + str(q))
+                ## print("P: " + str(p))
+                ## print("B: " + str(b))
+
+                ## print("Q.p: " + str(q.p))
+                ## print("P.p: " + str(p.p))
+                ## print("B.p: " + str(b.p))
+
+                # print("q.l = p\np.p = q")
                 q.l = p
                 p.p = q
 
+                # print("Q: " + str(q))
+                # print("P: " + str(p))
+                # print("B: " + str(b))
+
+                # print("Q.p: " + str(q.p))
+                # print("P.p: " + str(p.p))
+                # print("B.p: " + str(b.p))
+
                 p.r = b
-                if b is not None:
-                        b.p = p
+                b.p = p
+
+                # print(str(self))
+                # print("Q: " + str(q))
+                # print("P: " + str(p))
+                # print("B: " + str(b))
+
+                # print("Q.p: " + str(q.p))
+                # print("P.p: " + str(p.p))
+                # print("B.p: " + str(b.p))
 
                 self.__bst.cur = q
+                # print("CURRENT")
+                # print(self)
+                # print("Still Valid?: " + str( self.verify_tree()))
+                # print("------------ROTATE LEFT END---------------")
+                
 
         def rotate_right(self):
+                # print("------------ROTATE RIGHT---------------")
+                # print("Valid Tree: " + str( self.verify_tree()))
                 if self.debug == 2:
                         err.log(str(self.t()) + " Right rotate on " + str(self.__bst.cur))
-
                 if self.is_null():
                         return False
+                # print("RIGHT ROTATE on " + str(self.__bst.cur) + ": ")
+                # print(self.__bst)
+
                 # Save each node and sub-trees
+                # parent = self.__bst.cur.p
+                
                 q = self.__bst.cur
                 p = q.l
                 b = p.r
-                
+
+                # print("Q: " + str(q))
+                # print("P: " + str(p))
+                # print("B: " + str(b))
+
+                # print("Q.p: " + str(q.p))
+                # print("P.p: " + str(p.p))
+                # print("B.p: " + str(b.p))
+
                 # Re-assign to preform a rotation
                 if self.__bst.cur is self.__bst.root:
                         self.__bst.root = p
                         self.__bst.root.p = self.__bst.root
                 elif self.__bst.cur is self.__bst.cur.p.l:
-                        self.__bst.cur.p.l = p
+                        parent = self.__bst.cur.p
+                        parent.l = p
+                        p.p = parent
                 else:
-                        self.__bst.cur.p.r = p
+                        parent = self.__bst.cur.p
+                        parent.r = p
+                        p.p = parent
 
-                p.p = self.__bst.cur.p
+                ## print("Q: " + str(q))
+                ## print("P: " + str(p))
+                ## print("B: " + str(b))
 
+                ## print("Q.p: " + str(q.p))
+                ## print("P.p: " + str(p.p))
+                ## print("B.p: " + str(b.p))
+
+                # print("q.l = p\np.p = q")
                 p.r = q
                 q.p = p
+
+                # print("Q: " + str(q))
+                # print("P: " + str(p))
+                # print("B: " + str(b))
+
+                # print("Q.p: " + str(q.p))
+                # print("P.p: " + str(p.p))
+                # print("B.p: " + str(b.p))
 
                 q.l = b
                 b.p = q
 
+                # print(str(self))
+                # print("Q: " + str(q))
+                # print("P: " + str(p))
+                # print("B: " + str(b))
+
+                # print("Q.p: " + str(q.p))
+                # print("P.p: " + str(p.p))
+                # print("B.p: " + str(b.p))
+
                 self.__bst.cur = p
+                # print("CURRENT")
+                # print(self)
+                # print("Still Valid?: " + str( self.verify_tree()))
+                # print("------------ROTATE RIGHT END---------------")
+
+        def verify_tree(self, rb=False):
+                return self.__bst.verify(rb)
