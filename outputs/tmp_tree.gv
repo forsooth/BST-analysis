@@ -1,0 +1,298 @@
+digraph {
+size="5,5"
+	graph [fontname=InputMono]
+	node [shape=circle]
+	node [style=filled]
+	node [color=black]
+	node [fixedsize=true]
+	node [height=0.75]
+	node [width=0.75]
+	node [fontcolor=white]
+	node [fontname=InputMono]
+	edge [arrowhead=none]
+	edge [style=filled]
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	8
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	4
+		8 -> 4
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[8"
+		8 -> "[8"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	16
+		8 -> 16
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	12
+		16 -> 12
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[16"
+		16 -> "[16"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	24
+		16 -> 24
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	20
+		24 -> 20
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[24"
+		24 -> "[24"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	28
+		24 -> 28
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	26
+		28 -> 26
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[28"
+		28 -> "[28"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	31
+		28 -> 31
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	30
+		31 -> 30
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[31"
+		31 -> "[31"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	34
+		31 -> 34
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	32
+		34 -> 32
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[34"
+		34 -> "[34"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	35
+		34 -> 35
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"|35"
+		35 -> "|35"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	36
+		35 -> 36
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"|32"
+		32 -> "|32"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	33
+		32 -> 33
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	29
+		30 -> 29
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"]30"
+		30 -> "]30"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	25
+		26 -> 25
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[26"
+		26 -> "[26"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	27
+		26 -> 27
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	18
+		20 -> 18
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[20"
+		20 -> "[20"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	22
+		20 -> 22
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	21
+		22 -> 21
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[22"
+		22 -> "[22"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	23
+		22 -> 23
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	17
+		18 -> 17
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[18"
+		18 -> "[18"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	19
+		18 -> 19
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	10
+		12 -> 10
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[12"
+		12 -> "[12"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	14
+		12 -> 14
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	13
+		14 -> 13
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[14"
+		14 -> "[14"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	15
+		14 -> 15
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	9
+		10 -> 9
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[10"
+		10 -> "[10"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	11
+		10 -> 11
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	2
+		4 -> 2
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[4"
+		4 -> "[4"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	6
+		4 -> 6
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	5
+		6 -> 5
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[6"
+		6 -> "[6"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	7
+		6 -> 7
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	1
+		2 -> 1
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[2"
+		2 -> "[2"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	3
+		2 -> 3
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	0
+		1 -> 0
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"]1"
+		1 -> "]1"
+}

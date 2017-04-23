@@ -1,10 +1,4 @@
-# from pyx import *
-# 
-# g = graph.graphxy(width=8)
-# g.plot(graph.data.file("plot.dat", x=1, y=2))
-# g.writePDFfile("plot")
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 from matplotlib.backends.backend_pdf import PdfPages as pdfbackend
 from datetime import datetime
 import matplotlib.gridspec as gridspec
@@ -12,20 +6,19 @@ from matplotlib.font_manager import FontProperties
 import err
 import colors
 import matplotlib.ticker as ticker
-from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
-                                  AnnotationBbox)
 from matplotlib.cbook import get_sample_data
 import os
-import pyx
+from pdfrw import PdfReader, PdfWriter, PageMerge
 
 def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
-        fname = 'outputs/' + str(datetime.now()) + '.pdf'
-        with pdfbackend(fname) as pdf:
+        cwd = os.getcwd()
+        fname = str(datetime.now())
+
+        with pdfbackend(cwd + '/tmp/' + fname + '.pdf') as pdf:
 
                 plt.rcParams["font.family"] = "Input Mono"
 
-                cwd = os.getcwd()
 
                 xmax = max(logn)
                 xmin = min(logn)
@@ -66,7 +59,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                                 add_plot(pdf, fname, cwd, partial_logn, partial_logt,
                                          partial_opsn, partial_opst,
                                          xmax, xmin, ymax, ymin, xrng,
-                                         yrng, roots, graphs, 0, debug)
+                                         yrng, roots, graphs, i, debug)
                                 del graphs[0]
                 else:
                         roots = {}
@@ -79,6 +72,31 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                                  xmax, xmin, ymax, ymin, xrng,
                                  yrng, roots, graphs, len(graphs) - 1, debug)
 
+        for i in range(0, len(graphs)):
+        
+                plots_name = cwd + '/tmp/' + fname + '.pdf'
+                tree_name = cwd + '/tmp/' + fname + '_' + str(i) + '.gv.pdf'
+                out_name = cwd + '/outputs/' + fname + '.pdf'
+                #
+                # tree_file = open(tree_name, 'r')
+                # tree_w = 0
+                # tree_h = 0
+                # for line in tree_file:
+                #         if line.startswith("%%BoundingBox:"):
+                #                 bbline = line.split()
+                #                 tree_w = bbline[3]
+                #                 tree_h = bbline[4]
+                #                 break
+                # else:
+                #         err.err("BoundingBox line not found in EPS file for tree diagram.")
+        
+                plots_file = PdfReader(plots_name)
+                tree_file = PdfReader(tree_name)
+                #
+                PageMerge(plots_file).add(tree_file.pages).render()
+                #
+                PdfWriter(out_name).write()
+
 
 def add_plot(pdf, fname, cwd, 
              logn, logt, opsn, opst,
@@ -87,6 +105,8 @@ def add_plot(pdf, fname, cwd,
              roots,
              graphs, graph_i,
              debug):
+
+                fig = plt.figure(1, (10., 10.))
 
                 xticker_base = 1.0
                 if xrng > ticker.MultipleLocator.MAXTICKS - 50:
@@ -101,8 +121,6 @@ def add_plot(pdf, fname, cwd,
 
                 fontP = FontProperties()
                 fontP.set_size('small')
-
-                fig = plt.figure(1, (10., 10.))
 
                 gs = gridspec.GridSpec(2, 2)
 
@@ -252,17 +270,13 @@ def add_plot(pdf, fname, cwd,
                         err.log("Set up tree image axis")
 
                 if len(graphs) != 0:
-                        graph = graphs[graph_i]
-                        graph.render(cwd + '/outputs/tmp_tree')
+                        graph = graphs[0]
+                        graph.render(cwd + '/tmp/' + fname + '_' + str(graph_i) + '.gv')
 
-                        tree_img = get_sample_data(cwd + "/outputs/tmp_tree.png")
-                        img_obj = plt.imread(tree_img, format='png')
-                        plt.imshow(img_obj)
-        
                         if debug == 2:
                                 err.log("Added tree image")
 
                 if debug == 1:
                         err.log("Saving new PDF page...")
 
-                pdf.savefig(bbox_inches='tight', dpi=600, pad_inches=0.5)
+                pdf.savefig(bbox_inches='tight', pad_inches=0.5)
