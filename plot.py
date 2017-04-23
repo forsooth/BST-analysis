@@ -1,92 +1,136 @@
-# from pyx import *
-# 
-# g = graph.graphxy(width=8)
-# g.plot(graph.data.file("plot.dat", x=1, y=2))
-# g.writePDFfile("plot")
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.backends.backend_pdf import PdfPages as pdfbackend
 from datetime import datetime
 import matplotlib.gridspec as gridspec
 from matplotlib.font_manager import FontProperties
 import err
 import colors
 import matplotlib.ticker as ticker
-from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
-                                  AnnotationBbox)
-from matplotlib.cbook import get_sample_data
 import os
-import pyx
+from pyx import canvas, document, epsfile
+
 
 def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
-        fname = 'outputs/' + str(datetime.now()) + '.pdf'
-        with pdfbackend(fname) as pdf:
+        fname = str(datetime.now())
 
-                plt.rcParams["font.family"] = "Input Mono"
+        plt.rcParams["font.family"] = "Input Mono"
 
-                cwd = os.getcwd()
+        cwd = os.getcwd()
 
-                xmax = max(logn)
-                xmin = min(logn)
-                ymax = max(logt)
-                ymin = min(logt)
-                xrng = max(xmax - xmin, 1)
-                yrng = max(ymax - ymin, 1)
-                roots = {}
+        try:
+                os.mkdir(cwd + '/tmp')
+                err.log('./tmp/ directory created for temporary storage.')
+        except FileExistsError:
+                err.log('./tmp/ directory exists; using it for temporary storage.')
 
-                if pages:
-                        partial_logn = []
-                        partial_logt = []
-                        partial_opst = []
-                        partial_opsn = []
-                        last_logt_i = 0
-                        logt_i = 0
-        
-                        for i in range(0, len(opst)):
-                                if debug == 1:
-                                        if debug == 2:
-                                                err.log("Generating data plot number " + str(i))
-                                partial_opst.append(opst[i])
-                                partial_opsn.append(opsn[i])
-                                op_t = opst[i]
-                                last_logt_i = logt_i + 1
-                                while logt_i + 1 < len(logt) and logt[logt_i + 1] <= op_t:
-                                        logt_i += 1
-        
+        xmax = max(logn)
+        xmin = min(logn)
+        ymax = max(logt)
+        ymin = min(logt)
+        xrng = max(xmax - xmin, 1)
+        yrng = max(ymax - ymin, 1)
+        roots = {}
+
+        if pages:
+                partial_logn = []
+                partial_logt = []
+                partial_opst = []
+                partial_opsn = []
+                last_logt_i = 0
+                logt_i = 0
+                
+                for i in range(0, len(opst)):
+                        if debug == 1:
+                                if debug == 2:
+                                        err.log("Generating data plot number " + str(i))
+                        partial_opst.append(opst[i])
+                        partial_opsn.append(opsn[i])
+                        op_t = opst[i]
+                        last_logt_i = logt_i + 1
+                        while logt_i + 1 < len(logt) and logt[logt_i + 1] <= op_t:
+                                logt_i += 1
                                 roots[logt[last_logt_i]] = logn[last_logt_i]
         
-                                for j in range(last_logt_i, logt_i + 1):
-                                        partial_logt.append(logt[j])
-                                        partial_logn.append(logn[j])
+                        for j in range(last_logt_i, logt_i + 1):
+                                partial_logt.append(logt[j])
+                                partial_logn.append(logn[j])
 
-                                if debug == 2:
-                                        err.log("Starting plot generation")
+                        if debug == 2:
+                                err.log("Starting plot generation")
         
-                                add_plot(pdf, fname, cwd, partial_logn, partial_logt,
-                                         partial_opsn, partial_opst,
-                                         xmax, xmin, ymax, ymin, xrng,
-                                         yrng, roots, graphs, 0, debug)
-                                del graphs[0]
-                else:
-                        roots = {}
-                        for i, t in enumerate(logt):
-                                if t not in roots.keys():
-                                        roots[t] = logn[i]
-
-                        add_plot(pdf, fname, cwd, logn, logt,
-                                 opsn, opst,
+                        add_plot(fname, cwd, partial_logn, partial_logt,
+                                 partial_opsn, partial_opst,
                                  xmax, xmin, ymax, ymin, xrng,
-                                 yrng, roots, graphs, len(graphs) - 1, debug)
+                                 yrng, roots, graphs, i, debug)
+                        del graphs[0]
+        else:
+                roots = {}
+                for i, t in enumerate(logt):
+                        if t not in roots.keys():
+                                roots[t] = logn[i]
+
+                add_plot(fname, cwd, logn, logt,
+                         opsn, opst,
+                         xmax, xmin, ymax, ymin, xrng,
+                         yrng, roots, graphs, len(graphs) - 1, debug)
+
+        pages = []
+        page_size = document.paperformat(20, 20)
+        
+        for i in range(0, len(opsn)):
+        
+                plots_name = cwd + '/tmp/' + fname + '_' + str(i) + '.eps'
+                tree_name = cwd + '/tmp/' + fname + '_' + str(i) + '.gv.eps'
+
+                tree_file = open(tree_name, 'r')
+                tree_w = 0
+                tree_h = 0
+                for line in tree_file:
+                        if line.startswith("%%BoundingBox:"):
+                                bbline = line.split()
+                                tree_w = bbline[3]
+                                tree_h = bbline[4]
+                                break
+                else:
+                        err.err("BoundingBox line not found in EPS file for tree diagram.")
+                tree_file.close()
+
+                c = canvas.canvas()
+                plots_file = epsfile.epsfile(0, 0, plots_name, height=16, width=16)
+
+                if tree_w > tree_h:
+                        tree_file = epsfile.epsfile(12, 12, tree_name, align='cc', width=7)
+                else:
+                        tree_file = epsfile.epsfile(12, 12, tree_name, align='cc', height=7)
+
+                c.insert(plots_file)
+                c.insert(tree_file)
+                p = document.page(c, fittosize=True, centered=True, paperformat=page_size)
+                pages.append(p)
+
+        d = document.document(pages)
+        d.writePSfile(cwd + '/outputs/' + fname + '.ps')
+
+        for tmpf in os.listdir(cwd + '/tmp/'):
+                os.remove(cwd + '/tmp/' + tmpf)
+
+        os.rmdir(cwd + '/tmp/')
+
+                
+         
 
 
-def add_plot(pdf, fname, cwd, 
+def add_plot(fname, cwd, 
              logn, logt, opsn, opst,
              xmax, xmin, ymax, ymin,
              xrng, yrng,
              roots,
              graphs, graph_i,
              debug):
+
+                plot_fname = cwd + '/tmp/' + fname + '_' + str(graph_i) + '.eps'
+
+                plt.figure(figsize=(10, 10))
 
                 xticker_base = 1.0
                 if xrng > ticker.MultipleLocator.MAXTICKS - 50:
@@ -102,8 +146,6 @@ def add_plot(pdf, fname, cwd,
                 fontP = FontProperties()
                 fontP.set_size('small')
 
-                fig = plt.figure(1, (10., 10.))
-
                 gs = gridspec.GridSpec(2, 2)
 
                 kx = dict(aspect='auto')
@@ -114,7 +156,6 @@ def add_plot(pdf, fname, cwd,
                 ax_none = plt.subplot(gs[0, 1], **kx)
 
                 gs.update(wspace=0.00, hspace=-0.00)
-
 
                 pad_xlim = [xmin - 0.05 * xrng, xmax + 0.05 * xrng]
                 pad_ylim = [ymin - 0.05 * yrng, ymax + 0.05 * yrng]
@@ -143,7 +184,7 @@ def add_plot(pdf, fname, cwd,
                 if debug == 2:
                         err.log("Set up main plot")
 
-                log = ax_main.scatter(logn, logt, s=1000 / 2 / max(xrng, yrng), 
+                log = ax_main.scatter(logn, logt, s=1000 / 2 / max(xrng, yrng),
                                       c=[colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))],
                                       marker="x", 
                                       label='Intermediate accesses')
@@ -151,7 +192,7 @@ def add_plot(pdf, fname, cwd,
                 if debug == 2:
                         err.log("Plotted Xs")
 
-                ops = ax_main.scatter(opsn, opst, s=1000 / max(xrng, yrng), 
+                ops = ax_main.scatter(opsn, opst, s=1000 / max(xrng, yrng),
                                  c=colors.h_red, 
                                  marker="o", 
                                  label='Operation arguments')
@@ -252,17 +293,15 @@ def add_plot(pdf, fname, cwd,
                         err.log("Set up tree image axis")
 
                 if len(graphs) != 0:
-                        graph = graphs[graph_i]
-                        graph.render(cwd + '/outputs/tmp_tree')
+                        graph = graphs[0]
+                        graph.render(cwd + '/tmp/' + fname + '_' + str(graph_i) + '.gv')
 
-                        tree_img = get_sample_data(cwd + "/outputs/tmp_tree.png")
-                        img_obj = plt.imread(tree_img, format='png')
-                        plt.imshow(img_obj)
-        
                         if debug == 2:
                                 err.log("Added tree image")
 
                 if debug == 1:
-                        err.log("Saving new PDF page...")
+                        err.log("Saving new EPS file...")
 
-                pdf.savefig(bbox_inches='tight', dpi=600, pad_inches=0.5)
+                plt.savefig(plot_fname, bbox_inches='tight', pad_inches=0.5, format='eps')
+                plt.close()
+

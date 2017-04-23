@@ -82,7 +82,7 @@ class BSTDataModel:
 
         @staticmethod
         def null(node):
-                return node == None or node.v == None
+                return node is None or node.v is None
 
         def viz_tree(self):
                 self.graph_num += 1
@@ -90,8 +90,8 @@ class BSTDataModel:
                         err.log("Generating DOT for tree diagram number " + str(self.graph_num))
 
                 graph = Digraph()
-                graph.format = 'png'
-                graph.body.extend(['size="10,10"', 'dpi="600"'])
+                graph.format = 'eps'
+                graph.body.extend(['size="10,10"'])
                 graph.attr('node', shape='circle')
                 graph.attr('node', style='filled')
                 graph.attr('node', color='black')
