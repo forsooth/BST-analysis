@@ -41,8 +41,8 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
         xmin = min(logn)
         ymax = max(logt)
         ymin = min(logt)
-        xrng = max(xmax - xmin, 1)
-        yrng = max(ymax - ymin, 1)
+        xrng = max(xmax - xmin, 0)
+        yrng = max(ymax - ymin, 0)
 
         roots = {}
         t_counts = np.zeros(yrng + 1)
@@ -53,13 +53,16 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
         ylist = range(ymin, ymax + 1)
         xlist = range(xmin, xmax + 1)
 
+        #xrng
+        #ticker.MultipleLocator.MAXTICKS
+
         xticker_base = 1.0
         if xrng > ticker.MultipleLocator.MAXTICKS - 50:
-                xticker_base = xrng / (xrng - ticker.MultipleLocator.MAXTICKS) + 1
+                xticker_base = xrng / ticker.MultipleLocator.MAXTICKS * 1.5
 
         yticker_base = 1.0
         if yrng > ticker.MultipleLocator.MAXTICKS - 50:
-                yticker_base = yrng / (yrng - ticker.MultipleLocator.MAXTICKS) + 1
+                yticker_base = yrng / ticker.MultipleLocator.MAXTICKS * 1.5
 
         yloc = ticker.MultipleLocator(base=yticker_base)
         xloc = ticker.MultipleLocator(base=xticker_base)
@@ -154,7 +157,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
         plt.close()
         page_list = []
-        page_size = document.paperformat(20, 20)
+        page_size = document.paperformat(200, 200)
         
         num_plots = 1
         if pages:
@@ -175,6 +178,9 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                                         bbline = line.split()
                                         tree_w = bbline[3]
                                         tree_h = bbline[4]
+                                        if debug == 1:
+                                                err.log(line)
+                                                err.log("Got height: {} and width {}".format(tree_h, tree_w))
                                         break
                         else:
                                 err.err("BoundingBox line not found in EPS file for tree diagram.")
@@ -183,15 +189,15 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                         got_tree = False
 
                 c = canvas.canvas()
-                plots_file = epsfile.epsfile(0, 0, plots_name, height=16, width=16)
+                plots_file = epsfile.epsfile(0, 0, plots_name, height=160, width=160)
 
                 c.insert(plots_file)
 
                 if got_tree:
                         if tree_w > tree_h:
-                                tree_file = epsfile.epsfile(12, 12, tree_name, align='cc', width=7)
+                                tree_file = epsfile.epsfile(120, 120, tree_name, align='cc', width=70)
                         else:
-                                tree_file = epsfile.epsfile(12, 12, tree_name, align='cc', height=7)
+                                tree_file = epsfile.epsfile(120, 120, tree_name, align='cc', height=70)
         
                         c.insert(tree_file)
                 

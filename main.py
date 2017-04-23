@@ -77,5 +77,7 @@ if debug == 1:
         err.warn("Debug mode is set to: SIMPLE")
 elif debug == 2:
         err.warn("Debug mode is set to: VERBOSE")
+elif debug == 3:
+        err.warn("Debug mode is set to: VERIFY")
 
 ops.exec_ops(algo, args.pages, args.graphs, debug)
