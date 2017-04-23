@@ -174,7 +174,16 @@ for i, (op_type, op) in enumerate(ops):
                                 if idist == 'random':
                                         a = random.randint(lower, upper)
                                 elif idist == 'gaussian':
-                                        a = int(random.gauss((lower + upper) // 2, (lower + upper) // 6))
+                                        if j == len(cur_ops) * n // 2:
+                                                a = lower
+                                        elif j == len(cur_ops) * n // 2 + 1:
+                                                a = upper
+                                        else:
+                                                a = lower + int(random.gauss((upper - lower) // 2, (upper - lower) // 20))
+                                                if a < lower:
+                                                        a = lower
+                                                elif a > upper:
+                                                        a = upper
                                 elif idist == 'increasing' or idist == 'decreasing':
                                         a = ins_cur
                                         ins_i += ins_slope
@@ -220,7 +229,16 @@ for i, (op_type, op) in enumerate(ops):
                                 if sdist == 'random':
                                         a = random.randint(lower, upper)
                                 elif sdist == 'gaussian':
-                                        a = int(random.gauss((lower + upper) // 2, (lower + upper) // 6))
+                                        if j == len(cur_ops) * n // 2:
+                                                a = lower
+                                        elif j == len(cur_ops) * n // 2 + 1:
+                                                a = upper
+                                        else:
+                                                a = lower + int(random.gauss((upper - lower) // 2, (upper - lower) // 20))
+                                                if a < lower:
+                                                        a = lower
+                                                elif a > upper:
+                                                        a = upper
                                 elif sdist == 'increasing' or sdist == 'decreasing':
                                         a = sea_cur
                                         sea_i += sea_slope
@@ -265,7 +283,16 @@ for i, (op_type, op) in enumerate(ops):
                                 if ddist == 'random':
                                         a = random.randint(lower, upper)
                                 elif ddist == 'gaussian':
-                                        a = int(random.gauss((lower + upper) // 2, (lower + upper) // 6))
+                                        if j == len(cur_ops) * n // 2:
+                                                a = lower
+                                        elif j == len(cur_ops) * n // 2 + 1:
+                                                a = upper
+                                        else:
+                                                a = lower + int(random.gauss((upper - lower) // 2, (upper - lower) // 20))
+                                                if a < lower:
+                                                        a = lower
+                                                elif a > upper:
+                                                        a = upper
                                 elif ddist == 'increasing' or ddist == 'decreasing':
                                         a = del_cur
                                         jitter = random.randint(-3, 3)
