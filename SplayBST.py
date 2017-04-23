@@ -63,3 +63,6 @@ class SplayBST(AbstractBST.AbstractBST):
                                 self.__api.move_parent()
                                 self.__api.rotate_left()
                 self.splay()
+
+        def verify_tree(self):
+                return self.__api.verify_tree(False)

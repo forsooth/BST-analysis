@@ -91,7 +91,9 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
-                        if debug == 2:
+                        if debug == 3:
+                                tree_str = str(tree) 
+                        if debug == 2 or debug == 3:
                                 err.log("operation #" + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
@@ -120,6 +122,16 @@ class Operations():
                                 time += 1
                         if debug == 2:
                                 err.warn(tree)
+                        if debug == 3:
+                                err.warn("Before op:")
+                                err.warn(tree_str)
+                                err.warn("After op:")
+                                err.warn(tree)
+                                if tree.verify_tree():
+                                        err.warn("Verified")
+                                else:
+                                        err.warn("Issue Found")
+                                        exit()
                         if gen_graphs and pages:
                                 api.viz()
 

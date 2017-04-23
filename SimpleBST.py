@@ -71,6 +71,9 @@ class SimpleBST(AbstractBST.AbstractBST):
                 elif value > self.__api.read_value():
                         self.__api.move_right()
                 return self.rot_help(value)
+
+        def verify_tree(self):
+                return self.__api.verify_tree(False)
         
 #a = API({},{})
 #x = SimpleBST(a)
