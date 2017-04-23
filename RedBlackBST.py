@@ -67,7 +67,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 self.__api.move_right()
 
                 while not self.__api.is_null():
-                        print(self.__api.read_value())
+                        #print(self.__api.read_value())
                         self.__api.move_left()
 
                 self.__api.move_parent()
@@ -155,18 +155,12 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 self.__api.move(m)
                 
         def repeat_case(self, c):
-                print("REPEAT_CASE " + str(self.__api.read_value()))
-                print("Move Grand-Parent")
-                print(self)
                 self.__api.move_parent()
-                print("1")
                 self.__api.move_parent()
-                print(self)
                 if c is "l":
                         self.__api.rotate_right()
                 else:
                         self.__api.rotate_left()
-                print(self)
                 color = self.__api.read_closure("color")
                 if c is "l":
                         self.__api.move_right()
@@ -182,54 +176,43 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         self.__api.move_right()
                                         
         def insert_fix(self):
-                print("INSERT FIX")
                 if self.__api.is_root():
-                        print("IS ROOT")
                         self.__api.write_closure("color", "BLACK")
                 while self.parent_color() is "RED":
-                        print("Parent of " + str(self.__api.read_value()) + " is RED")
                         if self.uncle_color() is "RED":
-                                print("UNCLE is RED")
                                 self.color_parent("BLACK")
                                 self.color_uncle("BLACK")
                                 self.color_grand_parent("RED")
                                 self.__api.move_grand_parent()
                                 self.insert_fix()
                         else: # uncle_color is BLACK
-                                print("UNCLE is BLACK")
-                                #print(self)
                                 case = self.__api.move_grand_parent()
                                 self.__api.move(case)
-                                print(case)
+                                # print(case)
                                 if case[0] == "l" and case[1] == "l":
                                         self.repeat_case("l")
                                 elif case[0] == "l" and case[1] == "r":
-                                        print("Left Right Case")
+                                        # print("Left Right Case")
                                         self.__api.move_parent()
-                                        print("Move to parent:")
-                                        print(self)
-                                        print("Left Rotate on " + str(self.__api.read_value()))
+                                        # print("Move to parent:")
+                                        # print(self)
+                                        # print("Left Rotate on " + str(self.__api.read_value()))
                                         self.__api.rotate_left()
-                                        print(self.__api.verify_tree())
+                                        # print(self.__api.verify_tree())
                                         self.__api.move_left()
-                                        print("BEFORE REPEAT CASE")
-                                        print(self)
+                                        # print("BEFORE REPEAT CASE")
+                                        # print(self)
                                         self.repeat_case("l")
-                                        print("AFTER REPEAT CASE")
-                                        print(self)
+                                        # print("AFTER REPEAT CASE")
+                                        # print(self)
                                 elif case[0] == "r" and case[1] == "r":
                                         self.repeat_case("r")
                                 elif case[0] == "r" and case[1] == "l":
+                                        # print("RIGHT LEFT CASE")
                                         self.__api.move_parent()
                                         self.__api.rotate_right()
-                                        color = self.__api.read_closure("color")
-                                        self.__api.move_parent()
-                                        self.__api.rotate_left()
-                                        self.__api.move_left()
-                                        color2 = self.__api.read_closure("color")
-                                        self.__api.write_closure("color", color)
-                                        self.__api.move_parent()
-                                        self.__api.write_closure("color", color2)
+                                        self.__api.move_right()
+                                        self.repeat_case("r")
                 
 
         def delete(self, value):
@@ -247,7 +230,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 elif value > self.__api.read_value():
                         self.__api.move_right()
                 elif value == self.__api.read_value():
-                        # print(value)
+                        # # print(value)
                         return self.delete_cases(delete)
                 return self.delete_help(value, delete)
         
@@ -266,29 +249,29 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         (sv, sc) = self.successor()
                         self.__api.write_value(sv)
                         self.__api.set_count(sc)
-                        print("=========COPY SUCC+++++++++++")
-                        print(self)
+                        # print("=========COPY SUCC+++++++++++")
+                        # print(self)
                         self.move_successor()
                         self.__api.set_count(1)
-                        print("=====+++=+Move SUCC--------")
-                        print(self)
+                        # print("=====+++=+Move SUCC--------")
+                        # print(self)
                 color = self.__api.read_closure("color")
-                print(self)
+                # print(self)
                 
                 suc = self.__api.std_remove(sv)      #    else y ← TREE-SUCCESSOR(z)
-                print(suc)
-                print(self)
+                # print(suc)
+                # print(self)
 
                 if self.__api.is_null(): self.__api.write_closure("color", "BLACK")
-                print("Deleting: " + str(self.__api.read_value()))
+                # print("Deleting: " + str(self.__api.read_value()))
                 
-                print("Color "+color)
-                print(self)
+                # print("Color "+color)
+                # print(self)
                 if color is "BLACK":
                         #self.__api.move(self.has_children())
-                        print(self)    # if left[y] ≠ nil[T]
+                        # print(self)    # if left[y] ≠ nil[T]
                         self.rb_delete_fixup()          #    then x ← left[y]
-                print(self)
+                # print(self)
                 return suc                              #    else x ← right[y]
                                                         # p[x] ← p[y]
                                                         # if p[y] = nil[T]
@@ -303,19 +286,19 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                                         #     then RB-DELETE-FIXUP(T, x)
                                                         #  return y
         def rb_delete_fixup(self):
-                print("~~~~~~~~~~~~~~RB FIXUP~~~~~~~~~~~~~~~~~~~~~~")
-                print("-----BEFORE------")
-                print(self)
-                print("WHILE LOOP")
+                # print("~~~~~~~~~~~~~~RB FIXUP~~~~~~~~~~~~~~~~~~~~~~")
+                # print("-----BEFORE------")
+                # print(self)
+                # print("WHILE LOOP")
                 while not self.__api.is_root() and self.__api.read_closure("color") is "BLACK":
                         
                         if self.is_left_child():
-                                print(self)
-                                print(str(self.__api.read_value())+ " IS A LEFT CHILD")
+                                # print(self)
+                                # print(str(self.__api.read_value())+ " IS A LEFT CHILD")
                                 sib = self.sibling_color()
-                                print(sib)
+                                # print(sib)
                                 if sib[0] is "RED":
-                                        print("SIBLING IS RED")
+                                        # print("SIBLING IS RED")
                                         self.color_sibling("BLACK")
                                         self.color_parent("RED")
                                         self.__api.move_parent()
@@ -324,7 +307,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         self.__api.move_left()
                                         continue
                                 if sib[1] is "BLACK" and sib[2] is "BLACK":
-                                        print("BOTH s's CHILDREN ARE BLACK")
+                                        # print("BOTH s's CHILDREN ARE BLACK")
                                         self.color_sibling("RED")
                                         self.__api.move_parent()
                                         if(self.__api.read_closure("color") is "RED"):
@@ -332,28 +315,28 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         #self.__api.move_parent()
                                         continue
                                 elif sib[1] is "RED" and sib[2] is "BLACK":
-                                        print("Left CHILD IS RED")
+                                        # print("Left CHILD IS RED")
                                         self.__api.move_parent()
                                         self.__api.move_right() # Move to the sibling
                                         self.__api.move_left() # Move to the left child
-                                        print("==> Move to s's left")
+                                        # print("==> Move to s's left")
                                         self.__api.write_closure("color", "BLACK") 
-                                        print("==> Colored BLACK")
-                                        print(self)
+                                        # print("==> Colored BLACK")
+                                        # print(self)
                                         self.__api.move_parent() # Move back to sibling
                                         self.__api.write_closure("color", "RED")
-                                        print("==> S is red")
-                                        print(self)
+                                        # print("==> S is red")
+                                        # print(self)
                                         self.__api.rotate_right() # Right rotate sibling
-                                        print("==> Right rotate s")
+                                        # print("==> Right rotate s")
                                         
                                         #self.__api.reset()
                                         self.__api.move_parent() # Moving back to the node...
-                                        print("==> Left Rotate p")
+                                        # print("==> Left Rotate p")
                                         self.__api.rotate_left()
 
                                         #self.__api.move_left() # Should be back at x
-                                        print(self)
+                                        # print(self)
                                         self.__api.reset()
                                 elif sib[2] is "RED": # Case 4
                                         self.color_sibling(self.parent_color())
@@ -368,12 +351,12 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         self.__api.reset()
                                         continue
                         else:
-                                print(self)
-                                print(str(self.__api.read_value())+ " IS A right CHILD")
+                                # print(self)
+                                # print(str(self.__api.read_value())+ " IS A right CHILD")
                                 sib = self.sibling_color()
-                                print(sib)
+                                # print(sib)
                                 if sib[0] is "RED":
-                                        print("SIBLING IS RED")
+                                        # print("SIBLING IS RED")
                                         self.color_sibling("BLACK")
                                         self.color_parent("RED")
                                         self.__api.move_parent()
@@ -382,29 +365,29 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         self.__api.move_right()
                                         continue
                                 if sib[1] is "BLACK" and sib[2] is "BLACK":
-                                        print("BOTH s's CHILDREN ARE BLACK")
-                                        print(self)
+                                        # print("BOTH s's CHILDREN ARE BLACK")
+                                        # print(self)
                                         self.color_sibling("RED")
-                                        print(self)
+                                        # print(self)
                                         self.__api.move_parent()
                                         if(self.__api.read_closure("color") is "RED"):
                                                 break
                                         # self.__api.move_parent()
                                         continue
                                 elif sib[2] is "RED" and sib[1] is "BLACK":
-                                        print("right CHILD IS RED")
-                                        print(self)
+                                        # print("right CHILD IS RED")
+                                        # print(self)
                                         self.__api.move_parent()
                                         self.__api.move_left() # Move to the sibling
-                                        print(" ==> Moved to s")
-                                        print(self)
+                                        # print(" ==> Moved to s")
+                                        # print(self)
                                         self.__api.move_right() # Move to the right child
                                         self.__api.write_closure("color", "BLACK") 
-                                        print(" ==> Moved to s's right")
-                                        print(self)
+                                        # print(" ==> Moved to s's right")
+                                        # print(self)
                                         self.__api.move_parent() # Move back to sibling
-                                        print(" ==> Moved to parent")
-                                        print(self)
+                                        # print(" ==> Moved to parent")
+                                        # print(self)
                                         self.__api.write_closure("color", "RED")
                                         self.__api.rotate_left() # left rotate sibling
                                         self.__api.move_parent() # Moving back to the node...
@@ -412,28 +395,28 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         self.__api.reset()
                                         break
                                 elif sib[1] is "RED": # Case 4
-                                        print("CASE4")
-                                        print(self)
+                                        # print("CASE4")
+                                        # print(self)
                                         self.color_sibling(self.parent_color())
 
                                         self.color_parent("BLACK")
-                                        print("RECOLORED:")
-                                        print(self)
+                                        # print("RECOLORED:")
+                                        # print(self)
                                         self.__api.move_parent()
-                                        print(self)
+                                        # print(self)
                                         self.__api.move_left() # Move to the sibling
                                         self.__api.move_left() # move to the right[sib]
-                                        print(self)
+                                        # print(self)
                                         
                                         self.__api.write_closure("color", "BLACK")
-                                        print(self)
-                                        print("right sibling of 6")
+                                        # print(self)
+                                        # print("right sibling of 6")
                                         self.__api.move_parent() # Move to sib
                                         self.__api.move_parent() # Move to parent
-                                        print(self)
+                                        # print(self)
                                         self.__api.rotate_right()
-                                        print(self)
-                                        print("rotate of 6's parent")
+                                        # print(self)
+                                        # print("rotate of 6's parent")
                                         self.__api.reset()
                                         continue
                                         
@@ -471,23 +454,23 @@ class RedBlackBST(AbstractBST.AbstractBST):
                         return
                 if len(self.has_children()) is 2:
                         # Case 1
-                        print("Case 1")
+                        # print("Case 1")
                         (v, count) = self.successor()
-                        # print(self.__api.read_value())
-                        # print(v)
-                        # print(self)
+                        # # print(self.__api.read_value())
+                        # # print(v)
+                        # # print(self)
                         self.__api.write_value(v)
                         self.__api.set_count(count)
-                        # print(self)
+                        # # print(self)
                         self.__api.move_right()
                         return self.delete_help(v, False)
                 if self.child_color("l") is "RED" or self.child_color("r") is "RED" or self.__api.read_closure("color") is "RED":
                         # Case 2 -- one child; only of child or self is red
-                        print("Case 2 -- Delete: " + str(delete))
-                        # print(self)
+                        # print("Case 2 -- Delete: " + str(delete))
+                        # # print(self)
                         if delete and self.__api.get_count() <= 1:
                                 self.__api.std_remove()
-                                # print(self)
+                                # # print(self)
                                 self.__api.write_closure("color", "BLACK")
                         elif delete:
                                 self.__api.dec_count()
@@ -499,34 +482,34 @@ class RedBlackBST(AbstractBST.AbstractBST):
                 else:
                         # Case 3.3
                         if self.__api.is_root() and self.__api.read_closure("color") is "DBLACK":
-                                # print("Case 3.3")
+                                # # print("Case 3.3")
                                 self.__api.write_closure("color", "BLACK")
                                 return
                         # Case 3 -- one child; both are black
-                        print("Case 3")
-                        # print(self)
+                        # print("Case 3")
+                        # # print(self)
                         if self.__api.get_count() <= 1: 
-                                print("Std removed " + str(self.__api.read_value()))
+                                # print("Std removed " + str(self.__api.read_value()))
                                 self.__api.std_remove()
                         else:
-                                print("dec_count")
+                                # print("dec_count")
                                 self.__api.dec_count()
                                 return
                         # Case 3.1
-                        print("Case 3.1")
-                        # print(self)
+                        # print("Case 3.1")
+                        # # print(self)
                         self.__api.write_closure("color", "DBLACK")
                         # Case 3.2 reduce DBLACK to BLACK
                         while self.__api.read_closure("color") is "DBLACK" and not self.__api.is_root():
-                                print("Case 3.2")
+                                # print("Case 3.2")
                                 if self.parent_color() is "RED":
                                         self.color_parent("BLACK")
                                         self.__api.write_closure("color", "BLACK")
                                 # (a) is the sibling is black
                                 sib = self.sibling_color()
                                 if sib[0] is "BLACK" and (sib[1] is "RED" or sib[2] is "RED"):
-                                        print("Case 3.2 a")
-                                        print(self)
+                                        # print("Case 3.2 a")
+                                        # print(self)
                                         # Left Left Case
                                         # Left Right Case
                                         # Right Right Case
@@ -535,10 +518,10 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         self.__api.move(case1)
                                         self.__api.write_closure("color", "BLACK") # Color u
                                         if case1 is "r": # implies s is left child
-                                                print(end="Left ")
+                                                # print(end="Left ")
                                                 # Left left Case
                                                 if sib[1] is "RED":
-                                                        print("Left Case")
+                                                        # print("Left Case")
                                                         self.__api.move_grand_parent() # move to p
 
                                                         self.__api.rotate_right() # right rotate it
@@ -547,64 +530,64 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                                         self.__api.write_closure("color", "BLACK")
                                                 # Left Right Case
                                                 elif sib[2] is "RED":
-                                                        print("Right Case")
-                                                        print("------LEFT RIGHT CASE --------")
-                                                        print(self)
-                                                        print(" ===> Move Parent")
+                                                        # print("Right Case")
+                                                        # print("------LEFT RIGHT CASE --------")
+                                                        # print(self)
+                                                        # print(" ===> Move Parent")
                                                         self.__api.move_parent()
-                                                        print(self)
-                                                        print(" ===> rot right")
+                                                        # print(self)
+                                                        # print(" ===> rot right")
                                                         self.__api.move_right()
-                                                        print(self)
+                                                        # print(self)
                                                         self.__api.rotate_left()
                                                         self.__api.write_closure("color", "BLACK")
                                                         self.__api.move_parent()
                                                         self.__api.rotate_left()
-                                                        # print(self)
+                                                        # # print(self)
                                         else:
-                                                # print(self)
-                                                print(end="Right ")
+                                                # # print(self)
+                                                # print(end="Right ")
                                                 # Right Right Case
                                                 if sib[2] is "RED":
-                                                        print("Right Case")
-                                                        print(self)
+                                                        # print("Right Case")
+                                                        # print(self)
                                                         self.__api.move_parent()
                                                         
                                                         self.__api.rotate_left()
 
                                                         self.__api.move_right()
                                                         self.__api.write_closure("color", "BLACK")
-                                                        print(self)
-                                                #print("========== Moved Parent then LEFT =======")
-                                                #print(self)
-                                                #print("========== =======")
+                                                        # print(self)
+                                                ## print("========== Moved Parent then LEFT =======")
+                                                ## print(self)
+                                                ## print("========== =======")
                                                 # Right Left Case
                                                 elif sib[1] is "RED":
-                                                        print("Left Case")
-                                                        print("------RIGHT LEFT CASE --------")
-                                                        print(self)
-                                                        print(" ===> Move Parent")
+                                                        # print("Left Case")
+                                                        # print("------RIGHT LEFT CASE --------")
+                                                        # print(self)
+                                                        # print(" ===> Move Parent")
                                                         self.__api.move_parent()
-                                                        print(self)
-                                                        print(" ===> rot left")
+                                                        # print(self)
+                                                        # print(" ===> rot left")
                                                         self.__api.rotate_left()
-                                                        print(self)
-                                                        print(" ===> move left")
+                                                        # print(self)
+                                                        # print(" ===> move left")
                                                         self.__api.move_left()
-                                                        print(self)
-                                                        print(" ===> write closure")
+                                                        # print(self)
+                                                        # print(" ===> write closure")
                                                         self.__api.write_closure("color", "RED")
-                                                        print(self)
-                                                        print(" ===> move parent")
+                                                        # print(self)
+                                                        # print(" ===> move parent")
                                                         self.__api.move_parent()
-                                                        print(self)
-                                                        print(" ===> rotate right")
+                                                        # print(self)
+                                                        # print(" ===> rotate right")
                                                         self.__api.rotate_right()
-                                                        print(self)
+                                                        # print(self)
 
                                 # (b) sibling and both children are black
                                 elif sib[0] is "BLACK":
-                                        print("3.2 (b)")
+                                        # print("3.2 (b)")
                                         self.__api.write_closure("color", "BLACK")
                                         m = self.__api.move_parent()
                                         c = self.__api.read_closure("color")
@@ -615,7 +598,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         continue
                                 # (c) if sibling is red
                                 else:
-                                        print("3.2 c")
+                                        # print("3.2 c")
                                         if delete and self.__api.get_count() <= 1: 
                                                 self.__api.std_remove()
                                         elif delete:
@@ -633,7 +616,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
                                         return self.delete_cases(False)
 
                         if self.__api.is_root() and self.__api.read_closure("color") is "DBLACK":
-                                print("Case 3.3")
+                                # print("Case 3.3")
                                 self.__api.write_closure("color", "BLACK")
 
         def search(self, value):
@@ -660,13 +643,13 @@ class RedBlackBST(AbstractBST.AbstractBST):
 # 
 #for i in [5, 3, 7, 4, 8, 6, 2]:
 #for i in [1, 2, 3, 4, 5, 6, 7, 8]:
-#        print("insert: " + str(i))
+#        # print("insert: " + str(i))
 #        x.insert(i)
-#        print(x)
-# print("search  5: " + str(x.search(5)))
-# print("search  2: " + str(x.search(2)))
-# print("search  4: " + str(x.search(4)))
-# print("search 10: " + str(x.search(10)))
+#        # print(x)
+# # print("search  5: " + str(x.search(5)))
+# # print("search  2: " + str(x.search(2)))
+# # print("search  4: " + str(x.search(4)))
+# # print("search 10: " + str(x.search(10)))
 # print("search  1: " + str(x.search(1)))
 # 
 # 

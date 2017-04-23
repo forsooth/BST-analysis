@@ -66,7 +66,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
 
         fig = plt.figure(figsize=(10, 10))
-        
+
         fontP = FontProperties()
         fontP.set_size('small')
 

@@ -208,6 +208,8 @@ class BSTDataModel:
                 return left and right
 
         def verify_tree_ref_helper(self, parent, node, left):
+                if node is None:
+                        return True
                 # Check that the parent pointer is pointed to the parent
                 parent_is_parent = node.p is parent
 
@@ -244,7 +246,7 @@ class BSTDataModel:
         # Verify that the value of the node is less or more than the parent
         def verify_tree_val_helper(self, parent, node, isLess):
                 # Vacuous Truth
-                if node.v is None:
+                if node.v is None or node is None:
                         return True
                 # Node and parent can't have same value
                 # BST data model assumes unique values
