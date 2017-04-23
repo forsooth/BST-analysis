@@ -23,7 +23,6 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                 plt.rcParams["font.family"] = "Input Mono"
 
                 cwd = os.getcwd()
-
                 xmax = max(logn)
                 xmin = min(logn)
                 ymax = max(logt)

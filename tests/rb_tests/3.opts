@@ -1,5 +1,8 @@
 ins 10
 ins 20
-ins 30
+ins 5
+ins 15
 ins 25
-ins 26
+ins 3
+ins 2
+del 3
