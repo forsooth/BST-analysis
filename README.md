@@ -5,6 +5,7 @@ A toolkit for working with and reasoning about binary search trees, particularly
 
 # Introduction
 
+This project was started by Matt Asnes and Harrison Kaiser, for COMP-150-08: Topics on Algorithms, Graphs and Data Structures, in Spring 2017.
 
 ## Summary of 2D Geometric BST Interpretation
 
