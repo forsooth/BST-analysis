@@ -82,19 +82,26 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
         ax_vcount = plt.subplot(gs[0, 0], **kx)
         ax_none = plt.subplot(gs[0, 1], **kx)
         ax_small = plt.axes([0.73, 0.11, 0.17, 0.17])
+        ax_main.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+        ax_main.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+        ax_count.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+        ax_count.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+        ax_vcount.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+        ax_vcount.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
         plt.xticks([])
         plt.yticks([])
         ax_small.yaxis.set_minor_locator(yloc)
         ax_small.yaxis.grid(True, which='minor', color=colors.h_light_gray)
         ax_small.set_axisbelow(True)
 
-
-                
         gs.update(wspace=0.00, hspace=-0.00)
 
         log_marker = 'x'
-        if len(logt) > 50:
+        if len(opst) > 50:
+                err.log('Input size is ' + str(len(opst)) + ', using marker \'o\'')
                 log_marker = 'o'
+        else:
+                err.log('Input size is ' + str(len(opst)) + ', using marker \'x\'')
 
         if pages:
                 partial_logn = []
@@ -249,21 +256,24 @@ def add_plot(fname, cwd, fig,
                         ax_main.set_ylim(pad_ylim)
 
                         ax_main.yaxis.set_minor_locator(yloc)
-                        ax_main.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
                         ax_main.yaxis.grid(True, which='minor', color=colors.h_light_gray)
                 
                         ax_main.xaxis.set_minor_locator(xloc)
-                        ax_main.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
                         ax_main.xaxis.grid(True, which='minor', color=colors.h_light_gray)
 
                         if debug == 2:
                                 err.log("Set up main plot")
 
 
-                log = ax_main.scatter(logn, logt, s=1000 / 2 / max(xrng, yrng),
-                                      c=[colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))],
+                log = ax_main.scatter([-1] + logn, [-1] + logt, s=1000 / 2 / max(xrng, yrng),
+                                      c=[colors.h_light_blue] + [colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))],
                                       marker=log_marker, 
                                       label='Intermediate accesses')
+
+                root_log = ax_main.scatter([-1], [-1], s=1000 / 2 / max(xrng, yrng),
+                                      c=colors.h_dark_blue,
+                                      marker=log_marker, 
+                                      label='Root value at this time')
 
                 if debug == 2:
                         err.log("Plotted Xs")
@@ -298,7 +308,6 @@ def add_plot(fname, cwd, fig,
                         ax_count.set_ylim(pad_ylim)
                         ax_count.tick_params(axis='y', which='both', left='off')
                         ax_count.set_yticklabels([])
-                        ax_count.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
                         ax_count.xaxis.get_major_ticks()[0].label1.set_visible(False)
 
 
@@ -336,12 +345,11 @@ def add_plot(fname, cwd, fig,
                         ax_vcount.yaxis.tick_left()
                         ax_vcount.tick_params(axis='x', which='both', bottom='off')
                         ax_vcount.set_xticklabels([])
-                        ax_vcount.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
                         ax_vcount.yaxis.get_major_ticks()[0].label1.set_visible(False)
 
                 sbar = ax_small.barh(ylist, 
                                      t_counts, 
-                                     min(yrng, 128) / 128,
+                                     1,
                                      align='center',
                                      color=colors.h_dark_blue)
 
@@ -364,6 +372,9 @@ def add_plot(fname, cwd, fig,
                         ax_none.set_xticklabels([])
                         ax_none.set_yticklabels([])
                         ax_none.axis('off')
+
+                        ax_main.legend(loc='lower center', bbox_to_anchor=(1, -0.25), ncol=3)
+
 
                 if debug == 2:
                         err.log("Set up tree image axis")
