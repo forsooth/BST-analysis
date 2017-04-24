@@ -13,5 +13,6 @@
 ### Harrison
 * Make AVL tree
 * Make WAVL tree
-* Go through and comment code
+* Re-factor RedBlack Tree
+* Make verification and __str__ for be independent of BST type
 
