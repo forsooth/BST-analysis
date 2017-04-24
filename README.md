@@ -38,7 +38,7 @@ We attempt to represent the abstractions here in the structure of the project. A
 
 ## Architecture Diagram
 
-![Architecture diagram for the program](/img/arch.svg?raw=true)
+![Architecture diagram for the program](/img/arch.svg)
 
 
 # Dependencies
