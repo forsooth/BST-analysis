@@ -251,6 +251,8 @@ The above programs have many arguments, so we have made the process fairly easy 
 * Make AVL tree
 * Make WAVL tree
 * Go through and improve code commenting and clarity
+* Re-factor RedBlack Tree
+* Make verification and __str__ for be independent of BST type
 
 ### You
 * Try out our code!
