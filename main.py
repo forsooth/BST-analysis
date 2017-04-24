@@ -18,9 +18,9 @@ parser.add_argument('operations', type=str, nargs='+',
                     help="Paths to files which list the the operations which "
                     + "the BST will perform. Default is standard input.")
 
-parser.add_argument('-o', '--output', type=str, default='-',
-                    help="Output location for BST instruction log file."
-                         + " Default is standard output.")
+# parser.add_argument('-o', '--output', type=str, default='-',
+#                     help="Output location for BST instruction log file."
+#                          + " Default is standard output.")
 
 parser.add_argument('-a', '--algorithm', type=str, default='simple',
                     help="Algorithm to use in performing the desired"
@@ -37,6 +37,9 @@ parser.add_argument('-p', '--pages', action='store_true',
 
 parser.add_argument('-g', '--graphs', action='store_true',
                     help="Enable addition of tree image to data output.")
+
+parser.add_argument('-c', '--clean_off', action='store_true',
+                    help="Disable cleanup of temporary files.")
 
 
 args = parser.parse_args()
@@ -87,4 +90,4 @@ elif debug == 2:
 elif debug == 3:
         err.warn("Debug mode is set to: VERIFY")
 
-ops.exec_ops(algo, args.pages, args.graphs, debug)
+ops.exec_ops(algo, args.pages, args.graphs, args.clean_off, debug)

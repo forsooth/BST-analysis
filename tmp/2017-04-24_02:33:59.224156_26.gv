@@ -1,0 +1,68 @@
+digraph {
+size="10,10"
+fontpath="/home/M/.fonts/"
+	node [shape=circle]
+	node [style=filled]
+	node [color=black]
+	node [fixedsize=true]
+	node [height=0.75]
+	node [width=0.75]
+	node [fontcolor=white]
+	node [fontname="Courier:Bold"]
+	edge [arrowhead=none]
+	edge [style=filled]
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	3
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	0
+		3 -> 0
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[3"
+		3 -> "[3"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	5
+		3 -> 5
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	4
+		5 -> 4
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"[5"
+		5 -> "[5"
+	edge [weight=10]
+	edge [color=black]
+	node [color=black]
+	6
+		5 -> 6
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"|6"
+		6 -> "|6"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	9
+		6 -> 9
+	edge [weight=100]
+	edge [color=white]
+	node [color=white]
+	"|0"
+		0 -> "|0"
+	edge [weight=10]
+	edge [color=black]
+	node [color="#ef5350"]
+	2
+		0 -> 2
+}

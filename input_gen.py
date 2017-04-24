@@ -179,7 +179,7 @@ for i, (op_type, op) in enumerate(ops):
                                         elif j == len(cur_ops) * n // 2 + 1:
                                                 a = upper
                                         else:
-                                                a = lower + int(random.gauss((upper - lower) // 2, (upper - lower) // 20))
+                                                a = lower + int(random.gauss((upper + lower) // 2, (upper + lower) // 10))
                                                 if a < lower:
                                                         a = lower
                                                 elif a > upper:
@@ -234,7 +234,7 @@ for i, (op_type, op) in enumerate(ops):
                                         elif j == len(cur_ops) * n // 2 + 1:
                                                 a = upper
                                         else:
-                                                a = lower + int(random.gauss((upper - lower) // 2, (upper - lower) // 20))
+                                                a = lower + int(random.gauss((upper + lower) // 2, (upper + lower) // 10))
                                                 if a < lower:
                                                         a = lower
                                                 elif a > upper:
@@ -288,7 +288,7 @@ for i, (op_type, op) in enumerate(ops):
                                         elif j == len(cur_ops) * n // 2 + 1:
                                                 a = upper
                                         else:
-                                                a = lower + int(random.gauss((upper - lower) // 2, (upper - lower) // 20))
+                                                a = lower + int(random.gauss((upper + lower) // 2, (upper + lower) // 10))
                                                 if a < lower:
                                                         a = lower
                                                 elif a > upper:

@@ -8,22 +8,22 @@ import matplotlib.ticker as ticker
 import os
 from pyx import canvas, document, epsfile
 import numpy as np
-from io import StringIO
 
 
-def plot(logn, logt, opsn, opst, pages, graphs, debug):
+def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
 
         fname = str(datetime.now()).replace(' ', '_')
 
         plt.rc('font', family='Input Mono') 
-
         cwd = os.getcwd()
 
         try:
                 os.mkdir(cwd + '/tmp')
-                err.log('./tmp/ directory created for temporary storage.')
+                if debug > 0:
+                        err.log('./tmp/ directory created for temporary storage.')
         except FileExistsError:
-                err.log('./tmp/ directory exists; using it for temporary storage.')
+                if debug > 0:
+                        err.log('./tmp/ directory exists; using it for temporary storage.')
 
         new_logn = []
         new_logt = []
@@ -37,10 +37,10 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
         logn = new_logn
         logt = new_logt
 
-        xmax = max(logn)
-        xmin = min(logn)
-        ymax = max(logt)
-        ymin = min(logt)
+        xmax = int(max(logn))
+        xmin = int(min(logn))
+        ymax = int(max(logt))
+        ymin = int(min(logt))
         xrng = max(xmax - xmin, 0)
         yrng = max(ymax - ymin, 0)
 
@@ -52,9 +52,6 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
         ylist = range(ymin, ymax + 1)
         xlist = range(xmin, xmax + 1)
-
-        #xrng
-        #ticker.MultipleLocator.MAXTICKS
 
         xticker_base = 1.0
         if xrng > ticker.MultipleLocator.MAXTICKS - 50:
@@ -98,9 +95,10 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
         log_marker = 'x'
         if len(opst) > 50:
-                err.log('Input size is ' + str(len(opst)) + ', using marker \'o\'')
+                if debug > 1:
+                        err.log('Input size is ' + str(len(opst)) + ', using marker \'o\'')
                 log_marker = 'o'
-        else:
+        elif debug > 1:
                 err.log('Input size is ' + str(len(opst)) + ', using marker \'x\'')
 
         if pages:
@@ -112,9 +110,8 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                 logt_i = 0
                 
                 for i in range(0, len(opst)):
-                        if debug == 1:
-                                if debug == 2:
-                                        err.log("Generating data plot number " + str(i))
+                        if debug > 1:
+                                err.log("Generating data plot number " + str(i))
 
                         partial_opst = [opst[i]]
                         partial_opsn = [opsn[i]]
@@ -134,7 +131,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
 
 
-                        if debug == 2:
+                        if debug > 1:
                                 err.log("Starting plot generation")
         
                         add_plot(fname, cwd, fig, partial_logn, partial_logt,
@@ -172,6 +169,9 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
         for i in range(0, num_plots):
 
+                if debug > 0:
+                        err.log("Concatenating PS pages for plot #" + str(i))
+
                 plots_name = cwd + '/tmp/' + fname + '_' + str(i) + '.eps'
                 tree_name = cwd + '/tmp/' + fname + '_' + str(i) + '.gv.eps'
 
@@ -185,9 +185,8 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                                         bbline = line.split()
                                         tree_w = bbline[3]
                                         tree_h = bbline[4]
-                                        if debug == 1:
-                                                err.log(line)
-                                                err.log("Got height: {} and width {}".format(tree_h, tree_w))
+                                        if debug > 1:
+                                                err.log("In EPS #{} got height: {} and width {} from line {}".format(i, tree_h, tree_w, line.replace('\n', '')))
                                         break
                         else:
                                 err.err("BoundingBox line not found in EPS file for tree diagram.")
@@ -209,15 +208,22 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
                         c.insert(tree_file)
                 
                 p = document.page(c, fittosize=True, centered=True, paperformat=page_size)
+                if no_clean:
+                        c.writeEPSfile(cwd + '/tmp/' + fname + '_' + str(i) + '.zipped.eps')
+
                 page_list.append(p)
 
         d = document.document(page_list)
-        d.writePSfile(cwd + '/outputs/' + fname + '.ps')
+        out_name = cwd + '/outputs/' + fname + '.ps'
+        if debug > 0:
+                err.log("Saving final output " + out_name)
+        d.writePSfile(out_name)
 
-        for tmpf in os.listdir(cwd + '/tmp/'):
-                os.remove(cwd + '/tmp/' + tmpf)
-
-        os.rmdir(cwd + '/tmp/')
+        if not no_clean:
+                for tmpf in os.listdir(cwd + '/tmp/'):
+                        os.remove(cwd + '/tmp/' + tmpf)
+        
+                os.rmdir(cwd + '/tmp/')
 
 
 def add_plot(fname, cwd, fig,
@@ -243,7 +249,7 @@ def add_plot(fname, cwd, fig,
                         yloc.view_limits(ymin, ymax)
                         xloc.view_limits(xmin, xmax)
 
-                        if debug == 2:
+                        if debug > 1:
                                 err.log("Created axes")
                 
                         ax_main.set_xlabel('Element in BST')
@@ -261,7 +267,7 @@ def add_plot(fname, cwd, fig,
                         ax_main.xaxis.set_minor_locator(xloc)
                         ax_main.xaxis.grid(True, which='minor', color=colors.h_light_gray)
 
-                        if debug == 2:
+                        if debug > 1:
                                 err.log("Set up main plot")
 
 
@@ -275,7 +281,7 @@ def add_plot(fname, cwd, fig,
                                       marker=log_marker, 
                                       label='Root value at this time')
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Plotted Xs")
 
                 ops = ax_main.scatter(opsn, opst, s=1000 / max(xrng, yrng),
@@ -283,7 +289,7 @@ def add_plot(fname, cwd, fig,
                                  marker="o", 
                                  label='Operation arguments')
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Plotted Os")
 
                 for i, t in enumerate(logt):
@@ -291,7 +297,7 @@ def add_plot(fname, cwd, fig,
                                 t_pairs.add((t, logn[i]))
                                 t_counts[t - ymin] += 1
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Generated y-axis histogram data")
 
                 if graph_i == 0:
@@ -311,7 +317,7 @@ def add_plot(fname, cwd, fig,
                         ax_count.xaxis.get_major_ticks()[0].label1.set_visible(False)
 
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Set up y-axis histogram axis")
 
                 hbar = ax_count.barh(ylist, 
@@ -320,15 +326,15 @@ def add_plot(fname, cwd, fig,
                                      align='center',
                                      color=colors.h_dark_blue)
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Created y-axis histogram bar chart")
 
                 for i, n in enumerate(logn):
                         if (n, logt[i]) not in n_pairs:
                                 n_pairs.add((n, logt[i]))
-                                n_counts[n - xmin] += 1
+                                n_counts[int(n) - xmin] += 1
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Generated x-axis histogram data")
 
                 if graph_i == 0:
@@ -353,7 +359,7 @@ def add_plot(fname, cwd, fig,
                                      align='center',
                                      color=colors.h_dark_blue)
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Set up x-axis histogram axis")
 
                 vbar = ax_vcount.bar(xlist, 
@@ -362,7 +368,7 @@ def add_plot(fname, cwd, fig,
                                      align='center',
                                      color=colors.h_dark_blue)
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Generated y-axis histogram data")
                 if graph_i == 0:
                         ax_none.spines['top'].set_visible(False)
@@ -376,15 +382,16 @@ def add_plot(fname, cwd, fig,
                         ax_main.legend(loc='lower center', bbox_to_anchor=(1, -0.25), ncol=3)
 
 
-                if debug == 2:
+                if debug > 1:
                         err.log("Set up tree image axis")
 
                 if len(graphs) > 0:
                         graph = graphs[0]
                         graph.render(cwd + '/tmp/' + fname + '_' + str(graph_i) + '.gv')
-                        err.log("Saving intermediary graphviz EPS file #" + str(graph_i))
+                        if debug > 0:
+                                err.log("Saving intermediary graphviz EPS file #" + str(graph_i))
 
-                if debug == 1:
+                if debug > 0:
                         err.log("Saving intermediary matplotlib EPS file #" + str(graph_i))
 
                 plt.savefig(plot_fname, bbox_inches='tight', pad_inches=0.5, format='eps')

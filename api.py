@@ -275,7 +275,7 @@ class API():
                 self.__bst.cur.count = v
                 
         def move_right(self):
-                if self.debug == 2:
+                if self.debug > 1:
                         err.log(str(self.t()) + " Moving right on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
                         if self.log_on():
@@ -283,7 +283,7 @@ class API():
                         self.__bst.cur = self.__bst.cur.r
 
         def move_left(self):
-                if self.debug == 2:
+                if self.debug > 1:
                         err.log(str(self.t()) + " Moving left on " + str(self.__bst.cur))
                 if self.__bst.cur.v is not None:
                         if self.log_on():
@@ -291,7 +291,7 @@ class API():
                         self.__bst.cur = self.__bst.cur.l
 
         def move_parent(self):
-                if self.debug == 2:
+                if self.debug > 1:
                         err.log(str(self.t()) + " Moving to parent on " + str(self.__bst.cur))
                 moved = ""
                 if self.__bst.cur is self.__bst.root:
@@ -320,7 +320,7 @@ class API():
         def rotate_left(self):
                 # print("------------ROTATE LEFT---------------")
                 # print("Valid Tree: " + str( self.verify_tree()))
-                if self.debug == 2:
+                if self.debug > 1:
                         err.log(str(self.t()) + " Left rotate on " + str(self.__bst.cur))
                 if self.is_null():
                         return False
@@ -397,7 +397,7 @@ class API():
         def rotate_right(self):
                 # print("------------ROTATE RIGHT---------------")
                 # print("Valid Tree: " + str( self.verify_tree()))
-                if self.debug == 2:
+                if self.debug > 1:
                         err.log(str(self.t()) + " Right rotate on " + str(self.__bst.cur))
                 if self.is_null():
                         return False
