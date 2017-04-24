@@ -11,7 +11,6 @@
 * Add option to track only after operation N
 
 ### Harrison
-* Fix RB tree coloring constraints
 * Make AVL tree
 * Make WAVL tree
 * Go through and comment code
