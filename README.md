@@ -132,7 +132,7 @@ The project is split into two main components: `input_gen` and `main`. These two
 
 ## Input Generation
 
-This program generates a list of operations in the format required by the main workflow. Several command line options exist to set constraints on and customize the generated operations. By default, however, the program generates 75 operations, beginning with 25 inserts followed by mixed searches and deletes. By default, the arguments to these operations are integers between 1 and 20, distributed randomly. The output is not written to disk by default, but rather is printed to standard output.
+This program generates a list of operations in the format required by the main workflow. Several command line options exist to set constraints on and customize the generated operations. By default, however, the program generates 75 operations, beginning with 25 inserts followed by mixed searches and deletes. By default, the arguments to these operations are integers between 1 and 20, distributed randomly. The output is not written to disk by default, but rather is printed to standard output. By default, and in a way that cannot be disabled, the last run operations are written to the `inputs/last_run.ops` file, in case anything interesting occurs.
 
 ### Input Command-Line Options
 
