@@ -1,7 +1,7 @@
 # BST Vizualization & Analysis Toolkit
 A toolkit for working with and reasoning about binary search trees, particularly their 2D geometric representation and the visual results of the time complexity of various BST operations. Visit [wikipedia](https://en.wikipedia.org/wiki/Geometry_of_binary_search_trees) for a quick summary of the problem of dynamic optimality and its relationship to 2D geometric plots, or read below.
 
-![A Binary Search Tree](/img/example_tree.png?raw=true)
+![A Binary Search Tree](/img/example_rb_tree.png?raw=true)
 
 # Introduction
 
