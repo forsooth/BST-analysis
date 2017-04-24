@@ -2,6 +2,13 @@
 import argparse
 import err
 from operations import Operations
+import signal
+
+
+def interrupt_catch(signal, frame):
+        err.err('Keyboard interrupt detected. Exiting.')
+
+signal.signal(signal.SIGINT, interrupt_catch)
 
 parser = argparse.ArgumentParser(description='Generates 2D geometric represen'
                                  + 'tations of BSTs given input op'
