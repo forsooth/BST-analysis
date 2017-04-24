@@ -65,7 +65,7 @@ class Operations():
                 if f is not sys.stdin:
                         f.close()
 
-        def exec_ops(self, algo, pages, gen_graphs, debug):
+        def exec_ops(self, algo, pages, gen_graphs, no_clean, debug):
                 logt = []
                 logn = []
                 opst = []
@@ -91,9 +91,9 @@ class Operations():
 
                 time = 1
                 for op in self.ops:
-                        if debug == 3:
+                        if debug > 2:
                                 tree_str = str(tree) 
-                        if debug == 2 or debug == 3:
+                        if debug > 1:
                                 err.log("operation #" + str(time) + ": " + str(op))
                         api.reset()
                         if op.op == 'ins':
@@ -122,16 +122,16 @@ class Operations():
                                 time += 1
                         if debug == 2:
                                 err.warn(tree)
-                        if debug == 3:
-                                err.warn("Before op:")
+                        if debug > 2:
+                                err.log("Before op, tree was:")
                                 err.warn(tree_str)
-                                err.warn("After op:")
+                                err.log("After op, tree is:")
                                 err.warn(tree)
+                                err.warn("Beginning tree verification:")
                                 if tree.verify_tree():
                                         err.warn("Verified")
                                 else:
-                                        err.warn("Issue Found")
-                                        exit()
+                                        err.err("Issue found when verifying tree!")
                         if gen_graphs and pages:
                                 api.viz()
 
@@ -141,4 +141,4 @@ class Operations():
                 if debug == 1 and len(self.ops) < 50:
                         err.warn(tree)
 
-                plot.plot(logn, logt, opsn, opst, pages, graphs, debug)
+                plot.plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug)

@@ -20,9 +20,9 @@ class Node:
                 self.cl = {}
 
         def __str__(self):
-                if "color" in self.cl.keys() and self.cl["color"] is "RED":
+                if "color" in self.cl and self.cl["color"] is "RED":
                         return colors.t_red + self.v.__str__() + colors.t_nc
-                elif "color" in self.cl.keys() and self.cl["color"] is "DBLACK":
+                elif "color" in self.cl and self.cl["color"] is "DBLACK":
                         return colors.t_green + self.v.__str__() + colors.t_nc
                 return self.v.__str__()
 
@@ -88,12 +88,12 @@ class BSTDataModel:
 
         def viz_tree(self):
                 self.graph_num += 1
-                if self.debug == 1:
+                if self.debug > 0:
                         err.log("Generating DOT for tree diagram number " + str(self.graph_num))
 
                 graph = Digraph()
                 graph.format = 'eps'
-                graph.body.extend(['size="10,10"'])
+                graph.body.extend(['size="10,10"', 'fontpath="/home/M/.fonts/"'])
                 graph.attr('node', shape='circle')
                 graph.attr('node', style='filled')
                 graph.attr('node', color='black')
@@ -101,7 +101,7 @@ class BSTDataModel:
                 graph.attr('node', height='0.75')
                 graph.attr('node', width='0.75')
                 graph.attr('node', fontcolor='white')
-                graph.attr('node', fontname='InputMono')
+                graph.attr('node', fontname='InputMono-Bold')
                 graph.attr('edge', arrowhead='none')
                 graph.attr('edge', style='filled')
 
@@ -163,7 +163,7 @@ class BSTDataModel:
                 if style_type == "invisible":
                         graph.attr('edge', weight='100')
                         graph.attr('edge', color='white')
-                        if self.debug == 2:
+                        if self.debug > 2:
                                 nodecolor = 'blue'
                 else:
                         nodes.add(child_name)
@@ -182,9 +182,10 @@ class BSTDataModel:
                 ref = self.verify_tree_ref()
                 val = self.verify_tree_val()
                 rbl = self.verify_rb()
-                print("Pointers: " + str(ref))
-                print("Value: " + str(val))
-                if rb: print("RedBlack: " + str(rbl))
+                err.log("Pointers: " + str(ref))
+                err.log("Value: " + str(val))
+                if rbl: 
+                        err.log("RedBlack: " + str(rbl))
                 return ref and val and (rbl or not rb)
 
         # Function verifies that the references to children, parents on all internal
@@ -202,8 +203,8 @@ class BSTDataModel:
                 left  = self.verify_tree_ref_helper(node, node.l, True)
                 right = self.verify_tree_ref_helper(node, node.r, False)
                 
-                print("Left of Root: " + str(left))
-                print("Left of Root: " + str(right))
+                err.log("Left of Root: " + str(left))
+                err.log("Left of Root: " + str(right))
                 
                 return left and right
 
@@ -274,9 +275,9 @@ class BSTDataModel:
                 black_or_red = self.verify_black_or_red()
                 black_children = self.verify_red_has_black_children()
                 black_height = self.verify_black_height() is not -1
-                print("Each node is Black or Red: " + str(black_or_red))
-                print("Each Red node has black children: " + str(black_children))
-                print("Black Heights Match: " + str(black_height))
+                err.log("Each node is Black or Red: " + str(black_or_red))
+                err.log("Each Red node has black children: " + str(black_children))
+                err.log("Black Heights Match: " + str(black_height))
                 return black_height and black_children and black_or_red
 
         def verify_black_height(self):
@@ -293,6 +294,9 @@ class BSTDataModel:
 
                 if left is -1 or right is -1:
                         return -1
+
+                if "color" not in node.cl:
+                        return 0
 
                 if left is right:
                         if node.cl["color"] is "BLACK":
@@ -312,8 +316,11 @@ class BSTDataModel:
                 if node.v is None:
                         return True
 
+                if "color" not in node.cl:
+                        return True
+
                 if red_parent and node.cl["color"] is not "BLACK":
-                        print("Red Node \w red parent: " + str(node.v))
+                        err.log("Red Node \w red parent: " + str(node.v))
                         return False
 
                 red_parent = node.cl["color"] is "RED"
@@ -331,7 +338,7 @@ class BSTDataModel:
         #  - Root is Black
         def verify_black_or_red_helper(self, node):
                 # If the color is not set something is wrong
-                if "color" not in node.cl.keys():
+                if "color" not in node.cl:
                         return False
 
                 # Check if the color is RED or BLACK explicitly
