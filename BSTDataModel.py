@@ -93,7 +93,7 @@ class BSTDataModel:
 
                 graph = Digraph()
                 graph.format = 'eps'
-                graph.body.extend(['size="10,10"'])
+                graph.body.extend(['size="10,10"', 'fontpath="/home/M/.fonts/"'])
                 graph.attr('node', shape='circle')
                 graph.attr('node', style='filled')
                 graph.attr('node', color='black')
@@ -101,7 +101,7 @@ class BSTDataModel:
                 graph.attr('node', height='0.75')
                 graph.attr('node', width='0.75')
                 graph.attr('node', fontcolor='white')
-                graph.attr('node', fontname='InputMono')
+                graph.attr('node', fontname='Courier:Bold')
                 graph.attr('edge', arrowhead='none')
                 graph.attr('edge', style='filled')
 

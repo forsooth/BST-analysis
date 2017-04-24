@@ -15,7 +15,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, debug):
 
         fname = str(datetime.now()).replace(' ', '_')
 
-        plt.rcParams["font.family"] = "Input Mono"
+        plt.rc('font', family='Input Mono') 
 
         cwd = os.getcwd()
 
