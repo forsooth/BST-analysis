@@ -17,6 +17,7 @@ class API():
                 self.__t = 0
                 self.__logn = logn
                 self.__logt = logt
+                self.tree_type = "bst"
 
         def __str__(self):
                 return self.__bst.__str__()
@@ -147,6 +148,8 @@ class API():
                         self.move_parent()
                         self.__bst.cur.v = s
                         self.__bst.cur.count = sc
+                        # Comment out on purpose -- 
+                        # more useful to maintain color/height/balance ect..
                         # self.__bst.cur.scl = scl
 
                         return True
@@ -470,5 +473,11 @@ class API():
                 # print("Still Valid?: " + str( self.verify_tree()))
                 # print("------------ROTATE RIGHT END---------------")
 
-        def verify_tree(self, rb=False):
-                return self.__bst.verify(rb)
+        def rotate(self, case):
+                if case is "l":
+                        self.rotate_left()
+                else:
+                        self.rotate_right()
+
+        def verify_tree(self):
+                return self.__bst.verify(self.tree_type)
