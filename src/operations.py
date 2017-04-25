@@ -4,6 +4,7 @@ from api import API
 from SimpleBST import SimpleBST
 from RedBlackBST import RedBlackBST
 from SplayBST import SplayBST
+from AVLBST import AVLBST 
 import plot
 import sys
 
@@ -81,7 +82,7 @@ class Operations():
                 elif algo == 'splay':
                         tree = SplayBST(api)
                 elif algo == 'avl':
-                        err.err("Algorithm not yet implemented")
+                        tree = AVLBST(api)
                 elif algo == 'wavl':
                         err.err("Algorithm not yet implemented")
                 elif algo == 'tango':
