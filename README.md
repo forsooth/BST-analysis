@@ -246,13 +246,13 @@ The above programs have many arguments, so we have made the process fairly easy 
 * Add CLI option to track only after operation N
 * Figure out how font embedding works in graphviz digrams
 * Go through and improve code commenting and clarity
+* Progress Bar for cli
 
 ### Harrison
-* Make AVL tree
 * Make WAVL tree
 * Go through and improve code commenting and clarity
 * Re-factor RedBlack Tree
-* Make verification and __str__ for be independent of BST type
+* Make __str__ for be independent of BST type
 
 ### You
 * Try out our code!
