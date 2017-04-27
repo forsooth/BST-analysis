@@ -24,6 +24,10 @@ class Node:
                         return colors.t_red + self.v.__str__() + colors.t_nc
                 elif "color" in self.cl and self.cl["color"] is "DBLACK":
                         return colors.t_green + self.v.__str__() + colors.t_nc
+                elif "height" in self.cl:
+                        return  self.v.__str__()+ " {height: "+ str(self.cl["height"])+";}"
+                elif "rank" in self.cl:
+                        return  self.v.__str__()+ " {rank: "+ str(self.cl["rank"])+";}"
                 return self.v.__str__()
 
         def __repr__(self):
@@ -178,15 +182,22 @@ class BSTDataModel:
                         graph.edge(parent_name, child_name)
 
         # Verifies the properties of the Tree
-        def verify(self, rb=False):
+        def verify(self, t):
                 ref = self.verify_tree_ref()
                 val = self.verify_tree_val()
-                rbl = self.verify_rb()
                 err.log("Pointers: " + str(ref))
                 err.log("Value: " + str(val))
-                if rbl: 
+                rbl = avl = False
+                if t is "rb": 
+                        rbl = self.verify_rb()
                         err.log("RedBlack: " + str(rbl))
-                return ref and val and (rbl or not rb)
+                elif t is "avl":
+                        avl = self.verify_avl()
+                        err.log("AVL: " + str(avl))
+                elif t is "wavl":
+                        wavl = self.verify_wavl()
+                        err.log("WeakAVL: " + str(wavl))
+                return ref and val and (rbl or not t is "rb") and (avl or not t is "avl")
 
         # Function verifies that the references to children, parents on all internal
         # and fake leaf nodes are valid. Also ensures each internal node contain a non-None
@@ -247,7 +258,7 @@ class BSTDataModel:
         # Verify that the value of the node is less or more than the parent
         def verify_tree_val_helper(self, parent, node, isLess):
                 # Vacuous Truth
-                if node.v is None or node is None:
+                if self.null(node):
                         return True
                 # Node and parent can't have same value
                 # BST data model assumes unique values
@@ -363,3 +374,45 @@ class BSTDataModel:
                 right = self.verify_black_or_red_helper(node.r)
 
                 return left and right
+
+        def verify_avl(self):
+                node = self.root
+                (v, h) = self.verify_avl_helper(node)
+                return v
+
+        def verify_avl_helper(self, root):
+                if self.null(root):
+                        return (True, 0)
+
+                (avll, left )  = self.verify_avl_helper(root.l)
+                (avlr, right)  = self.verify_avl_helper(root.r)
+
+                bf = right - left
+
+                valid_bf = bf is 1 or bf is 0 or bf is -1
+
+                height = max(left, right) + 1
+
+                v_height = root.cl["height"] is height
+
+                return (avlr and avll and valid_bf and v_height, height)
+
+        def verify_wavl(self):
+                (v, r) = self.verify_wavl_helper(self.root)
+                return v
+
+        def verify_wavl_helper(self, node):
+                if self.null(node):
+                        return (True, 0)
+
+                (v_l, rnk_l) = self.verify_wavl_helper(node.l)
+                (v_r, rnk_r) = self.verify_wavl_helper(node.r)
+
+                rnk = node.cl["rank"]
+
+                v = (rnk - rnk_l <= 2) and (rnk - rnk_r <= 2) and v_l and v_r
+
+                return (v, rnk)
+
+
+

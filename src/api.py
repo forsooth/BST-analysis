@@ -17,6 +17,7 @@ class API():
                 self.__t = 0
                 self.__logn = logn
                 self.__logt = logt
+                self.tree_type = "bst"
 
         def __str__(self):
                 return self.__bst.__str__()
@@ -147,6 +148,8 @@ class API():
                         self.move_parent()
                         self.__bst.cur.v = s
                         self.__bst.cur.count = sc
+                        # Comment out on purpose -- 
+                        # more useful to maintain color/height/balance ect..
                         # self.__bst.cur.scl = scl
 
                         return True
@@ -318,29 +321,14 @@ class API():
                                 continue
 
         def rotate_left(self):
-                # print("------------ROTATE LEFT---------------")
-                # print("Valid Tree: " + str( self.verify_tree()))
                 if self.debug > 1:
                         err.log(str(self.t()) + " Left rotate on " + str(self.__bst.cur))
                 if self.is_null():
                         return False
-                # print("Left ROTATE on " + str(self.__bst.cur) + ": ")
-                # print(self.__bst)
-
-                # Save each node and sub-trees
-                # parent = self.__bst.cur.p
                 
                 p = self.__bst.cur
                 q = p.r
                 b = q.l
-
-                # print("Q: " + str(q))
-                # print("P: " + str(p))
-                # print("B: " + str(b))
-
-                # print("Q.p: " + str(q.p))
-                # print("P.p: " + str(p.p))
-                # print("B.p: " + str(b.p))
 
                 # Re-assign to preform a rotation
                 if self.__bst.cur is self.__bst.root:
@@ -355,69 +343,23 @@ class API():
                         parent.r = q
                         q.p = parent
 
-                ## print("Q: " + str(q))
-                ## print("P: " + str(p))
-                ## print("B: " + str(b))
-
-                ## print("Q.p: " + str(q.p))
-                ## print("P.p: " + str(p.p))
-                ## print("B.p: " + str(b.p))
-
-                # print("q.l = p\np.p = q")
                 q.l = p
                 p.p = q
-
-                # print("Q: " + str(q))
-                # print("P: " + str(p))
-                # print("B: " + str(b))
-
-                # print("Q.p: " + str(q.p))
-                # print("P.p: " + str(p.p))
-                # print("B.p: " + str(b.p))
 
                 p.r = b
                 b.p = p
 
-                # print(str(self))
-                # print("Q: " + str(q))
-                # print("P: " + str(p))
-                # print("B: " + str(b))
-
-                # print("Q.p: " + str(q.p))
-                # print("P.p: " + str(p.p))
-                # print("B.p: " + str(b.p))
-
                 self.__bst.cur = q
-                # print("CURRENT")
-                # print(self)
-                # print("Still Valid?: " + str( self.verify_tree()))
-                # print("------------ROTATE LEFT END---------------")
-                
 
         def rotate_right(self):
-                # print("------------ROTATE RIGHT---------------")
-                # print("Valid Tree: " + str( self.verify_tree()))
                 if self.debug > 1:
                         err.log(str(self.t()) + " Right rotate on " + str(self.__bst.cur))
                 if self.is_null():
                         return False
-                # print("RIGHT ROTATE on " + str(self.__bst.cur) + ": ")
-                # print(self.__bst)
-
-                # Save each node and sub-trees
-                # parent = self.__bst.cur.p
                 
                 q = self.__bst.cur
                 p = q.l
                 b = p.r
-
-                # print("Q: " + str(q))
-                # print("P: " + str(p))
-                # print("B: " + str(b))
-
-                # print("Q.p: " + str(q.p))
-                # print("P.p: " + str(p.p))
-                # print("B.p: " + str(b.p))
 
                 # Re-assign to preform a rotation
                 if self.__bst.cur is self.__bst.root:
@@ -432,43 +374,19 @@ class API():
                         parent.r = p
                         p.p = parent
 
-                ## print("Q: " + str(q))
-                ## print("P: " + str(p))
-                ## print("B: " + str(b))
-
-                ## print("Q.p: " + str(q.p))
-                ## print("P.p: " + str(p.p))
-                ## print("B.p: " + str(b.p))
-
-                # print("q.l = p\np.p = q")
                 p.r = q
                 q.p = p
-
-                # print("Q: " + str(q))
-                # print("P: " + str(p))
-                # print("B: " + str(b))
-
-                # print("Q.p: " + str(q.p))
-                # print("P.p: " + str(p.p))
-                # print("B.p: " + str(b.p))
 
                 q.l = b
                 b.p = q
 
-                # print(str(self))
-                # print("Q: " + str(q))
-                # print("P: " + str(p))
-                # print("B: " + str(b))
-
-                # print("Q.p: " + str(q.p))
-                # print("P.p: " + str(p.p))
-                # print("B.p: " + str(b.p))
-
                 self.__bst.cur = p
-                # print("CURRENT")
-                # print(self)
-                # print("Still Valid?: " + str( self.verify_tree()))
-                # print("------------ROTATE RIGHT END---------------")
 
-        def verify_tree(self, rb=False):
-                return self.__bst.verify(rb)
+        def rotate(self, case):
+                if case is "l":
+                        self.rotate_left()
+                else:
+                        self.rotate_right()
+
+        def verify_tree(self):
+                return self.__bst.verify(self.tree_type)

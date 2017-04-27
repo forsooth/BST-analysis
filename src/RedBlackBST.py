@@ -7,6 +7,7 @@ class RedBlackBST(AbstractBST.AbstractBST):
         def __init__(self, api):
                 super(RedBlackBST, self).__init__()
                 self.__api = api
+                api.tree_type = "rb"
 
         # String casts to the printed BST with red black representation
         # TODO: Move the RedBlack part of the tree printing of the BST here
@@ -492,4 +493,4 @@ class RedBlackBST(AbstractBST.AbstractBST):
         # Verifies the RedBlack, and BST properties of the Tree through api
         # TODO: Move RedBlack tree Check Here
         def verify_tree(self):
-                return self.__api.verify_tree(True)
+                return self.__api.verify_tree()

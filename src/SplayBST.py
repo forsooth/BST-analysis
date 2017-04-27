@@ -7,6 +7,7 @@ class SplayBST(AbstractBST.AbstractBST):
         def __init__(self, api):
                 super(SplayBST, self).__init__()
                 self.__api = api
+                api.tree_type = "splay"
 
         def __str__(self):
                 return self.__api.__str__()
@@ -65,4 +66,4 @@ class SplayBST(AbstractBST.AbstractBST):
                 self.splay()
 
         def verify_tree(self):
-                return self.__api.verify_tree(False)
+                return self.__api.verify_tree()
