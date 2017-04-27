@@ -204,9 +204,9 @@ def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
 
                 if got_tree:
                         if tree_w > tree_h:
-                                tree_file = epsfile.epsfile(120, 120, tree_name, align='cc', width=70)
+                                tree_file = epsfile.epsfile(120, 120, tree_name, align='cc', width=60)
                         else:
-                                tree_file = epsfile.epsfile(120, 120, tree_name, align='cc', height=70)
+                                tree_file = epsfile.epsfile(120, 120, tree_name, align='cc', height=60)
         
                         c.insert(tree_file)
                 
