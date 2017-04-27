@@ -1,4 +1,5 @@
 import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from datetime import datetime
 import matplotlib.gridspec as gridspec
@@ -17,7 +18,6 @@ def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
         fname = str(datetime.now()).replace(' ', '_')
 
         plt.rc('font', family='Input Mono') 
-        matplotlib.use('agg')
         cwd = sys.path[0]
 
         try:
