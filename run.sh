@@ -24,7 +24,7 @@ HIGHEST_DATA_VALUE=$numops
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
 # INSERT_OPERATION_DISTRIBUTION='random'
-INSERT_OPERATION_DISTRIBUTION='increasing'
+INSERT_OPERATION_DISTRIBUTION='random'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
@@ -42,7 +42,7 @@ DELETE_OPERATION_DISTRIBUTION='random'
 # should be treated as one field, such that 'isi' generates
 # 3 * NUM_OPERATIONS operations with a ratio of two inserts to one search
 # but with no guarantees on the exact number of either.
-OPERATION_PATTERN='ids'
+OPERATION_PATTERN='i'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'
@@ -58,14 +58,15 @@ RUN_OPERATIONS='True'
 # BST_ALGORITHM='splay'
 # BST_ALGORITHM='simple'
 # BST_ALGORITHM='rb'
-BST_ALGORITHM='avl'
+# BST_ALGORITHM='avl'
+BST_ALGORITHM='wavl'
 
 # Whether to display the output graph.
 # Allowed values: 'True', 'False'
 DISPLAY_OUTPUT_GRAPH='True'
 
 # Whether to print debug information
-# DEBUG='True'
+# DEBUG='False'
 DEBUG='True'
 
 # Whether to create a multi-page PDF aninmating the results, or just a
@@ -84,7 +85,7 @@ write_cmd=" -w"
 
 run_cmd=" | python3 $d/src/main.py - -a $BST_ALGORITHM"
 
-debug_cmd=" -d"
+debug_cmd=" -d -l 3"
 
 animate_cmd=" -p"
 

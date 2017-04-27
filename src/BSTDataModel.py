@@ -26,6 +26,8 @@ class Node:
                         return colors.t_green + self.v.__str__() + colors.t_nc
                 elif "height" in self.cl:
                         return  self.v.__str__()+ " {height: "+ str(self.cl["height"])+";}"
+                elif "rank" in self.cl:
+                        return  self.v.__str__()+ " {rank: "+ str(self.cl["rank"])+";}"
                 return self.v.__str__()
 
         def __repr__(self):
@@ -192,6 +194,9 @@ class BSTDataModel:
                 elif t is "avl":
                         avl = self.verify_avl()
                         err.log("AVL: " + str(avl))
+                elif t is "wavl":
+                        wavl = self.verify_wavl()
+                        err.log("WeakAVL: " + str(wavl))
                 return ref and val and (rbl or not t is "rb") and (avl or not t is "avl")
 
         # Function verifies that the references to children, parents on all internal
@@ -391,3 +396,23 @@ class BSTDataModel:
                 v_height = root.cl["height"] is height
 
                 return (avlr and avll and valid_bf and v_height, height)
+
+        def verify_wavl(self):
+                (v, r) = self.verify_wavl_helper(self.root)
+                return v
+
+        def verify_wavl_helper(self, node):
+                if self.null(node):
+                        return (True, 0)
+
+                (v_l, rnk_l) = self.verify_wavl_helper(node.l)
+                (v_r, rnk_r) = self.verify_wavl_helper(node.r)
+
+                rnk = node.cl["rank"]
+
+                v = (rnk - rnk_l <= 2) and (rnk - rnk_r <= 2) and v_l and v_r
+
+                return (v, rnk)
+
+
+
