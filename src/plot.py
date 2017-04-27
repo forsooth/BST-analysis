@@ -273,18 +273,20 @@ def add_plot(fname, cwd, fig,
                         if debug > 1:
                                 err.log("Set up main plot")
 
-
+                c_arr = [colors.h_light_blue] + [colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))]
                 log = ax_main.scatter([-1] + logn, [-1] + logt, s=1000 / 2 / max(xrng, yrng),
-                                      c=[colors.h_light_blue] + [colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))],
+                                      c=c_arr,
+                                      edgecolors=c_arr,
                                       marker=log_marker, 
                                       label='Intermediate accesses',
-                                      lw=0.0)
+                                      lw=2.0)
 
                 root_log = ax_main.scatter([-1], [-1], s=1000 / 2 / max(xrng, yrng),
-                                      c=colors.h_dark_blue,
-                                      marker=log_marker, 
-                                      label='Root value at this time',
-                                      lw=0.0)
+                                           c=colors.h_dark_blue,
+                                           edgecolors=colors.h_dark_blue,
+                                           marker=log_marker,
+                                           label='Root value at this time',
+                                           lw=2.0)
 
                 if debug > 1:
                         err.log("Plotted Xs")
