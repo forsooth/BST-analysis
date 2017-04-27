@@ -1,3 +1,4 @@
+import matplotlib
 import matplotlib.pyplot as plt
 from datetime import datetime
 import matplotlib.gridspec as gridspec
@@ -16,6 +17,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
         fname = str(datetime.now()).replace(' ', '_')
 
         plt.rc('font', family='Input Mono') 
+        matplotlib.use('agg')
         cwd = sys.path[0]
 
         try:
@@ -386,7 +388,7 @@ def add_plot(fname, cwd, fig,
                         ax_none.set_yticklabels([])
                         ax_none.axis('off')
 
-                        ax_main.legend(loc='lower center', bbox_to_anchor=(1, -0.25), ncol=3, numpoints=1)
+                        ax_main.legend(loc='lower center', bbox_to_anchor=(1, -0.25), ncol=3, scatterpoints=1)
 
 
                 if debug > 1:
