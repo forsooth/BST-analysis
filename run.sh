@@ -56,8 +56,8 @@ RUN_OPERATIONS='True'
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
 
 # BST_ALGORITHM='splay'
-# BST_ALGORITHM='simple'
-BST_ALGORITHM='rb'
+BST_ALGORITHM='simple'
+# BST_ALGORITHM='rb'
 # BST_ALGORITHM='avl'
 # BST_ALGORITHM='wavl'
 
