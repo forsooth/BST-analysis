@@ -89,7 +89,7 @@ def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
         plt.xticks([])
         plt.yticks([])
         ax_small.yaxis.set_minor_locator(yloc)
-        ax_small.yaxis.grid(True, which='minor', color=colors.h_light_gray)
+        ax_small.yaxis.grid(True, which='minor', color=colors.h_light_gray, linestyle='solid')
         ax_small.set_axisbelow(True)
 
         gs.update(wspace=0.00, hspace=-0.00)
@@ -263,10 +263,10 @@ def add_plot(fname, cwd, fig,
                         ax_main.set_ylim(pad_ylim)
 
                         ax_main.yaxis.set_minor_locator(yloc)
-                        ax_main.yaxis.grid(True, which='minor', color=colors.h_light_gray)
+                        ax_main.yaxis.grid(True, which='minor', color=colors.h_light_gray, linestyle='solid')
                 
                         ax_main.xaxis.set_minor_locator(xloc)
-                        ax_main.xaxis.grid(True, which='minor', color=colors.h_light_gray)
+                        ax_main.xaxis.grid(True, which='minor', color=colors.h_light_gray, linestyle='solid')
 
                         if debug > 1:
                                 err.log("Set up main plot")
@@ -313,7 +313,7 @@ def add_plot(fname, cwd, fig,
                         ax_count.set_axisbelow(True)
                         ax_count.set_aspect('auto', adjustable="box-forced")
                         ax_count.yaxis.set_minor_locator(yloc)
-                        ax_count.yaxis.grid(True, which='minor', color=colors.h_light_gray)
+                        ax_count.yaxis.grid(True, which='minor', color=colors.h_light_gray, linestyle='solid')
                         ax_count.set_xlim(xlim)
                         ax_count.set_ylim(pad_ylim)
                         ax_count.tick_params(axis='y', which='both', left='off')
@@ -349,7 +349,7 @@ def add_plot(fname, cwd, fig,
                         ax_vcount.set_axisbelow(True)
                         ax_vcount.set_aspect('auto', adjustable="box-forced")
                         ax_vcount.xaxis.set_minor_locator(xloc)
-                        ax_vcount.xaxis.grid(True, which='minor', color=colors.h_light_gray)
+                        ax_vcount.xaxis.grid(True, which='minor', color=colors.h_light_gray, linestyle='solid')
                         ax_vcount.set_xlim(pad_xlim)
                         ax_vcount.set_ylim(ylim)
                         ax_vcount.yaxis.set_label_position('left')
@@ -386,7 +386,7 @@ def add_plot(fname, cwd, fig,
                         ax_none.set_yticklabels([])
                         ax_none.axis('off')
 
-                        ax_main.legend(loc='lower center', bbox_to_anchor=(1, -0.25), ncol=3)
+                        ax_main.legend(loc='lower center', bbox_to_anchor=(1, -0.25), ncol=3, numpoints=1)
 
 
                 if debug > 1:
