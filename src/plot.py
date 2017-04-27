@@ -275,12 +275,14 @@ def add_plot(fname, cwd, fig,
                 log = ax_main.scatter([-1] + logn, [-1] + logt, s=1000 / 2 / max(xrng, yrng),
                                       c=[colors.h_light_blue] + [colors.h_light_blue if roots[logt[i]] != logn[i] else colors.h_dark_blue for i in range(0, len(logt))],
                                       marker=log_marker, 
-                                      label='Intermediate accesses')
+                                      label='Intermediate accesses',
+                                      lw=0.0)
 
                 root_log = ax_main.scatter([-1], [-1], s=1000 / 2 / max(xrng, yrng),
                                       c=colors.h_dark_blue,
                                       marker=log_marker, 
-                                      label='Root value at this time')
+                                      label='Root value at this time',
+                                      lw=0.0)
 
                 if debug > 1:
                         err.log("Plotted Xs")
@@ -288,7 +290,8 @@ def add_plot(fname, cwd, fig,
                 ops = ax_main.scatter(opsn, opst, s=1000 / max(xrng, yrng),
                                  c=colors.h_red, 
                                  marker="o", 
-                                 label='Operation arguments')
+                                 label='Operation arguments',
+                                 lw=0.0)
 
                 if debug > 1:
                         err.log("Plotted Os")
@@ -325,7 +328,8 @@ def add_plot(fname, cwd, fig,
                                      t_counts, 
                                      min(yrng, 128) / 128,
                                      align='center',
-                                     color=colors.h_dark_blue)
+                                     color=colors.h_dark_blue,
+                                     edgecolor = "none")
 
                 if debug > 1:
                         err.log("Created y-axis histogram bar chart")
@@ -358,7 +362,8 @@ def add_plot(fname, cwd, fig,
                                      t_counts, 
                                      1,
                                      align='center',
-                                     color=colors.h_dark_blue)
+                                     color=colors.h_dark_blue,
+                                     edgecolor = "none")
 
                 if debug > 1:
                         err.log("Set up x-axis histogram axis")
@@ -367,7 +372,8 @@ def add_plot(fname, cwd, fig,
                                      n_counts, 
                                      min(xrng, 128) / 128,
                                      align='center',
-                                     color=colors.h_dark_blue)
+                                     color=colors.h_dark_blue,
+                                     edgecolor = "none")
 
                 if debug > 1:
                         err.log("Generated y-axis histogram data")

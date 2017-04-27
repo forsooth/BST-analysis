@@ -42,7 +42,7 @@ DELETE_OPERATION_DISTRIBUTION='random'
 # should be treated as one field, such that 'isi' generates
 # 3 * NUM_OPERATIONS operations with a ratio of two inserts to one search
 # but with no guarantees on the exact number of either.
-OPERATION_PATTERN='Issdi'
+OPERATION_PATTERN='Issi'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'
@@ -72,8 +72,8 @@ DEBUG='True'
 # Whether to create a multi-page PDF aninmating the results, or just a
 # one page pdf of the final output.
 # Allowed values: 'True', 'False'
-ANIMATE='True'
-# ANIMATE='False'
+# ANIMATE='True'
+ANIMATE='False'
 
 # Whether to include pictures of the tree in the output data. 
 # Allowed values: 'True', 'False'
