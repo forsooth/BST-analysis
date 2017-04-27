@@ -42,7 +42,7 @@ DELETE_OPERATION_DISTRIBUTION='random'
 # should be treated as one field, such that 'isi' generates
 # 3 * NUM_OPERATIONS operations with a ratio of two inserts to one search
 # but with no guarantees on the exact number of either.
-OPERATION_PATTERN='IS'
+OPERATION_PATTERN='Is'
 
 # Whether to write to a file or not. Boolean value.
 # Allowed values: 'True', 'False'
@@ -85,7 +85,7 @@ write_cmd=" -w"
 
 run_cmd=" | python3 $d/src/main.py - -a $BST_ALGORITHM"
 
-debug_cmd=" -d -l 3"
+debug_cmd=" -d"
 
 animate_cmd=" -p"
 
