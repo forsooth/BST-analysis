@@ -23,7 +23,7 @@ HIGHEST_DATA_VALUE=$numops
 
 # The distribution of the values that the insert operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-INSERT_OPERATION_DISTRIBUTION='random'
+INSERT_OPERATION_DISTRIBUTION='nearly_increasing'
 # INSERT_OPERATION_DISTRIBUTION='increasing'
 
 # The distribution of the values that the search operations take.
@@ -56,8 +56,8 @@ RUN_OPERATIONS='True'
 # Allowed values: 'simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static'
 
 # BST_ALGORITHM='splay'
-BST_ALGORITHM='simple'
-# BST_ALGORITHM='rb'
+# BST_ALGORITHM='simple'
+BST_ALGORITHM='rb'
 # BST_ALGORITHM='avl'
 # BST_ALGORITHM='wavl'
 
@@ -77,7 +77,7 @@ ANIMATE='False'
 
 # Whether to include pictures of the tree in the output data. 
 # Allowed values: 'True', 'False'
-TREE_PICTURE='True'
+TREE_PICTURE='False'
 
 cmd="python3 $d/src/input_gen.py -n $NUM_OPERATIONS -t $OPERATION_TYPE -l $LOWEST_DATA_VALUE -u $HIGHEST_DATA_VALUE -id $INSERT_OPERATION_DISTRIBUTION -sd $SEARCH_OPERATION_DISTRIBUTION -dd $DELETE_OPERATION_DISTRIBUTION -p $OPERATION_PATTERN"
 
