@@ -28,7 +28,7 @@ INSERT_OPERATION_DISTRIBUTION='increasing'
 
 # The distribution of the values that the search operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
-SEARCH_OPERATION_DISTRIBUTION='decreasing'
+SEARCH_OPERATION_DISTRIBUTION='increasing'
 
 # The distribution of the values that the delete operations take.
 # Allowed values: 'random', 'increasing', 'decreasing', 'balanced'
