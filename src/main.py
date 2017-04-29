@@ -41,6 +41,9 @@ parser.add_argument('-g', '--graphs', action='store_true',
 parser.add_argument('-c', '--clean_off', action='store_true',
                     help="Disable cleanup of temporary files.")
 
+parser.add_argument('-t', '--track', type=str, default='isd',
+                    help="Set which tree operations to record in the plot.")
+
 
 args = parser.parse_args()
 
@@ -53,6 +56,10 @@ algs = ['simple', 'rb', 'splay', 'avl', 'wavl', 'tango', 'static']
 
 algo = ""
 algarg = args.algorithm.lower().replace(' ', '')
+
+track_ins = 'i' in args.track
+track_sea = 's' in args.track
+track_del = 'd' in args.track
 
 if algarg in {'simple', 'bst', 'simplebst'}:
         algo = algs[0]
@@ -90,4 +97,4 @@ elif debug == 2:
 elif debug == 3:
         err.warn("Debug mode is set to: VERIFY")
 
-ops.exec_ops(algo, args.pages, args.graphs, args.clean_off, debug)
+ops.exec_ops(algo, args.pages, args.graphs, args.clean_off, track_ins, track_sea, track_del, debug)

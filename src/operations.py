@@ -67,7 +67,8 @@ class Operations():
                 if f is not sys.stdin:
                         f.close()
 
-        def exec_ops(self, algo, pages, gen_graphs, no_clean, debug):
+        def exec_ops(self, algo, pages, gen_graphs, no_clean, 
+                     track_ins, track_sea, track_del, debug):
                 logt = []
                 logn = []
                 opst = []
@@ -92,39 +93,53 @@ class Operations():
                         err.err("Algorithm not yet implemented")
 
                 time = 1
+                tracked = False
                 for op in self.ops:
                         if debug > 2:
                                 tree_str = str(tree) 
                         if debug > 1:
                                 err.log("operation #" + str(time) + ": " + str(op))
                         api.reset()
+                        tracked = False
                         if op.op == 'ins':
-                                opst.append(time)
-                                opsn.append(op.arg)
-                                api.set_time(time)
-                                api.set_log_on()
+                                if track_ins:
+                                        opst.append(time)
+                                        opsn.append(op.arg)
+                                        api.set_time(time)
+                                        api.set_log_on()
+                                        tracked = True
                                 tree.insert(op.arg)
-                                api.set_log_off()
-                                time += 1
+                                
+                                if track_ins:
+                                        api.set_log_off()
+                                        time += 1
                         elif op.op == 'sea':
-                                opst.append(time)
-                                opsn.append(op.arg)
-                                api.set_time(time)
-                                api.set_log_on()
+                                if track_sea:
+                                        opst.append(time)
+                                        opsn.append(op.arg)
+                                        api.set_time(time)
+                                        api.set_log_on()
+                                        tracked = True
                                 tree.search(op.arg)
-                                api.set_log_off()
-                                time += 1
+                                
+                                if track_sea:
+                                        api.set_log_off()
+                                        time += 1
                         elif op.op == 'del':
-                                opst.append(time)
-                                opsn.append(op.arg)
-                                api.set_time(time)
-                                api.set_log_on()
+                                if track_del:
+                                        opst.append(time)
+                                        opsn.append(op.arg)
+                                        api.set_time(time)
+                                        api.set_log_on()
+                                        tracked = True
                                 tree.delete(op.arg)
-                                api.set_log_off()
-                                time += 1
-                        if debug == 2:
+
+                                if track_del:
+                                        api.set_log_off()
+                                        time += 1
+                        if debug == 2 and tracked:
                                 err.warn(tree)
-                        if debug > 2:
+                        if debug > 2 and tracked:
                                 err.log("Before op, tree was:")
                                 err.warn(tree_str)
                                 err.log("After op, tree is:")
@@ -134,7 +149,7 @@ class Operations():
                                         err.warn("Verified")
                                 else:
                                         err.err("Issue found when verifying tree!")
-                        if gen_graphs and pages:
+                        if gen_graphs and pages and tracked:
                                 api.viz()
 
                 if gen_graphs and not pages:

@@ -17,6 +17,11 @@ def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
 
         fname = str(datetime.now()).replace(' ', '_')
 
+        print(opsn)
+        print(opst)
+        print(logn)
+        print(logt)
+
         plt.rc('font', family='Input Mono') 
         cwd = sys.path[0]
 
@@ -40,8 +45,8 @@ def plot(logn, logt, opsn, opst, pages, graphs, no_clean, debug):
         logn = new_logn
         logt = new_logt
 
-        xmax = int(max(logn))
-        xmin = int(min(logn))
+        xmax = int(max(logn + opsn))
+        xmin = int(min(logn + opsn))
         ymax = int(max(logt))
         ymin = int(min(logt))
         xrng = max(xmax - xmin, 0)
